@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -55,11 +59,19 @@ public class OverviewFragment extends Fragment {
     //This is the filter dialog
     private void openFilterDialog() {
 
+
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         View mview = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
 
+        //This is the category spinner
+        Spinner spinner = mview.findViewById(R.id.spinner_category);
+        String[] val = {"1", "2", "3", "1", "2", "3", "1", "2", "3"};
+        ArrayList<String> spinner_arraylist = new ArrayList<>(Arrays.asList(val));
+        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, spinner_arraylist);
+        spinner.setAdapter(spinner_adapter);
+
         ImageButton button_cancel = mview.findViewById(R.id.button_filter_cancel);
-        ImageButton button_save = mview.findViewById(R.id.button_filter_ok);
+        Button button_ok = mview.findViewById(R.id.button_filter_ok);
 
         alert.setView(mview);
 
@@ -73,7 +85,7 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        button_save.setOnClickListener(new View.OnClickListener() {
+        button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
