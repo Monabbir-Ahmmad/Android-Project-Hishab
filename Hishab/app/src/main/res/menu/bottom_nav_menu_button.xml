@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/transaction"
+        android:icon="@drawable/ic_transaction"
+        android:title="Transaction"
+        app:cnb_backgroundColor="@color/purple_500"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white" />
+    <item
+        android:id="@+id/overview"
+        android:icon="@drawable/ic_overview"
+        android:title="Overview"
+        app:cnb_backgroundColor="@color/purple_500"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white" />
+    <item
+        android:id="@+id/report"
+        android:icon="@drawable/ic_report"
+        android:title="Report"
+        app:cnb_backgroundColor="@color/purple_500"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white" />
+
+</menu>
