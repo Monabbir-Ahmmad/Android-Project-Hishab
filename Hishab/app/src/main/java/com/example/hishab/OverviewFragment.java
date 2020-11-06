@@ -6,18 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -63,21 +62,36 @@ public class OverviewFragment extends Fragment {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         View mview = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
 
-        //This is the category spinner
-        Spinner spinner = mview.findViewById(R.id.spinner_category);
-        String[] val = {"1", "2", "3", "1", "2", "3", "1", "2", "3"};
-        ArrayList<String> spinner_arraylist = new ArrayList<>(Arrays.asList(val));
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, spinner_arraylist);
-        spinner.setAdapter(spinner_adapter);
-
-        ImageButton button_cancel = mview.findViewById(R.id.button_filter_cancel);
-        Button button_ok = mview.findViewById(R.id.button_filter_ok);
+        Button button_cancel = mview.findViewById(R.id.button_filter_cancel);
+        Button button_apply = mview.findViewById(R.id.button_filter_apply);
 
         alert.setView(mview);
 
         AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
 
+        alertDialog.show();
+
+
+        //This is the category spinner
+        String[] COUNTRIES = {"Item 1", "Item 2", "Item 3", "Item 4"};
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(
+                        getActivity(),
+                        R.layout.dropdown_menu_filter,
+                        COUNTRIES);
+
+        AutoCompleteTextView dropdown_category = mview.findViewById(R.id.dropdown_category);
+        dropdown_category.setText(adapter.getItem(0), false);
+        dropdown_category.setAdapter(adapter);
+
+        AutoCompleteTextView dropdown_date = mview.findViewById(R.id.dropdown_date);
+        dropdown_date.setText(adapter.getItem(0), false);
+        dropdown_date.setAdapter(adapter);
+
+
+        //This is what happens when cancel button is pressed
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,14 +99,18 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        button_ok.setOnClickListener(new View.OnClickListener() {
+        //This is what happens when apply button is pressed
+        button_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Toast.makeText(getContext(), dropdown_category.getText() + " & " + dropdown_date.getText(), Toast.LENGTH_LONG).show();
+
                 alertDialog.dismiss();
             }
         });
 
-        alertDialog.show();
+
     }
 
     //This calculates the top panel values on startup
