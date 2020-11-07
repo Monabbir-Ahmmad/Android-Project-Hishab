@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="textColorBW" format="color" />
+    <attr name="bgColor" format="color" />
+    <attr name="topViewColor" format="color" />
+</resources>

@@ -11,22 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/top_view"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="?attr/topViewColor"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView_headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/century_gothic"
+            android:layout_marginStart="24dp"
             android:text="Transaction"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
