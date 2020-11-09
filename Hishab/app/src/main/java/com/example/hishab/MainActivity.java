@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     sharedPrefsEdit.apply();
                 }
                 return true;
+
             case R.id.theme_light:
                 if (isDarkModeOn) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
