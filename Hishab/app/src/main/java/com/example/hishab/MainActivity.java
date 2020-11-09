@@ -15,8 +15,8 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
 
-    ChipNavigationBar chipNavigationBar;
-    Toolbar toolbar;
+    private ChipNavigationBar chipNavigationBar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

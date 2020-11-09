@@ -22,8 +22,8 @@ import java.util.Calendar;
 
 public class OverviewFragment extends Fragment {
 
-    TextView textView_current_date, textView_income, textView_expense, textView_balanceleft;
-    ImageButton button_filter;
+    private TextView textView_current_date, textView_income, textView_expense, textView_balanceleft;
+    private ImageButton button_filter;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -41,6 +41,9 @@ public class OverviewFragment extends Fragment {
         textView_balanceleft = view.findViewById(R.id.textView_balanceleft_value);
         textView_current_date = view.findViewById(R.id.textView_current_date);
 
+        //This calculates the top panel values on startup
+        topPanelCalculation();
+
         button_filter = view.findViewById(R.id.button_filter);
         button_filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,15 +52,11 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        topPanelCalculation();
-
-
         return view;
     }
 
     //This is the filter dialog
     private void openFilterDialog() {
-
 
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         View mview = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
