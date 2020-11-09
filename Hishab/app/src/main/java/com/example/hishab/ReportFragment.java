@@ -21,6 +21,8 @@ public class ReportFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_report, container, false);
+        getActivity().setTitle("Report");
+
 
         return view;
     }

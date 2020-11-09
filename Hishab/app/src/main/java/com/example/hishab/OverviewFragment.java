@@ -35,6 +35,7 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        getActivity().setTitle("Overview");
 
         textView_income = view.findViewById(R.id.textView_income_value);
         textView_expense = view.findViewById(R.id.textView_expense_value);

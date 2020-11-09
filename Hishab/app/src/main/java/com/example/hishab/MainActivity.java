@@ -1,13 +1,12 @@
 package com.example.hishab;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -17,48 +16,53 @@ public class MainActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBar;
     private Toolbar toolbar;
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor sharedPrefsEdit;
+    private boolean isDarkModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        chipNavigationBar = findViewById(R.id.chip_nav_menu);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //This sets the default fragment and bottom nav button on startup
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new OverviewFragment()).commit();
-
-        chipNavigationBar = findViewById(R.id.chip_nav_menu);
         chipNavigationBar.setItemSelected(R.id.overview, true);
 
-        bottomNav();
+        //This calls the method that controls the bottom navigation
+        bottomNavigationBar();
+        //This calls the method that saves app instance
+        appSaveInstance();
+
     }
 
-    //This is the toolbar option menu inflater
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
 
-    //This is the toolbar menus selection
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.theme_dark:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                return true;
-            case R.id.theme_light:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                return true;
+    //This method saves app instance
+    private void appSaveInstance() {
+
+        sharedPrefs = getSharedPreferences("AppPrefs", 0);
+        sharedPrefsEdit = sharedPrefs.edit();
+        isDarkModeOn = sharedPrefs.getBoolean("DarkMode", false);
+
+        //This will check app theme and set it on startup based on the theme selected
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     //This controls fragment transitions and bottom navigation
-    private void bottomNav() {
+    private void bottomNavigationBar() {
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -87,4 +91,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //This is the toolbar option menu inflater
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+
+    //This is the toolbar menus selection
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.theme_dark:
+                if (!isDarkModeOn) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sharedPrefsEdit.putBoolean("DarkMode", true);
+                    sharedPrefsEdit.apply();
+                }
+                return true;
+            case R.id.theme_light:
+                if (isDarkModeOn) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    sharedPrefsEdit.putBoolean("DarkMode", false);
+                    sharedPrefsEdit.apply();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

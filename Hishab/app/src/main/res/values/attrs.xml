@@ -3,4 +3,5 @@
     <attr name="textColorBW" format="color" />
     <attr name="bgColor" format="color" />
     <attr name="topViewColor" format="color" />
+    <attr name="colorWhiteLBlack" format="color" />
 </resources>

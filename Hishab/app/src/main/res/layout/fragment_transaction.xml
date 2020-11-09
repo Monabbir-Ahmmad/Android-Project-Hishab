@@ -7,27 +7,16 @@
     tools:context=".TransactionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topPanel"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/top_view"
-        android:backgroundTint="?attr/topViewColor"
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_rectangle"
+        android:backgroundTint="?attr/colorWhiteLBlack"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView_headline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="Transaction"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

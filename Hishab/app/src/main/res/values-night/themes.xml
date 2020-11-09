@@ -19,6 +19,7 @@
         <item name="textColorBW">@color/white</item>
         <item name="bgColor">@color/coal_black</item>
         <item name="topViewColor">@color/light_black</item>
+        <item name="colorWhiteLBlack">@color/light_black</item>
 
 
     </style>
