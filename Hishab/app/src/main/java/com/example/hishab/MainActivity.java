@@ -25,11 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chipNavigationBar = findViewById(R.id.chip_nav_menu);
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        chipNavigationBar = findViewById(R.id.chip_nav_menu);
         //This sets the default fragment and bottom nav button on startup
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new OverviewFragment()).commit();

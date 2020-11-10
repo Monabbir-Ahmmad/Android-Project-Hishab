@@ -9,10 +9,12 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 
-public class TransactionFragment extends Fragment {
 
-    Button button;
+public class TransactionFragment extends Fragment implements View.OnClickListener {
+
+    Button button, button2;
 
     public TransactionFragment() {
         // Required empty public constructor
@@ -28,15 +30,31 @@ public class TransactionFragment extends Fragment {
 
 
         button = view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityDataInput.class);
-                startActivity(intent);
-            }
-        });
-
+        button2 = view.findViewById(R.id.button2);
+        button.setOnClickListener(this);
+        button2.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        Intent intent = new Intent(getActivity(), ActivityDataInput.class);
+        ArrayList<String> type_category = new ArrayList<String>();
+
+        if (v.getId() == R.id.button) {
+            type_category.add("Income");
+            type_category.add(button.getText().toString());
+            intent.putExtra("key", type_category);
+        }
+
+        else if (v.getId() == R.id.button2) {
+            type_category.add("Expanse");
+            type_category.add(button2.getText().toString());
+            intent.putExtra("key", type_category);
+        }
+
+        startActivity(intent);
     }
 }

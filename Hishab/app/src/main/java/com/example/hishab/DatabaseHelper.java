@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "Transactions";
     private static final String ID = "_id";
+    private static final String TRANSACTION_TYPE = "TransactionType";
     private static final String CATEGORY = "Category";
     private static final String MONEY = "Money";
     private static final String NOTE = "Note";
@@ -35,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String createTable = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TRANSACTION_TYPE + " TEXT, "
                 + CATEGORY + " TEXT, "
                 + MONEY + " INTEGER, "
                 + NOTE + " TEXT, "
@@ -68,11 +70,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into the data table
-    public void insertData(String category, int money, String note, String datetime, int datetime_id) {
+    public void insertData(String transaction_type, String category, int money, String note, String datetime, int datetime_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(TRANSACTION_TYPE, transaction_type);
         contentValues.put(CATEGORY, category);
         contentValues.put(MONEY, money);
         contentValues.put(NOTE, note);
