@@ -48,14 +48,15 @@
             app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/incomeButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:drawableTop="@drawable/ic_note"
                 android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
+                android:text="Salary"
+                android:textAllCaps="false" />
 
             <Button
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -64,43 +65,8 @@
                 android:layout_margin="4dp"
                 android:drawableTop="@drawable/ic_note"
                 android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
+                android:text="Salary"
+                android:textAllCaps="false" />
 
 
         </GridLayout>
@@ -155,52 +121,8 @@
                 android:layout_margin="4dp"
                 android:drawableTop="@drawable/ic_note"
                 android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:drawableTop="@drawable/ic_note"
-                android:drawableTint="?attr/colorPrimary"
-                android:text="Button" />
+                android:text="Food"
+                android:textAllCaps="false" />
 
 
         </GridLayout>

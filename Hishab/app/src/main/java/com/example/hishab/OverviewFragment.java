@@ -16,8 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class OverviewFragment extends Fragment {
@@ -116,8 +117,7 @@ public class OverviewFragment extends Fragment {
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
         //This will set the current time
-        Calendar calendar = Calendar.getInstance();
-        textView_current_date.setText(DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime()));
+        textView_current_date.setText(new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault()).format(new Date()));
 
     }
 }

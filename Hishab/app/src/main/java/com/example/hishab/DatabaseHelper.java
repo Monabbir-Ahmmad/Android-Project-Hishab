@@ -16,12 +16,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION_NUMBER = 1;
 
     private static final String TABLE_NAME = "Transactions";
-    private static final String ID = "_id";
+    private static final String ID = "ID";
     private static final String TRANSACTION_TYPE = "TransactionType";
     private static final String CATEGORY = "Category";
     private static final String MONEY = "Money";
+    private static final String DATE = "Date";
+    private static final String TIME = "Time";
     private static final String NOTE = "Note";
-    private static final String DATETIME = "Datetime";
     private static final String DATETIME_ID = "DatetimeID";
 
 
@@ -39,8 +40,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TRANSACTION_TYPE + " TEXT, "
                 + CATEGORY + " TEXT, "
                 + MONEY + " INTEGER, "
+                + DATE + " TEXT, "
+                + TIME + " TEXT, "
                 + NOTE + " TEXT, "
-                + DATETIME + " TEXT, "
                 + DATETIME_ID + " INTEGER);";
 
         try {
@@ -70,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into the data table
-    public void insertData(String transaction_type, String category, int money, String note, String datetime, int datetime_id) {
+    public void insertData(String transaction_type, String category, int money, String date, String time, String note, Long datetime_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -78,8 +80,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TRANSACTION_TYPE, transaction_type);
         contentValues.put(CATEGORY, category);
         contentValues.put(MONEY, money);
+        contentValues.put(DATE, date);
+        contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
-        contentValues.put(DATETIME, datetime);
         contentValues.put(DATETIME_ID, datetime_id);
 
         long rowID = db.insert(TABLE_NAME, null, contentValues);
@@ -89,5 +92,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Successfully inserted data", Toast.LENGTH_LONG).show();
         }
+
+    }
+
+    public void removeAll() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
+        Toast.makeText(context, "All data cleared", Toast.LENGTH_LONG).show();
+        db.close();
+
     }
 }

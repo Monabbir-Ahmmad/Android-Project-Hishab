@@ -33,4 +33,9 @@
         android:id="@+id/about"
         android:title="About"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/clearData"
+        android:title="Clear all data"
+        app:showAsAction="never" />
+
 </menu>

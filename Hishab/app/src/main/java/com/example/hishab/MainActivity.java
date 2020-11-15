@@ -72,21 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.overview:
                         selectedFragment = new OverviewFragment();
-
                         break;
                     case R.id.report:
                         selectedFragment = new ReportFragment();
-
                         break;
                     case R.id.transaction:
                         selectedFragment = new TransactionFragment();
-
                         break;
                 }
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
-
             }
         });
     }
@@ -118,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     sharedPrefsEdit.putBoolean("DarkMode", false);
                     sharedPrefsEdit.apply();
                 }
+                return true;
+
+            case R.id.clearData:
+                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+                databaseHelper.removeAll();
                 return true;
         }
 

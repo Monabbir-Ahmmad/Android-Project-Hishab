@@ -16,6 +16,7 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
 
     Button button, button2;
 
+
     public TransactionFragment() {
         // Required empty public constructor
     }
@@ -29,7 +30,7 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
         getActivity().setTitle("Transaction");
 
 
-        button = view.findViewById(R.id.button);
+        button = view.findViewById(R.id.incomeButton);
         button2 = view.findViewById(R.id.button2);
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
@@ -43,13 +44,11 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
         Intent intent = new Intent(getActivity(), ActivityDataInput.class);
         ArrayList<String> type_category = new ArrayList<String>();
 
-        if (v.getId() == R.id.button) {
+        if (v.getId() == R.id.incomeButton) {
             type_category.add("Income");
             type_category.add(button.getText().toString());
             intent.putExtra("key", type_category);
-        }
-
-        else if (v.getId() == R.id.button2) {
+        } else if (v.getId() == R.id.button2) {
             type_category.add("Expanse");
             type_category.add(button2.getText().toString());
             intent.putExtra("key", type_category);
