@@ -24,6 +24,7 @@ public class ActivityDataInput extends AppCompatActivity implements View.OnClick
     private TextView textView_transaction_type, textView_category;
     private TextInputEditText editText_amount, editText_date, editText_time, editText_note;
     private TimePicker timePicker;
+    private DatePicker datePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,7 @@ public class ActivityDataInput extends AppCompatActivity implements View.OnClick
             timePicker = new TimePicker(editText_time, true);
         }
         if (v.getId() == R.id.editText_date) {
-
+            datePicker = new DatePicker(editText_date, this);
         }
 
     }
