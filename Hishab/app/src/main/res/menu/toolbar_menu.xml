@@ -3,24 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/themes"
-        android:title="Themes"
-        app:showAsAction="never">
-
-        <menu>
-            <item
-                android:id="@+id/theme_dark"
-                android:title="Dark theme"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/theme_light"
-                android:title="Light theme"
-                app:showAsAction="never" />
-
-        </menu>
-
-    </item>
-
+        android:id="@+id/darkMode"
+        android:checkable="true"
+        android:title="Dark mode"
+        android:iconTint="?attr/colorPrimary"
+        app:showAsAction="never" />
     <item
         android:id="@+id/feedback"
         android:title="Feedback"

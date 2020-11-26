@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
 
@@ -49,37 +50,71 @@ public class ReportFragment extends Fragment {
 
         ArrayList<PieEntry> values = new ArrayList<>();
 
-        values.add(new PieEntry(10, "A"));
-        values.add(new PieEntry(20, "B"));
-        values.add(new PieEntry(30, "C"));
-        values.add(new PieEntry(40, "D"));
-        values.add(new PieEntry(50, "E"));
-        values.add(new PieEntry(60, "F"));
+        values.add(new PieEntry(10, "Food"));
+        values.add(new PieEntry(13, "Shopping"));
+        values.add(new PieEntry(11, "Clothing"));
+        values.add(new PieEntry(10, "Education"));
+        values.add(new PieEntry(12, "Bills"));
+        values.add(new PieEntry(15, "F"));
+        values.add(new PieEntry(16, "G"));
+        values.add(new PieEntry(15, "H"));
+        values.add(new PieEntry(17, "I"));
+        values.add(new PieEntry(10, "J"));
+        values.add(new PieEntry(11, "K"));
+        values.add(new PieEntry(15, "L"));
+        values.add(new PieEntry(12, "M"));
+        values.add(new PieEntry(13, "N"));
 
-        PieDataSet dataSet = new PieDataSet(values, "Letters");
+        PieDataSet dataSet = new PieDataSet(values, "Category");
         dataSet.setSliceSpace(5f);
         dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(getContext().getResources().getIntArray(R.array.colorArray));
 
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
-        data.setValueTextColor(Color.BLACK);
-        pieChart.setData(data);
-
-        pieChart.setExtraOffsets(0, 0, 0, 0);
+        data.setValueTextColor(Color.WHITE);
         pieChart.setEntryLabelColor(Color.WHITE);
-        pieChart.getLegend().setEnabled(false);
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setDragDecelerationFrictionCoef(0.99f);
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleColor(Color.TRANSPARENT);
-        pieChart.setTransparentCircleRadius(60f);
+        pieChart.setUsePercentValues(true);
+        data.setValueFormatter(new PercentFormatter(pieChart));
+
+
+        //Legends are the detailed name of each slice
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(true);
+        legend.setTextColor(typedValue.data);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setWordWrapEnabled(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(true);
+
+        //Description of the chart
+        Description description = pieChart.getDescription();
+        description.setEnabled(false);
+        description.setTextColor(typedValue.data);
+
+        //Insert data
+        pieChart.setData(data);
+        pieChart.setExtraOffsets(0, 0, 0, 0);
+
+        //Transparent Circle
+        pieChart.setTransparentCircleRadius(50f);
         pieChart.setTransparentCircleColor(Color.BLACK);
+
+        //Center hole
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleRadius(60f);
+        pieChart.setHoleColor(Color.TRANSPARENT);
+
+        //Center Text
         pieChart.setCenterText("Monthly Expense");
         pieChart.setCenterTextColor(typedValue.data);
         pieChart.setCenterTextSize(20f);
-        pieChart.animateY(1000, Easing.EaseInCubic);
+
+        //Animation
+        pieChart.animateXY(1000, 1000);
+        pieChart.setDragDecelerationFrictionCoef(0.99f);
 
 
     }

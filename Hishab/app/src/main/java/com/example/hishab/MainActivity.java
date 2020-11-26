@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         chipNavigationBar = findViewById(R.id.chip_nav_menu);
         //This sets the default fragment and bottom nav button on startup
+        chipNavigationBar.setItemSelected(R.id.overview, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new OverviewFragment()).commit();
-        chipNavigationBar.setItemSelected(R.id.overview, true);
 
         //This calls the method that controls the bottom navigation
         bottomNavigationBar();
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.findItem(R.id.darkMode).setChecked(isDarkModeOn);
         return true;
     }
 
@@ -99,26 +100,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.theme_dark:
-                if (!isDarkModeOn) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    sharedPrefsEdit.putBoolean("DarkMode", true);
-                    sharedPrefsEdit.apply();
-                }
-                return true;
 
-            case R.id.theme_light:
-                if (isDarkModeOn) {
+            case R.id.darkMode:
+                if (item.isChecked()) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     sharedPrefsEdit.putBoolean("DarkMode", false);
-                    sharedPrefsEdit.apply();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sharedPrefsEdit.putBoolean("DarkMode", true);
                 }
+                item.setChecked(isDarkModeOn);
+                sharedPrefsEdit.apply();
                 return true;
 
             case R.id.clearData:
                 DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
                 databaseHelper.removeAll();
                 return true;
+
         }
 
         return super.onOptionsItemSelected(item);

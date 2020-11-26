@@ -7,4 +7,22 @@
     <color name="white">#FFFFFFFF</color>
     <color name="coal_black">#121212</color>
     <color name="light_black">#202020</color>
+
+    <array name="colorArray">
+        <item>#7C4DFF</item>
+        <item>#3D5AFE</item>
+        <item>#2196F3</item>
+        <item>#66BB6A</item>
+        <item>#FED204</item>
+        <item>#FF7043</item>
+        <item>#F44336</item>
+        <item>#7C4DFF</item>
+        <item>#3D5AFE</item>
+        <item>#2196F3</item>
+        <item>#66BB6A</item>
+        <item>#FED204</item>
+        <item>#FF7043</item>
+        <item>#F44336</item>
+
+    </array>
 </resources>

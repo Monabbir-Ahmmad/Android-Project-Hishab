@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/toolbar_menu"
-        app:popupTheme="@style/Theme.MaterialComponents.DayNight"
+        app:popupTheme="@style/Theme.Hishab"
         app:titleMarginStart="24dp"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
