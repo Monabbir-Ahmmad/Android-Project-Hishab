@@ -125,8 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
             dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
             dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
-            dataHolder.setDatetime_id(cursor.getInt(cursor.getColumnIndex(DATETIME_ID)));
-            dataHolder.setIcon(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+            dataHolder.setDatetimeId(cursor.getInt(cursor.getColumnIndex(DATETIME_ID)));
 
             allData.add(dataHolder);
         }

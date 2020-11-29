@@ -14,7 +14,7 @@ public class DataHolder {
     private String date;
     private String time;
     private String note;
-    private int datetime_id;
+    private int datetimeId;
     private Drawable icon;
     private Context context;
 
@@ -46,6 +46,7 @@ public class DataHolder {
 
     public void setCategory(String category) {
         this.category = category;
+        setIcon(this.category);
     }
 
     public int getMoney() {
@@ -80,19 +81,19 @@ public class DataHolder {
         this.note = note;
     }
 
-    public int getDatetime_id() {
-        return datetime_id;
+    public int getDatetimeId() {
+        return datetimeId;
     }
 
-    public void setDatetime_id(int datetime_id) {
-        this.datetime_id = datetime_id;
+    public void setDatetimeId(int datetimeId) {
+        this.datetimeId = datetimeId;
     }
 
     public Drawable getIcon() {
         return icon;
     }
 
-    public void setIcon(String category) {
+    private void setIcon(String category) {
 
         //if (category == "Food")
         this.icon = ContextCompat.getDrawable(context, R.drawable.ic_amount);
