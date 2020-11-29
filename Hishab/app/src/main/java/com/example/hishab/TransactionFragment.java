@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class TransactionFragment extends Fragment implements View.OnClickListener {
 
-    Button button, button2;
+    Button salaryButton, foodButton;
 
 
     public TransactionFragment() {
@@ -30,10 +30,10 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
         getActivity().setTitle("Transaction");
 
 
-        button = view.findViewById(R.id.incomeButton);
-        button2 = view.findViewById(R.id.button2);
-        button.setOnClickListener(this);
-        button2.setOnClickListener(this);
+        salaryButton = view.findViewById(R.id.salaryButton);
+        foodButton = view.findViewById(R.id.foodButton);
+        salaryButton.setOnClickListener(this);
+        foodButton.setOnClickListener(this);
 
         return view;
     }
@@ -41,19 +41,21 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(getActivity(), ActivityDataInput.class);
+        Intent intent = new Intent(getActivity(), DataInputActivity.class);
         ArrayList<String> type_category = new ArrayList<String>();
 
-        if (v.getId() == R.id.incomeButton) {
-            type_category.add("Income");
-            type_category.add(button.getText().toString());
-            intent.putExtra("key", type_category);
-        } else if (v.getId() == R.id.button2) {
-            type_category.add("Expanse");
-            type_category.add(button2.getText().toString());
-            intent.putExtra("key", type_category);
+        switch (v.getId()) {
+            case R.id.salaryButton:
+                type_category.add("Income");
+                type_category.add(salaryButton.getText().toString());
+                break;
+            case R.id.foodButton:
+                type_category.add("Expanse");
+                type_category.add(foodButton.getText().toString());
+                break;
         }
-
+        intent.putExtra("key", type_category);
         startActivity(intent);
+
     }
 }

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hishab">
         <activity
-            android:name=".ActivityDataInput"
+            android:name=".DataInputActivity"
             android:label="Add new"
             android:parentActivityName=".MainActivity"></activity>
         <activity

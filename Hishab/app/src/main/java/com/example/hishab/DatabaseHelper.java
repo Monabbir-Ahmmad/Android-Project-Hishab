@@ -2,15 +2,20 @@ package com.example.hishab;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
+    private List<DataHolder> allData = new ArrayList<>();
 
     private static final String DATABASE_NAME = "ExpenseManager.db";
     private static final int VERSION_NUMBER = 1;
@@ -71,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //This inserts data into the data table
+    //This inserts data into table
     public void insertData(String transaction_type, String category, int money, String date, String time, String note, Long datetime_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -95,6 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //This removes all rows form table
     public void removeAll() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -102,5 +108,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "All data cleared", Toast.LENGTH_LONG).show();
         db.close();
 
+    }
+
+    //This queries all data from table
+    public List<DataHolder> getAllData() {
+        DataHolder dataHolder = new DataHolder(context);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        while (cursor.moveToNext()) {
+
+            dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+            dataHolder.setTransaction_type(cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)));
+            dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+            dataHolder.setMoney(cursor.getInt(cursor.getColumnIndex(MONEY)));
+            dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
+            dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
+            dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
+            dataHolder.setDatetime_id(cursor.getInt(cursor.getColumnIndex(DATETIME_ID)));
+            dataHolder.setIcon(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+
+            allData.add(dataHolder);
+        }
+        db.close();
+        cursor.close();
+
+        return allData;
     }
 }

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,6 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -118,6 +122,19 @@ public class MainActivity extends AppCompatActivity {
                 databaseHelper.removeAll();
                 return true;
 
+            case R.id.feedback:
+                List<DataHolder> allData = new ArrayList<>();
+                DatabaseHelper databaseHelper1 = new DatabaseHelper(getApplicationContext());
+                allData = databaseHelper1.getAllData();
+
+                try {
+                    Toast.makeText(getApplicationContext(), allData.get(0).getCategory(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(allData.size()), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), String.valueOf(allData.size()), Toast.LENGTH_LONG).show();
+                }
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

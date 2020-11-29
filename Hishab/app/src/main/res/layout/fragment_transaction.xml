@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
             <Button
-                android:id="@+id/incomeButton"
+                android:id="@+id/salaryButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +65,37 @@
                 android:layout_margin="4dp"
                 android:drawableTop="@drawable/ic_note"
                 android:drawableTint="?attr/colorPrimary"
-                android:text="Salary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
                 android:textAllCaps="false" />
 
 
@@ -114,7 +144,7 @@
             app:layout_constraintTop_toBottomOf="@+id/viewLine2">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/foodButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,6 +152,66 @@
                 android:drawableTop="@drawable/ic_note"
                 android:drawableTint="?attr/colorPrimary"
                 android:text="Food"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
+                android:textAllCaps="false" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawableTop="@drawable/ic_note"
+                android:drawableTint="?attr/colorPrimary"
+                android:text="Business"
                 android:textAllCaps="false" />
 
 

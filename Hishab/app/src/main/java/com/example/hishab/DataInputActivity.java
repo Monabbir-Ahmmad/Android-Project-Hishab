@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityDataInput extends AppCompatActivity implements View.OnClickListener {
+public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private Button button_save_data;
@@ -100,12 +100,9 @@ public class ActivityDataInput extends AppCompatActivity implements View.OnClick
             } else {
                 Toast.makeText(getApplicationContext(), "Please fill the required fields", Toast.LENGTH_LONG).show();
             }
-        }
-
-        if (v.getId() == R.id.editText_time) {
+        } else if (v.getId() == R.id.editText_time) {
             timePicker = new TimePicker(editText_time, true);
-        }
-        if (v.getId() == R.id.editText_date) {
+        } else if (v.getId() == R.id.editText_date) {
             datePicker = new DatePicker(editText_date, this);
         }
 

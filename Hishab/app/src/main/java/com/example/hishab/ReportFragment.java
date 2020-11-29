@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ReportFragment extends Fragment {
 
-    PieChart pieChart;
+    private PieChart pieChart;
 
     public ReportFragment() {
         // Required empty public constructor
@@ -45,11 +45,13 @@ public class ReportFragment extends Fragment {
     //This creates the pie chart
     private void createPieChart() {
 
+        //This gets a color according to theme
         TypedValue typedValue = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.textColorBW, typedValue, true);
 
         ArrayList<PieEntry> values = new ArrayList<>();
 
+        //This adds the values into the PieEntry
         values.add(new PieEntry(10, "Food"));
         values.add(new PieEntry(13, "Shopping"));
         values.add(new PieEntry(11, "Clothing"));
@@ -65,11 +67,13 @@ public class ReportFragment extends Fragment {
         values.add(new PieEntry(12, "M"));
         values.add(new PieEntry(13, "N"));
 
+        //This inserts the PieEntry into the PieDataSet
         PieDataSet dataSet = new PieDataSet(values, "Category");
         dataSet.setSliceSpace(5f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(getContext().getResources().getIntArray(R.array.colorArray));
 
+        //This creates the PieData from PieDataSet
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
@@ -115,7 +119,6 @@ public class ReportFragment extends Fragment {
         //Animation
         pieChart.animateXY(1000, 1000);
         pieChart.setDragDecelerationFrictionCoef(0.99f);
-
 
     }
 }
