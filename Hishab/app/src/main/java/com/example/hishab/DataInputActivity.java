@@ -98,7 +98,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             } else {
-                Toast.makeText(getApplicationContext(), "Please fill the required fields", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please fill the required fields", Toast.LENGTH_SHORT).show();
             }
         } else if (v.getId() == R.id.editText_time) {
             timePicker = new TimePicker(editText_time, true);

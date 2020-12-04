@@ -15,7 +15,6 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private List<DataHolder> allData = new ArrayList<>();
 
     private static final String DATABASE_NAME = "ExpenseManager.db";
     private static final int VERSION_NUMBER = 1;
@@ -51,11 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DATETIME_ID + " INTEGER);";
 
         try {
-            Toast.makeText(context, "Table created", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Table created", Toast.LENGTH_SHORT).show();
             db.execSQL(createTable);
 
         } catch (Exception e) {
-            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -64,13 +63,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         try {
-            Toast.makeText(context, "Table Upgraded", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Table Upgraded", Toast.LENGTH_SHORT).show();
 
             db.execSQL("DROP TABLE IF EXISTs " + TABLE_NAME);
             onCreate(db);
 
         } catch (Exception e) {
-            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
 
 
@@ -93,9 +92,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long rowID = db.insert(TABLE_NAME, null, contentValues);
 
         if (rowID == -1) {
-            Toast.makeText(context, "Failed to insert data", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Failed to insert data", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Successfully inserted data", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Successfully inserted data", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -105,29 +104,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
-        Toast.makeText(context, "All data cleared", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "All data cleared", Toast.LENGTH_SHORT).show();
         db.close();
 
     }
 
     //This queries all data from table
-    public List<DataHolder> getAllData() {
-        DataHolder dataHolder = new DataHolder(context);
+    public ArrayList<DataHolder> getAllData() {
+
+        ArrayList<DataHolder> allData = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
-        while (cursor.moveToNext()) {
+        if (cursor.moveToFirst()) {
+            do {
+                DataHolder dataHolder = new DataHolder(context);
 
-            dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-            dataHolder.setTransaction_type(cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)));
-            dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
-            dataHolder.setMoney(cursor.getInt(cursor.getColumnIndex(MONEY)));
-            dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
-            dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
-            dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
-            dataHolder.setDatetimeId(cursor.getInt(cursor.getColumnIndex(DATETIME_ID)));
+                dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                dataHolder.setTransaction_type(cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)));
+                dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+                dataHolder.setMoney(cursor.getInt(cursor.getColumnIndex(MONEY)));
+                dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
+                dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
+                dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
+                dataHolder.setDatetimeId(cursor.getInt(cursor.getColumnIndex(DATETIME_ID)));
 
-            allData.add(dataHolder);
+                allData.add(dataHolder);
+
+            } while (cursor.moveToNext());
         }
         db.close();
         cursor.close();

@@ -6,6 +6,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReportFragment extends Fragment {
@@ -36,11 +38,13 @@ public class ReportFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_report, container, false);
         getActivity().setTitle("Report");
 
+
         pieChart = view.findViewById(R.id.pieChart);
         createPieChart();
 
         return view;
     }
+
 
     //This creates the pie chart
     private void createPieChart() {
@@ -52,20 +56,20 @@ public class ReportFragment extends Fragment {
         ArrayList<PieEntry> values = new ArrayList<>();
 
         //This adds the values into the PieEntry
-        values.add(new PieEntry(10, "Food"));
         values.add(new PieEntry(13, "Shopping"));
         values.add(new PieEntry(11, "Clothing"));
         values.add(new PieEntry(10, "Education"));
         values.add(new PieEntry(12, "Bills"));
-        values.add(new PieEntry(15, "F"));
-        values.add(new PieEntry(16, "G"));
-        values.add(new PieEntry(15, "H"));
-        values.add(new PieEntry(17, "I"));
-        values.add(new PieEntry(10, "J"));
-        values.add(new PieEntry(11, "K"));
-        values.add(new PieEntry(15, "L"));
-        values.add(new PieEntry(12, "M"));
-        values.add(new PieEntry(13, "N"));
+        values.add(new PieEntry(13, "Food"));
+        values.add(new PieEntry(11, "Car"));
+        values.add(new PieEntry(10, "Pets"));
+        values.add(new PieEntry(12, "Entertainment"));
+        values.add(new PieEntry(13, "Transportation"));
+        values.add(new PieEntry(11, "Communication"));
+        values.add(new PieEntry(10, "Health"));
+        values.add(new PieEntry(10, "Rent"));
+        values.add(new PieEntry(12, "Other"));
+
 
         //This inserts the PieEntry into the PieDataSet
         PieDataSet dataSet = new PieDataSet(values, "Category");
@@ -77,7 +81,7 @@ public class ReportFragment extends Fragment {
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
-        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.setEntryLabelColor(typedValue.data);
         pieChart.setUsePercentValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
 
@@ -89,7 +93,7 @@ public class ReportFragment extends Fragment {
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setWordWrapEnabled(true);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         legend.setDrawInside(true);
 
@@ -100,7 +104,7 @@ public class ReportFragment extends Fragment {
 
         //Insert data
         pieChart.setData(data);
-        pieChart.setExtraOffsets(0, 0, 0, 0);
+        pieChart.setExtraOffsets(10, 0, 10, 50);
 
         //Transparent Circle
         pieChart.setTransparentCircleRadius(50f);

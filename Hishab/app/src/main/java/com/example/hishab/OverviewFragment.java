@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -61,12 +62,12 @@ public class OverviewFragment extends Fragment {
     private void openFilterDialog() {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        View mview = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
+        View mView = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
 
-        Button button_cancel = mview.findViewById(R.id.button_filter_cancel);
-        Button button_apply = mview.findViewById(R.id.button_filter_apply);
+        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
+        Button button_apply = mView.findViewById(R.id.button_filter_apply);
 
-        alert.setView(mview);
+        alert.setView(mView);
 
         AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
@@ -83,11 +84,11 @@ public class OverviewFragment extends Fragment {
                         R.layout.dropdown_menu_filter,
                         COUNTRIES);
 
-        AutoCompleteTextView dropdown_category = mview.findViewById(R.id.dropdown_category);
+        AutoCompleteTextView dropdown_category = mView.findViewById(R.id.dropdown_category);
         dropdown_category.setText(adapter.getItem(0), false);
         dropdown_category.setAdapter(adapter);
 
-        AutoCompleteTextView dropdown_date = mview.findViewById(R.id.dropdown_date);
+        AutoCompleteTextView dropdown_date = mView.findViewById(R.id.dropdown_date);
         dropdown_date.setText(adapter.getItem(0), false);
         dropdown_date.setAdapter(adapter);
 
@@ -105,7 +106,7 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), dropdown_category.getText() + " & " + dropdown_date.getText(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), dropdown_category.getText() + " & " + dropdown_date.getText(), Toast.LENGTH_SHORT).show();
 
                 alertDialog.dismiss();
             }
@@ -116,8 +117,25 @@ public class OverviewFragment extends Fragment {
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
+        int income = 0, expense = 0, balance_left = 0;
+        DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
+        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
+
+        for (int i = 0; i < allData.size(); i++) {
+            if (allData.get(i).getTransaction_type().equals("Income")) {
+                income += allData.get(i).getMoney();
+            } else {
+                expense += allData.get(i).getMoney();
+            }
+        }
+
+        //This will set the current total income
+        textView_income.setText(String.valueOf(income) + "tk");
+        //This will set the current total expense
+        textView_expense.setText(String.valueOf(expense) + "tk");
+        //This will set the current balance left
+        textView_balanceleft.setText(String.valueOf(income - expense) + "tk");
         //This will set the current time
         textView_current_date.setText(new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault()).format(new Date()));
-
     }
 }
