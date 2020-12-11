@@ -14,7 +14,7 @@ public class DataHolder {
     private String date;
     private String time;
     private String note;
-    private int datetimeId;
+    private Long datetimeId;
     private Drawable icon;
     private Context context;
 
@@ -81,11 +81,11 @@ public class DataHolder {
         this.note = note;
     }
 
-    public int getDatetimeId() {
+    public Long getDatetimeId() {
         return datetimeId;
     }
 
-    public void setDatetimeId(int datetimeId) {
+    public void setDatetimeId(Long datetimeId) {
         this.datetimeId = datetimeId;
     }
 
