@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -117,9 +118,10 @@ public class OverviewFragment extends Fragment {
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
-        int income = 0, expense = 0, balance_left = 0;
+        int income = 0, expense = 0;
         DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
         ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < allData.size(); i++) {
             if (allData.get(i).getTransaction_type().equals("Income")) {
@@ -130,11 +132,11 @@ public class OverviewFragment extends Fragment {
         }
 
         //This will set the current total income
-        textView_income.setText(String.valueOf(income) + "tk");
+        textView_income.setText("$" + decimalFormat.format(income));
         //This will set the current total expense
-        textView_expense.setText(String.valueOf(expense) + "tk");
+        textView_expense.setText("$" + decimalFormat.format(expense));
         //This will set the current balance left
-        textView_balanceleft.setText(String.valueOf(income - expense) + "tk");
+        textView_balanceleft.setText("$" + decimalFormat.format(income - expense));
         //This will set the current time
         textView_current_date.setText(new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault()).format(new Date()));
     }
