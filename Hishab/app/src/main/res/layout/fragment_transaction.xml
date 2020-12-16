@@ -1,344 +1,334 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TransactionFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="?attr/colorWhiteLBlack"
+            android:elevation="6dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/rounded_rectangle"
-                android:backgroundTint="?attr/colorWhiteLBlack"
-                android:elevation="8dp"
-                android:padding="8dp"
+                android:text="Income"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Income"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/viewLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?attr/colorPrimary"
-                    android:elevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-                <GridLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:columnCount="3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewLine">
-
-                    <Button
-                        android:id="@+id/salaryButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="Salary"
-                        android:textAllCaps="false" />
-
-                </GridLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
+            <GridLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/rounded_rectangle"
-                android:backgroundTint="?attr/colorWhiteLBlack"
-                android:elevation="8dp"
-                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:columnCount="3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+                app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Expense"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/viewLine2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?attr/colorPrimary"
-                    android:elevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-                <GridLayout
+                <Button
+                    android:id="@+id/salaryButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:columnCount="3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewLine2">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Salary"
+                    android:textAllCaps="false" />
 
-                    <Button
-                        android:id="@+id/billsButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/bills"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/clothingButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/clothing"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/debtButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/debt"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/educationButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/education"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/entertainmentButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/entertainment"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/foodButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/food"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/groceriesButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/groceries"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/healthcareButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/healthcare"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/petcareButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/petcare"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/rentButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/rent"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/savingsButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/savings"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/transportationButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/transportation"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/vehicleButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/vehicle"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/otherIncomeButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:drawableTop="@drawable/ic_note"
-                        android:drawableTint="?attr/colorPrimary"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/other"
-                        android:textAllCaps="false" />
-
-                </GridLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </GridLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="?attr/colorWhiteLBlack"
+            android:elevation="6dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expense"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewLine2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <GridLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:columnCount="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewLine2">
+
+                <Button
+                    android:id="@+id/billsButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/bills"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/clothingButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/clothing"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/debtButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/debt"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/educationButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/education"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/entertainmentButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/entertainment"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/foodButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/food"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/groceriesButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/groceries"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/healthcareButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/healthcare"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/petcareButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/petcare"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/rentButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/rent"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/savingsButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/savings"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/transportationButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/transportation"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/vehicleButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/vehicle"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/otherIncomeButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:drawableTop="@drawable/ic_note"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/other"
+                    android:textAllCaps="false" />
+
+            </GridLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
