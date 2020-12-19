@@ -17,15 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 
 public class OverviewFragment extends Fragment {
 
-    private TextView textView_current_date, textView_income, textView_expense, textView_balanceleft;
+    private TextView textView_income, textView_expense, textView_balanceleft;
     private ImageButton button_filter;
 
     public OverviewFragment() {
@@ -43,7 +40,6 @@ public class OverviewFragment extends Fragment {
         textView_income = view.findViewById(R.id.textView_income_value);
         textView_expense = view.findViewById(R.id.textView_expense_value);
         textView_balanceleft = view.findViewById(R.id.textView_balanceleft_value);
-        textView_current_date = view.findViewById(R.id.textView_current_date);
 
         //This calculates the top panel values on startup
         topPanelCalculation();
@@ -118,7 +114,7 @@ public class OverviewFragment extends Fragment {
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
-        int income = 0, expense = 0;
+        float income = 0, expense = 0, balanceleft = 0;
         DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
         ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
@@ -131,13 +127,14 @@ public class OverviewFragment extends Fragment {
             }
         }
 
+        if (income - expense > 0)
+            balanceleft = income - expense;
+
         //This will set the current total income
         textView_income.setText("$" + decimalFormat.format(income));
         //This will set the current total expense
         textView_expense.setText("$" + decimalFormat.format(expense));
         //This will set the current balance left
-        textView_balanceleft.setText("$" + decimalFormat.format(income - expense));
-        //This will set the current time
-        textView_current_date.setText(new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault()).format(new Date()));
+        textView_balanceleft.setText("$" + decimalFormat.format(balanceleft));
     }
 }

@@ -20,49 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView_current_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_income"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_income" />
-
-        <TextView
-            android:id="@+id/textView_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Income"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_income_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/textView_income"
-            app:layout_constraintTop_toBottomOf="@+id/textView_income" />
 
         <TextView
             android:id="@+id/textView_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="Expense"
             android:textColor="@color/white"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_income_value" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_expense_value"
@@ -70,30 +38,51 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/textView_expense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_expense" />
+
+        <TextView
+            android:id="@+id/textView_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Income"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_expense_value" />
+
+        <TextView
+            android:id="@+id/textView_income_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_income"
+            app:layout_constraintTop_toBottomOf="@+id/textView_income" />
 
         <TextView
             android:id="@+id/textView_balanceleft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Balance left"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_expense"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_expense" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_expense_value" />
 
         <TextView
             android:id="@+id/textView_balanceleft_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="Balance left"
             android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/textView_balanceleft"
             app:layout_constraintTop_toBottomOf="@+id/textView_balanceleft" />
 
