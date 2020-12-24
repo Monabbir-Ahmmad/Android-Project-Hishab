@@ -14,7 +14,7 @@
         android:backgroundTint="?attr/topViewColor"
         android:elevation="8dp"
         android:paddingHorizontal="24dp"
-        android:paddingTop="12dp"
+        android:paddingTop="8dp"
         android:paddingBottom="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

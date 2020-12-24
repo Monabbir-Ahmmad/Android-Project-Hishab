@@ -61,8 +61,6 @@ public class OverviewFragment extends Fragment {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         View mView = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
 
-        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
-        Button button_apply = mView.findViewById(R.id.button_filter_apply);
 
         alert.setView(mView);
 
@@ -73,13 +71,8 @@ public class OverviewFragment extends Fragment {
 
 
         //This is the category spinner
-        String[] COUNTRIES = {"Item 1", "Item 2", "Item 3", "Item 4"};
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(
-                        getActivity(),
-                        R.layout.dropdown_menu_filter,
-                        COUNTRIES);
+        String[] COUNTRIES = getResources().getStringArray(R.array.Category);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_menu_filter, COUNTRIES);
 
         AutoCompleteTextView dropdown_category = mView.findViewById(R.id.dropdown_category);
         dropdown_category.setText(adapter.getItem(0), false);
@@ -89,7 +82,7 @@ public class OverviewFragment extends Fragment {
         dropdown_date.setText(adapter.getItem(0), false);
         dropdown_date.setAdapter(adapter);
 
-
+        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
         //This is what happens when cancel button is pressed
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +91,7 @@ public class OverviewFragment extends Fragment {
             }
         });
 
+        Button button_apply = mView.findViewById(R.id.button_filter_apply);
         //This is what happens when apply button is pressed
         button_apply.setOnClickListener(new View.OnClickListener() {
             @Override

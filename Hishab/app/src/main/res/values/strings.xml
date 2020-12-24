@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Hishab</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="bills">Bills</string>
     <string name="clothing">Clothing</string>
@@ -17,4 +15,21 @@
     <string name="transportation">Transportation</string>
     <string name="vehicle">Vehicle</string>
     <string name="other">Other</string>
+
+    <string-array name="Category">
+        <item>@string/bills</item>
+        <item>@string/clothing</item>
+        <item>@string/debt</item>
+        <item>@string/education</item>
+        <item>@string/entertainment</item>
+        <item>@string/food</item>
+        <item>@string/groceries</item>
+        <item>@string/healthcare</item>
+        <item>@string/petcare</item>
+        <item>@string/rent</item>
+        <item>@string/savings</item>
+        <item>@string/transportation</item>
+        <item>@string/vehicle</item>
+        <item>@string/other</item>
+    </string-array>
 </resources>
