@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.overview:
                         selectedFragment = new OverviewFragment();
                         break;
-                    case R.id.report:
-                        selectedFragment = new ReportFragment();
+                    case R.id.statistics:
+                        selectedFragment = new StatisticsFragment();
                         break;
-                    case R.id.transaction:
-                        selectedFragment = new TransactionFragment();
+                    case R.id.expense:
+                        selectedFragment = new ExpenseFragment();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 item.setChecked(isDarkModeOn);
                 sharedPrefsEdit.apply();
+                chipNavigationBar.setItemSelected(R.id.overview, true);
                 return true;
 
             case R.id.clearData:

@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -26,7 +25,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
     private Toolbar toolbar;
     private Button button_save_data;
-    private TextView textView_transaction_type, textView_category;
+    private TextView textView_category;
     private TextInputEditText editText_amount, editText_date, editText_time, editText_note;
     private Calendar calendar;
     private SimpleDateFormat simpleDateFormat;
@@ -82,13 +81,10 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
     //This sets the transaction type and category
     private void setTextViewText() {
-        textView_transaction_type = findViewById(R.id.textView_transactionType);
         textView_category = findViewById(R.id.textView_category);
 
         Intent intent = getIntent();
-        ArrayList<String> s = intent.getStringArrayListExtra("key");
-        textView_transaction_type.setText(s.get(0));
-        textView_category.setText(s.get(1));
+        textView_category.setText(intent.getStringExtra("key"));
     }
 
     //This is time picker dialog
@@ -142,14 +138,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         if (!editText_amount.getText().toString().isEmpty()) {
             int money = Integer.parseInt(editText_amount.getText().toString());
-            String transaction_type = textView_transaction_type.getText().toString();
             String category = textView_category.getText().toString();
             String date = editText_date.getText().toString();
             String time = editText_time.getText().toString();
             String note = editText_note.getText().toString();
             Long datetime_id = Long.parseLong(generateDatetimeID(date, time));
 
-            databaseHelper.insertData(transaction_type, category, money, date, time, note, datetime_id);
+            databaseHelper.insertData(category, money, date, time, note, datetime_id);
 
             startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 

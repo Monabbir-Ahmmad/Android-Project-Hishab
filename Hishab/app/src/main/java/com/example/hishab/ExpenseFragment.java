@@ -9,17 +9,14 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
 
+public class ExpenseFragment extends Fragment implements View.OnClickListener {
 
-public class TransactionFragment extends Fragment implements View.OnClickListener {
-
-    private Button salaryButton;
     private Button billsButton, clothingButton, debtButton, educationButton, entertainmentButton,
             foodButton, groceriesButton, healthcareButton, petcareButton, rentButton, savingsButton,
             transportationButton, vehicleButton, otherIncomeButton;
 
-    public TransactionFragment() {
+    public ExpenseFragment() {
         // Required empty public constructor
     }
 
@@ -28,12 +25,8 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_transaction, container, false);
-        getActivity().setTitle("Transaction");
-
-
-        salaryButton = view.findViewById(R.id.salaryButton);
-        salaryButton.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_expense, container, false);
+        getActivity().setTitle("Expense");
 
 
         billsButton = view.findViewById(R.id.billsButton);
@@ -86,27 +79,13 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
 
         Intent intent = new Intent(getActivity(), DataInputActivity.class);
-        ArrayList<String> type_category = new ArrayList<String>();
+        String category = "";
 
-        switch (v.getId()) {
-            case R.id.salaryButton:
-                type_category.add("Income");
-                type_category.add(salaryButton.getText().toString());
-                break;
-            case R.id.billsButton:
-                type_category.add("Expanse");
-                type_category.add(billsButton.getText().toString());
-                break;
-            case R.id.foodButton:
-                type_category.add("Expanse");
-                type_category.add(foodButton.getText().toString());
-                break;
-            default:
-                type_category.add("Income");
-                type_category.add(otherIncomeButton.getText().toString());
-                break;
-        }
-        intent.putExtra("key", type_category);
+        Button category_button = v.findViewById(v.getId());
+
+        category = category_button.getText().toString();
+
+        intent.putExtra("key", category);
         startActivity(intent);
 
     }

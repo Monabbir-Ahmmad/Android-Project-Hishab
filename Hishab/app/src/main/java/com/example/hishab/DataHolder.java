@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 public class DataHolder {
 
     private int id;
-    private String transaction_type;
     private String category;
     private int money;
     private String date;
@@ -30,14 +29,6 @@ public class DataHolder {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTransaction_type() {
-        return transaction_type;
-    }
-
-    public void setTransaction_type(String transaction_type) {
-        this.transaction_type = transaction_type;
     }
 
     public String getCategory() {

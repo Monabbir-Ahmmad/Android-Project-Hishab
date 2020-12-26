@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/transaction"
-        android:icon="@drawable/ic_transaction"
-        android:title="Transaction"
+        android:id="@+id/expense"
+        android:icon="@drawable/ic_expense"
+        android:title="Expense"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
@@ -17,9 +17,9 @@
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
     <item
-        android:id="@+id/report"
-        android:icon="@drawable/ic_report"
-        android:title="Report"
+        android:id="@+id/statistics"
+        android:icon="@drawable/ic_statistics"
+        android:title="Statistics"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />

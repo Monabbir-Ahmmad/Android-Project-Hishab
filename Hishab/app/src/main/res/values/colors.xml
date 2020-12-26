@@ -7,6 +7,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="coal_black">#121212</color>
     <color name="light_black">#202020</color>
+    <color name="dark_gray">#333333</color>
+    <color name="light_gray">#717171</color>
+    <color name="very_light_gray">#ECECEC</color>
 
     <array name="colorArray">
         <item>#7C4DFF</item>

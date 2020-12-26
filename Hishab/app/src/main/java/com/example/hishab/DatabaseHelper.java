@@ -20,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "Transactions";
     private static final String ID = "ID";
-    private static final String TRANSACTION_TYPE = "TransactionType";
     private static final String CATEGORY = "Category";
     private static final String MONEY = "Money";
     private static final String DATE = "Date";
@@ -40,7 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String createTable = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TRANSACTION_TYPE + " TEXT, "
                 + CATEGORY + " TEXT, "
                 + MONEY + " INTEGER, "
                 + DATE + " TEXT, "
@@ -75,12 +73,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into table
-    public void insertData(String transaction_type, String category, int money, String date, String time, String note, Long datetime_id) {
+    public void insertData(String category, int money, String date, String time, String note, Long datetime_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(TRANSACTION_TYPE, transaction_type);
         contentValues.put(CATEGORY, category);
         contentValues.put(MONEY, money);
         contentValues.put(DATE, date);
@@ -120,7 +117,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DataHolder dataHolder = new DataHolder(context);
 
                 dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-                dataHolder.setTransaction_type(cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)));
                 dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
                 dataHolder.setMoney(cursor.getInt(cursor.getColumnIndex(MONEY)));
                 dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));

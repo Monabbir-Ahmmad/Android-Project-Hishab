@@ -20,11 +20,11 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import java.util.ArrayList;
 
 
-public class ReportFragment extends Fragment {
+public class StatisticsFragment extends Fragment {
 
     private PieChart pieChart;
 
-    public ReportFragment() {
+    public StatisticsFragment() {
         // Required empty public constructor
     }
 
@@ -33,8 +33,8 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_report, container, false);
-        getActivity().setTitle("Report");
+        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        getActivity().setTitle("Statistics");
 
 
         pieChart = view.findViewById(R.id.pieChart);
@@ -49,7 +49,7 @@ public class ReportFragment extends Fragment {
 
         //This gets a color according to theme
         TypedValue typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.textColorBW, typedValue, true);
+        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, typedValue, true);
 
         ArrayList<PieEntry> values = new ArrayList<>();
 

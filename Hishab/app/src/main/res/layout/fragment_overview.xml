@@ -10,24 +10,21 @@
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/top_view"
+        android:background="@drawable/shape_bottom_rounded_rectangle"
         android:backgroundTint="?attr/topViewColor"
-        android:elevation="8dp"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="26dp"
+        android:elevation="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <TextView
             android:id="@+id/textView_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Expense"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,66 +33,28 @@
             android:id="@+id/textView_expense_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="35sp"
-            android:textStyle="bold"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_expense" />
 
-        <TextView
-            android:id="@+id/textView_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Income"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_expense_value" />
-
-        <TextView
-            android:id="@+id/textView_income_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Income"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/textView_income"
-            app:layout_constraintTop_toBottomOf="@+id/textView_income" />
-
-        <TextView
-            android:id="@+id/textView_balanceleft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Balance left"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_expense_value" />
-
-        <TextView
-            android:id="@+id/textView_balanceleft_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Balance left"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView_balanceleft"
-            app:layout_constraintTop_toBottomOf="@+id/textView_balanceleft" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/button_filter"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:background="@drawable/oval_shape"
-        android:backgroundTint="?attr/colorSecondary"
-        android:elevation="10dp"
-        android:src="@drawable/ic_filter_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/filterButton"
+        android:text="Filter"
+        android:textColor="?attr/filterText"
+        app:elevation="16dp"
+        app:icon="@drawable/ic_filter_list"
+        app:iconTint="?attr/filterText"
         app:layout_constraintBottom_toBottomOf="@+id/topPanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

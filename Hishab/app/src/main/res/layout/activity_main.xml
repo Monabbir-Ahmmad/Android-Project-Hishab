@@ -17,22 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/toolbar_menu"
-        app:popupTheme="@style/Theme.Hishab"
-        app:titleMarginStart="24dp"
-        app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+        app:popupTheme="@style/Theme.Hishab" />
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chip_nav_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_rectangle"
-        android:backgroundTint="@color/light_black"
-        android:elevation="8dp"
+        android:background="?attr/colorWhiteLightBlack"
+        android:elevation="16dp"
+        android:padding="8dp"
         app:cnb_iconSize="24dp"
-        app:cnb_menuResource="@menu/bottom_nav_menu"
-        app:cnb_radius="10dp"
-        app:cnb_unselectedColor="@color/white"
+        app:cnb_menuResource="@menu/bottom_navigation_menu"
+        app:cnb_radius="30dp"
+        app:cnb_unselectedColor="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -9,20 +9,20 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/purple_200</item>
         <item name="colorSecondaryVariant">@color/purple_200</item>
-        <item name="colorOnSecondary">@color/purple_200</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/topViewColor</item>
 
         <!-- Customize your theme here. -->
         <!-- my custom colors. -->
-        <item name="textColorBW">@color/white</item>
+        <item name="colorBlackWhite">@color/white</item>
         <item name="bgColor">@color/coal_black</item>
         <item name="topViewColor">@color/light_black</item>
-        <item name="colorWhiteLBlack">@color/light_black</item>
-
+        <item name="colorWhiteLightBlack">@color/light_black</item>
+        <item name="filterButton">@color/purple_200</item>
+        <item name="filterText">@color/white</item>
 
     </style>
-
 
 </resources>
