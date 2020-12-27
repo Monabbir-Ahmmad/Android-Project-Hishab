@@ -1,25 +1,21 @@
 package com.example.hishab;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-
-import androidx.core.content.ContextCompat;
 
 public class DataHolder {
 
     private int id;
     private String category;
-    private int money;
+    private float money;
     private String date;
     private String time;
     private String note;
     private Long datetimeId;
-    private Drawable icon;
-    private Context context;
+    private int icon;
 
     //Constructor
-    public DataHolder(Context context) {
-        this.context = context;
+    public DataHolder() {
+
     }
 
 
@@ -40,11 +36,11 @@ public class DataHolder {
         setIcon(this.category);
     }
 
-    public int getMoney() {
+    public float getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 
@@ -80,14 +76,14 @@ public class DataHolder {
         this.datetimeId = datetimeId;
     }
 
-    public Drawable getIcon() {
+    public int getIcon() {
         return icon;
     }
 
     private void setIcon(String category) {
 
         //if (category == "Food")
-        this.icon = ContextCompat.getDrawable(context, R.drawable.ic_amount);
+        this.icon = R.drawable.ic_amount;
     }
 
 

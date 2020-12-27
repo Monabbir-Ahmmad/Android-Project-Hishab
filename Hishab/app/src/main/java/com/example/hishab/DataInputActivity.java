@@ -136,13 +136,16 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-        if (!editText_amount.getText().toString().isEmpty()) {
-            int money = Integer.parseInt(editText_amount.getText().toString());
+        if (!editText_amount.getText().toString().isEmpty() && Float.parseFloat(editText_amount.getText().toString()) > 0) {
+            float money = Float.parseFloat(editText_amount.getText().toString());
             String category = textView_category.getText().toString();
             String date = editText_date.getText().toString();
             String time = editText_time.getText().toString();
             String note = editText_note.getText().toString();
             Long datetime_id = Long.parseLong(generateDatetimeID(date, time));
+
+            if (note.trim().isEmpty())
+                note = null;
 
             databaseHelper.insertData(category, money, date, time, note, datetime_id);
 

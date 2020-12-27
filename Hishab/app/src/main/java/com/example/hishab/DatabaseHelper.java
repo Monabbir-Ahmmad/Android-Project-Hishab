@@ -73,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into table
-    public void insertData(String category, int money, String date, String time, String note, Long datetime_id) {
+    public void insertData(String category, float money, String date, String time, String note, Long datetime_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -114,11 +114,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                DataHolder dataHolder = new DataHolder(context);
+                DataHolder dataHolder = new DataHolder();
 
                 dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
-                dataHolder.setMoney(cursor.getInt(cursor.getColumnIndex(MONEY)));
+                dataHolder.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
                 dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                 dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                 dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));

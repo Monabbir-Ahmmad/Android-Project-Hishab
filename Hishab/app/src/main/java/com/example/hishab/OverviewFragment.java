@@ -27,10 +27,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class OverviewFragment extends Fragment {
+public class OverviewFragment extends Fragment implements View.OnClickListener {
 
     private TextView textView_expense;
     private ExtendedFloatingActionButton button_filter;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder alert;
+    private EditText editText_filter_start_date, editText_filter_end_date;
+    private AutoCompleteTextView dropdown_category;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -50,72 +54,68 @@ public class OverviewFragment extends Fragment {
         topPanelCalculation();
 
         button_filter = view.findViewById(R.id.button_filter);
-        button_filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFilterDialog();
-            }
-        });
-
+        button_filter.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_filter:
+                openFilterDialog();
+                break;
+            case R.id.button_filter_apply:
+                Toast.makeText(getContext(), dropdown_category.getText() + " & " + editText_filter_start_date.getText() + " & " + editText_filter_end_date.getText(), Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+                break;
+            case R.id.button_filter_cancel:
+                alertDialog.dismiss();
+                break;
+            case R.id.filterStartDate:
+                selectDate(editText_filter_start_date);
+                break;
+            case R.id.filterEndDate:
+                selectDate(editText_filter_end_date);
+                break;
+            default:
+                break;
+        }
+
     }
 
     //This is the filter dialog
     private void openFilterDialog() {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         View mView = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
+        //This is the start date edit text on filter dialog
+        editText_filter_start_date = mView.findViewById(R.id.filterStartDate);
+        editText_filter_start_date.setOnClickListener(this::onClick);
+
+        //This is the end date edit text on filter dialog
+        editText_filter_end_date = mView.findViewById(R.id.filterEndDate);
+        editText_filter_end_date.setOnClickListener(this::onClick);
+
+        //This is the cancel button on filter dialog
+        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
+        button_cancel.setOnClickListener(this::onClick);
+
+        //This is the apply button on filter dialog
+        Button button_apply = mView.findViewById(R.id.button_filter_apply);
+        button_apply.setOnClickListener(this::onClick);
+
+        alert = new AlertDialog.Builder(getActivity());
         alert.setView(mView);
 
-        AlertDialog alertDialog = alert.create();
+        alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
         //This is the category spinner
         String[] category = getResources().getStringArray(R.array.Category);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
-        AutoCompleteTextView dropdown_category = mView.findViewById(R.id.dropdown_category);
+        dropdown_category = mView.findViewById(R.id.dropdown_category);
         dropdown_category.setText(adapter.getItem(0), false);
         dropdown_category.setAdapter(adapter);
-
-        //This is the start date edit text on filter dialog
-        EditText editText_filter_start_date = mView.findViewById(R.id.filterStartDate);
-        editText_filter_start_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDate(editText_filter_start_date);
-            }
-        });
-
-        //This is the end date edit text on filter dialog
-        EditText editText_filter_end_date = mView.findViewById(R.id.filterEndDate);
-        editText_filter_end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDate(editText_filter_end_date);
-            }
-        });
-
-
-        //This is the cancel button on filter dialog
-        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-
-        //This is the apply button on filter dialog
-        Button button_apply = mView.findViewById(R.id.button_filter_apply);
-        button_apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), dropdown_category.getText() + " & " + editText_filter_start_date.getText() + " & " + editText_filter_end_date.getText(), Toast.LENGTH_SHORT).show();
-                alertDialog.dismiss();
-            }
-        });
-
 
     }
 
@@ -157,4 +157,5 @@ public class OverviewFragment extends Fragment {
         textView_expense.setText(decimalFormat.format(expense) + " BDT");
 
     }
+
 }
