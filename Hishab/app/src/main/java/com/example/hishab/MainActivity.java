@@ -123,17 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.feedback:
-                DatabaseHelper databaseHelper1 = new DatabaseHelper(getApplicationContext());
-                ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
-
-                try {
-                    for (int i = 0; i < allData.size(); i++) {
-                        Toast.makeText(getApplicationContext(), String.valueOf(allData.get(i).getId()), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                }
-
                 return true;
         }
 

@@ -35,11 +35,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_input);
 
+        //This is the toolbar
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Toolbar back arrow
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,24 +49,31 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+
+        textView_category = findViewById(R.id.textView_category);
         editText_amount = findViewById(R.id.editText_amount);
+        editText_note = findViewById(R.id.editText_note);
 
         editText_date = findViewById(R.id.editText_date);
-        editText_date.setText(new SimpleDateFormat("dd MMM yyyy",
-                Locale.getDefault()).format(new Date()));
         editText_date.setOnClickListener(this);
 
         editText_time = findViewById(R.id.editText_time);
-        editText_time.setText(new SimpleDateFormat("hh:mm a",
-                Locale.getDefault()).format(new Date()));
         editText_time.setOnClickListener(this);
-
-        editText_note = findViewById(R.id.editText_note);
 
         button_save_data = findViewById(R.id.button_save_data);
         button_save_data.setOnClickListener(this);
 
-        setTextViewText();
+        setDefaultOnLoad();
+    }
+
+
+    //This sets expense category and current date-time on view create
+    private void setDefaultOnLoad() {
+        textView_category.setText(getIntent().getStringExtra("key"));
+        editText_date.setText(new SimpleDateFormat("dd MMM yyyy",
+                Locale.getDefault()).format(new Date()));
+        editText_time.setText(new SimpleDateFormat("hh:mm a",
+                Locale.getDefault()).format(new Date()));
     }
 
 
@@ -79,13 +88,6 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    //This sets the transaction type and category
-    private void setTextViewText() {
-        textView_category = findViewById(R.id.textView_category);
-
-        Intent intent = getIntent();
-        textView_category.setText(intent.getStringExtra("key"));
-    }
 
     //This is time picker dialog
     private void selectTime() {
@@ -107,6 +109,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         timePickerDialog.show();
     }
+
 
     //This is date picker dialog
     private void selectDate() {
@@ -130,6 +133,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         datePickerDialog.show();
     }
+
 
     //This saves data on button click
     private void saveData() {
@@ -156,6 +160,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+
     //This generates DatetimeID form Date
     private String generateDatetimeID(String date, String time) {
 
@@ -177,4 +182,6 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         return datetimeOutputFormat;
     }
+
+
 }

@@ -11,11 +11,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -35,18 +34,17 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     private AlertDialog.Builder alert;
     private EditText editText_filter_start_date, editText_filter_end_date;
     private AutoCompleteTextView dropdown_category;
+    private ListView listView;
 
     public OverviewFragment() {
         // Required empty public constructor
     }
 
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
-        getActivity().setTitle("Overview");
 
         textView_expense = view.findViewById(R.id.textView_expense_value);
 
@@ -55,7 +53,23 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
 
         button_filter = view.findViewById(R.id.button_filter);
         button_filter.setOnClickListener(this);
+
+        listView = view.findViewById(R.id.listView);
+        createBarChart();
+
         return view;
+    }
+
+    private void createBarChart() {
+
+        float val[] = new float[1000];
+        String[] string = getResources().getStringArray(R.array.Category);
+        //This adds the values into the PieEntry
+        for (int i = 0; i < string.length; i++)
+            val[i] = i + 5;
+
+        MyChartAdapter myListAdapter = new MyChartAdapter(getActivity(), string, val, 110);
+        listView.setAdapter(myListAdapter);
     }
 
     @Override

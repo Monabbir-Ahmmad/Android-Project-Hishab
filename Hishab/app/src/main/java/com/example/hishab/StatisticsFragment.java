@@ -6,6 +6,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
@@ -33,18 +34,16 @@ public class StatisticsFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private ArrayList<DataHolder> allData;
 
+
     public StatisticsFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        getActivity().setTitle("Statistics");
-
 
         databaseHelper = new DatabaseHelper(getActivity());
         allData = new ArrayList<>(databaseHelper.getAllData());
@@ -55,9 +54,9 @@ public class StatisticsFragment extends Fragment {
         lineChart = view.findViewById(R.id.lineChart);
         createLineChart();
 
-
         return view;
     }
+
 
 
     //This creates the pie chart
@@ -69,20 +68,10 @@ public class StatisticsFragment extends Fragment {
 
         ArrayList<PieEntry> values = new ArrayList<>();
 
+        String[] category = getResources().getStringArray(R.array.Category);
         //This adds the values into the PieEntry
-        values.add(new PieEntry(13, "Shopping"));
-        values.add(new PieEntry(11, "Clothing"));
-        values.add(new PieEntry(10, "Education"));
-        values.add(new PieEntry(12, "Bills"));
-        values.add(new PieEntry(13, "Food"));
-        values.add(new PieEntry(11, "Car"));
-        values.add(new PieEntry(10, "Pets"));
-        values.add(new PieEntry(12, "Entertainment"));
-        values.add(new PieEntry(13, "Transportation"));
-        values.add(new PieEntry(11, "Communication"));
-        values.add(new PieEntry(10, "Health"));
-        values.add(new PieEntry(10, "Rent"));
-        values.add(new PieEntry(12, "Other"));
+        for (int i = 0; i < category.length; i++)
+            values.add(new PieEntry((i * 2 + 3) * 7, category[i]));
 
 
         //This inserts the PieEntry into the PieDataSet
@@ -97,8 +86,8 @@ public class StatisticsFragment extends Fragment {
         //dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLineColor(typedValue.data);
         dataSet.setValueLinePart1OffsetPercentage(100f); /** When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size */
-        dataSet.setValueLinePart1Length(0.3f); /** When valuePosition is OutsideSlice, indicates length of first half of the line */
-        dataSet.setValueLinePart2Length(0.3f); /** When valuePosition is OutsideSlice, indicates length of second half of the line */
+        dataSet.setValueLinePart1Length(0.5f); /** When valuePosition is OutsideSlice, indicates length of first half of the line */
+        dataSet.setValueLinePart2Length(0.5f); /** When valuePosition is OutsideSlice, indicates length of second half of the line */
 
 
         //This creates the PieData from PieDataSet
@@ -231,3 +220,4 @@ public class StatisticsFragment extends Fragment {
 
 
 }
+

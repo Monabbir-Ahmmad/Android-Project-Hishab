@@ -1,35 +1,51 @@
 <resources>
     <string name="app_name">Hishab</string>
 
-    <string name="bills">Bills</string>
     <string name="clothing">Clothing</string>
     <string name="debt">Debt</string>
     <string name="education">Education</string>
-    <string name="entertainment">Entertainment</string>
     <string name="food">Food</string>
-    <string name="groceries">Groceries</string>
-    <string name="healthcare">Healthcare</string>
-    <string name="petcare">Petcare</string>
-    <string name="rent">Rent</string>
+    <string name="fun">Fun</string>
+    <string name="housing">Housing</string>
+    <string name="insurance">Insurance</string>
+    <string name="investment">Investment</string>
+    <string name="kids">Kids</string>
+    <string name="medical">Medical</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="personal">Personal</string>
+    <string name="pet">Pet</string>
     <string name="savings">Savings</string>
-    <string name="transportation">Transportation</string>
+    <string name="services">Services</string>
+    <string name="shopping">Shopping</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="tax">Tax</string>
+    <string name="transport">Transport</string>
+    <string name="utilities">Utilities</string>
     <string name="vehicle">Vehicle</string>
-    <string name="other">Other</string>
+
 
     <string-array name="Category">
-        <item>@string/bills</item>
         <item>@string/clothing</item>
         <item>@string/debt</item>
         <item>@string/education</item>
-        <item>@string/entertainment</item>
         <item>@string/food</item>
-        <item>@string/groceries</item>
-        <item>@string/healthcare</item>
-        <item>@string/petcare</item>
-        <item>@string/rent</item>
+        <item>@string/fun</item>
+        <item>@string/housing</item>
+        <item>@string/insurance</item>
+        <item>@string/investment</item>
+        <item>@string/kids</item>
+        <item>@string/medical</item>
+        <item>@string/miscellaneous</item>
+        <item>@string/personal</item>
+        <item>@string/pet</item>
         <item>@string/savings</item>
-        <item>@string/transportation</item>
+        <item>@string/services</item>
+        <item>@string/shopping</item>
+        <item>@string/subscriptions</item>
+        <item>@string/tax</item>
+        <item>@string/transport</item>
+        <item>@string/utilities</item>
         <item>@string/vehicle</item>
-        <item>@string/other</item>
+
     </string-array>
 </resources>

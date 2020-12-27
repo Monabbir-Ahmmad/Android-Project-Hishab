@@ -53,12 +53,21 @@
         android:text="Filter"
         android:textColor="?attr/filterText"
         app:elevation="16dp"
-        app:icon="@drawable/ic_filter_list"
+        app:icon="@drawable/ic_filter"
         app:iconTint="?attr/filterText"
         app:layout_constraintBottom_toBottomOf="@+id/topPanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topPanel" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_filter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
