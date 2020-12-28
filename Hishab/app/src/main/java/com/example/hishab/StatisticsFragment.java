@@ -6,7 +6,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
@@ -56,7 +55,6 @@ public class StatisticsFragment extends Fragment {
 
         return view;
     }
-
 
 
     //This creates the pie chart
@@ -137,8 +135,9 @@ public class StatisticsFragment extends Fragment {
         pieChart.setDragDecelerationFrictionCoef(0.99f);
 
         //Insert data
-        pieChart.setData(data);
+        pieChart.setNoDataText("No data available");
         pieChart.setExtraOffsets(0, 20, 0, 20);
+        pieChart.setData(data);
     }
 
 
@@ -183,6 +182,15 @@ public class StatisticsFragment extends Fragment {
         Legend legend = lineChart.getLegend();
         legend.setEnabled(false);
 
+        lineChart.setDrawGridBackground(false);
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setPinchZoom(false);
+        lineChart.setScaleEnabled(true);
+        lineChart.setDrawBorders(false);
+        lineChart.setNoDataText("No data available");
+        lineChart.setData(lineData);
+
         //X axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(true);
@@ -191,6 +199,7 @@ public class StatisticsFragment extends Fragment {
         xAxis.setSpaceMin(0.1f);
         xAxis.setSpaceMax(0.1f);
         xAxis.setAxisMinimum(0);
+        xAxis.setGranularity(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(typedValue2.data);
         xAxis.setAxisLineColor(typedValue2.data);
@@ -202,20 +211,13 @@ public class StatisticsFragment extends Fragment {
         yAxisLeft.setDrawAxisLine(true);
         yAxisLeft.setDrawGridLines(false);
         yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setGranularity(5);
         yAxisLeft.setTextColor(typedValue2.data);
         yAxisLeft.setAxisLineColor(typedValue2.data);
 
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
-
-        lineChart.setDrawGridBackground(false);
-        lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
-        lineChart.setPinchZoom(false);
-        lineChart.setScaleEnabled(true);
-        lineChart.setDrawBorders(false);
-        lineChart.setData(lineData);
     }
 
 

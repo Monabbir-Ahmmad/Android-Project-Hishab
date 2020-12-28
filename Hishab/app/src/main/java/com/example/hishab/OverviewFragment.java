@@ -61,15 +61,11 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     }
 
     private void createBarChart() {
+        DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
+        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
 
-        float val[] = new float[1000];
-        String[] string = getResources().getStringArray(R.array.Category);
-        //This adds the values into the PieEntry
-        for (int i = 0; i < string.length; i++)
-            val[i] = i + 5;
-
-        MyChartAdapter myListAdapter = new MyChartAdapter(getActivity(), string, val, 110);
-        listView.setAdapter(myListAdapter);
+        ListChartAdapter listChartAdapter = new ListChartAdapter(getActivity(), allData);
+        listView.setAdapter(listChartAdapter);
     }
 
     @Override
