@@ -18,7 +18,7 @@
             android:backgroundTint="?attr/colorWhiteLightBlack"
             android:elevation="8dp"
             app:cardCornerRadius="12dp"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintDimensionRatio="1:1.15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,7 +27,9 @@
                 android:id="@+id/pieChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp" />
+                android:layout_margin="10dp">
+
+            </com.github.mikephil.charting.charts.PieChart>
 
         </androidx.cardview.widget.CardView>
 

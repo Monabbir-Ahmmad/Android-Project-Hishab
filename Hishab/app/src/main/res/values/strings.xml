@@ -3,6 +3,7 @@
 
     <string name="autoAndVehicle">Auto &amp; Vehicle</string>
     <string name="billAndUtility">Bill &amp; Utility</string>
+    <string name="clothing">Clothing</string>
     <string name="education">Education</string>
     <string name="entertainment">Entertainment</string>
     <string name="finance">Finance</string>
@@ -21,20 +22,21 @@
 
     <string-array name="Category">
         <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
-        <item>@string/autoAndVehicle</item>
+        <item>@string/billAndUtility</item>
+        <item>@string/clothing</item>
+        <item>@string/education</item>
+        <item>@string/entertainment</item>
+        <item>@string/finance</item>
+        <item>@string/foodAndDrink</item>
+        <item>@string/healthCare</item>
+        <item>@string/housing</item>
+        <item>@string/miscellaneous</item>
+        <item>@string/parenting</item>
+        <item>@string/personalCare</item>
+        <item>@string/petCare</item>
+        <item>@string/service</item>
+        <item>@string/shopping</item>
+        <item>@string/tax</item>
+        <item>@string/transport</item>
     </string-array>
 </resources>
