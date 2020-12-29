@@ -1,51 +1,40 @@
 <resources>
     <string name="app_name">Hishab</string>
 
-    <string name="clothing">Clothing</string>
-    <string name="debt">Debt</string>
+    <string name="autoAndVehicle">Auto &amp; Vehicle</string>
+    <string name="billAndUtility">Bill &amp; Utility</string>
     <string name="education">Education</string>
-    <string name="food">Food</string>
-    <string name="fun">Fun</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="finance">Finance</string>
+    <string name="foodAndDrink">Food &amp; Drink</string>
+    <string name="healthCare">Health care</string>
     <string name="housing">Housing</string>
-    <string name="insurance">Insurance</string>
-    <string name="investment">Investment</string>
-    <string name="kids">Kids</string>
-    <string name="medical">Medical</string>
     <string name="miscellaneous">Miscellaneous</string>
-    <string name="personal">Personal</string>
-    <string name="pet">Pet</string>
-    <string name="savings">Savings</string>
-    <string name="services">Services</string>
+    <string name="parenting">Parenting</string>
+    <string name="personalCare">Personal care</string>
+    <string name="petCare">Pet care</string>
+    <string name="service">Service</string>
     <string name="shopping">Shopping</string>
-    <string name="subscriptions">Subscriptions</string>
     <string name="tax">Tax</string>
     <string name="transport">Transport</string>
-    <string name="utilities">Utilities</string>
-    <string name="vehicle">Vehicle</string>
 
 
     <string-array name="Category">
-        <item>@string/clothing</item>
-        <item>@string/debt</item>
-        <item>@string/education</item>
-        <item>@string/food</item>
-        <item>@string/fun</item>
-        <item>@string/housing</item>
-        <item>@string/insurance</item>
-        <item>@string/investment</item>
-        <item>@string/kids</item>
-        <item>@string/medical</item>
-        <item>@string/miscellaneous</item>
-        <item>@string/personal</item>
-        <item>@string/pet</item>
-        <item>@string/savings</item>
-        <item>@string/services</item>
-        <item>@string/shopping</item>
-        <item>@string/subscriptions</item>
-        <item>@string/tax</item>
-        <item>@string/transport</item>
-        <item>@string/utilities</item>
-        <item>@string/vehicle</item>
-
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
+        <item>@string/autoAndVehicle</item>
     </string-array>
 </resources>

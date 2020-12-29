@@ -8,12 +8,12 @@
     tools:context=".DataInputActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbar_dataInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/topViewColor"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="?attr/toolbarColor"
         android:elevation="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,17 +24,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bottom_rounded_rectangle"
-        android:backgroundTint="?attr/topViewColor"
+        android:backgroundTint="?attr/toolbarColor"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_dataInput">
 
         <TextView
             android:id="@+id/textView_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:gravity="center"
             android:text="Category"
             android:textColor="@color/white"
@@ -148,9 +148,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:padding="6dp"
-        android:text="Save"
-        android:textSize="22sp"
+        android:text="Done"
+        app:cornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />

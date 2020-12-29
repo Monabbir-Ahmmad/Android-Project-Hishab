@@ -12,13 +12,13 @@
         <item name="colorOnSecondary">@color/purple_700</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/topViewColor</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/toolbarColor</item>
 
         <!-- Customize your theme here. -->
         <!-- my custom colors. -->
         <item name="colorBlackWhite">@color/black</item>
         <item name="bgColor">@color/white</item>
-        <item name="topViewColor">@color/purple_700</item>
+        <item name="toolbarColor">@color/purple_700</item>
         <item name="colorWhiteLightBlack">@color/white</item>
         <item name="filterButton">@color/white</item>
         <item name="filterText">@color/purple_700</item>

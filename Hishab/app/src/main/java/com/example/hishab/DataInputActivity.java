@@ -36,7 +36,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_data_input);
 
         //This is the toolbar
-        toolbar = findViewById(R.id.toolbar2);
+        toolbar = findViewById(R.id.toolbar_dataInput);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

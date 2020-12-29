@@ -2,7 +2,7 @@
 <resources>
     <attr name="colorBlackWhite" format="color" />
     <attr name="bgColor" format="color" />
-    <attr name="topViewColor" format="color" />
+    <attr name="toolbarColor" format="color" />
     <attr name="colorWhiteLightBlack" format="color" />
     <attr name="filterButton" format="color" />
     <attr name="filterText" format="color" />

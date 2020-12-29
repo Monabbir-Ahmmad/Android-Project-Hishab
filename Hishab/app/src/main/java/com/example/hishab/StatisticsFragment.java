@@ -43,6 +43,7 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        getActivity().setTitle("Statistics");
 
         databaseHelper = new DatabaseHelper(getActivity());
         allData = new ArrayList<>(databaseHelper.getAllData());
