@@ -5,20 +5,8 @@
     <item
         android:id="@+id/darkMode"
         android:checkable="true"
-        android:title="Dark mode"
         android:iconTint="?attr/colorPrimary"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/feedback"
-        android:title="Feedback"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/help"
-        android:title="Help &amp; support"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/about"
-        android:title="About"
+        android:title="Dark mode"
         app:showAsAction="never" />
     <item
         android:id="@+id/clearData"

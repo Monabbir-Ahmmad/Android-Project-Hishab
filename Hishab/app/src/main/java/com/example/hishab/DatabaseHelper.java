@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DATETIME_ID + " INTEGER);";
 
         try {
-            Toast.makeText(context, "Table created", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "New table created", Toast.LENGTH_SHORT).show();
             db.execSQL(createTable);
 
         } catch (Exception e) {
@@ -99,9 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void removeAll() {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTs " + TABLE_NAME);
+
         Toast.makeText(context, "All data cleared", Toast.LENGTH_SHORT).show();
-        db.close();
+        onCreate(db);
 
     }
 

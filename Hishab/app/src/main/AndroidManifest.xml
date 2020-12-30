@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hishab">
+
         <activity
             android:name=".DataInputActivity"
             android:label="Add new"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

@@ -8,43 +8,32 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Select expense category"
-            android:textSize="20sp"
+            android:text="Category"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/viewLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
         <GridLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="16dp"
             android:columnCount="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewLine">
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <Button
-                android:id="@+id/miscellaneousButton"
+                android:id="@+id/button_Misc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
@@ -53,7 +42,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:backgroundTint="?attr/colorWhiteLightBlack"
-                android:drawableTop="@drawable/ic_miscellaneous"
+                android:drawableTop="@drawable/ic_misc"
                 android:drawableTint="?attr/colorPrimary"
                 android:ellipsize="end"
                 android:lines="1"
@@ -70,41 +59,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:backgroundTint="?attr/colorWhiteLightBlack"
-                android:drawableTop="@drawable/ic_miscellaneous"
-                android:drawableTint="?attr/colorPrimary"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@string/miscellaneous"
-                android:textAllCaps="false"
-                android:textColor="?attr/colorPrimary" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:backgroundTint="?attr/colorWhiteLightBlack"
-                android:drawableTop="@drawable/ic_miscellaneous"
-                android:drawableTint="?attr/colorPrimary"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@string/miscellaneous"
-                android:textAllCaps="false"
-                android:textColor="?attr/colorPrimary" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:backgroundTint="?attr/colorWhiteLightBlack"
-                android:drawableTop="@drawable/ic_miscellaneous"
+                android:drawableTop="@drawable/ic_misc"
                 android:drawableTint="?attr/colorPrimary"
                 android:ellipsize="end"
                 android:lines="1"

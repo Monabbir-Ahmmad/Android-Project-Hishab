@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="16dp">
 
     <ImageView
         android:id="@+id/imageView_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_miscellaneous"
+        android:src="@drawable/ic_misc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:lines="1"
         android:text="Label"
         app:layout_constraintStart_toEndOf="@+id/imageView_icon"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,10 +38,9 @@
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
-        android:layout_height="12dp"
+        android:layout_height="10dp"
         android:layout_marginStart="8dp"
         android:max="10000"
-        android:progress="500"
         android:progressDrawable="@drawable/shape_progress_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

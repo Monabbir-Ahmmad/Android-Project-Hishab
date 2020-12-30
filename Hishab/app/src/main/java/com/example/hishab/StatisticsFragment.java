@@ -176,7 +176,7 @@ public class StatisticsFragment extends Fragment {
         ArrayList<Entry> values = new ArrayList<>();
 
         for (int i = 0; i < allData.size(); i++) {
-            values.add(new Entry(i, allData.get(i).getMoney()));
+            values.add(new Entry(i+1, allData.get(i).getMoney()));
         }
 
         LineDataSet lineDataSet = new LineDataSet(values, "Data set");
@@ -218,6 +218,7 @@ public class StatisticsFragment extends Fragment {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(true);
         xAxis.setDrawGridLines(false);
+        xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(true);
         xAxis.setSpaceMin(0.1f);
         xAxis.setSpaceMax(0.1f);

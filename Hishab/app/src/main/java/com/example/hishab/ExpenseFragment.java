@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 public class ExpenseFragment extends Fragment implements View.OnClickListener {
 
-    private Button button1;
+    private Button btn;
 
 
     public ExpenseFragment() {
@@ -26,8 +26,8 @@ public class ExpenseFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
         getActivity().setTitle("Expense");
 
-        button1 = view.findViewById(R.id.miscellaneousButton);
-        button1.setOnClickListener(this);
+        btn = view.findViewById(R.id.button_Misc);
+        btn.setOnClickListener(this);
 
         return view;
     }
@@ -35,15 +35,11 @@ public class ExpenseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         Intent intent = new Intent(getActivity(), DataInputActivity.class);
-        String category = "";
 
         Button category_button = v.findViewById(v.getId());
 
-        category = category_button.getText().toString();
-
-        intent.putExtra("key", category);
+        intent.putExtra("key", category_button.getText().toString());
         startActivity(intent);
 
     }

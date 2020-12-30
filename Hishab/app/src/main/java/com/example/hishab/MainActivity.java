@@ -62,24 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
     //This controls fragment transitions and bottom navigation
     private void bottomNavigationBar() {
-
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
 
                 Fragment selectedFragment = null;
 
-                switch (id) {
-                    case R.id.overview:
-                        selectedFragment = new OverviewFragment();
-                        break;
-                    case R.id.statistics:
-                        selectedFragment = new StatisticsFragment();
-                        break;
-                    case R.id.expense:
-                        selectedFragment = new ExpenseFragment();
-                        break;
+                if (id == R.id.overview) {
+                    selectedFragment = new OverviewFragment();
+                } else if (id == R.id.expense) {
+                    selectedFragment = new ExpenseFragment();
+                } else if (id == R.id.statistics) {
+                    selectedFragment = new StatisticsFragment();
                 }
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
             }
@@ -99,28 +95,23 @@ public class MainActivity extends AppCompatActivity {
     //This is the toolbar menus selection
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-            case R.id.darkMode:
-                if (item.isChecked()) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    sharedPrefsEdit.putBoolean("DarkMode", false);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    sharedPrefsEdit.putBoolean("DarkMode", true);
-                }
-                item.setChecked(isDarkModeOn);
-                sharedPrefsEdit.apply();
-                chipNavigationBar.setItemSelected(R.id.overview, true);
-                return true;
+        if (item.getItemId() == R.id.darkMode) {
 
-            case R.id.clearData:
-                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-                databaseHelper.removeAll();
-                return true;
+            if (item.isChecked()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                sharedPrefsEdit.putBoolean("DarkMode", false);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                sharedPrefsEdit.putBoolean("DarkMode", true);
+            }
+            item.setChecked(isDarkModeOn);
+            sharedPrefsEdit.apply();
+            chipNavigationBar.setItemSelected(R.id.overview, true);
 
-            case R.id.feedback:
-                return true;
+        } else if (item.getItemId() == R.id.clearData) {
+            DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+            databaseHelper.removeAll();
         }
 
         return super.onOptionsItemSelected(item);

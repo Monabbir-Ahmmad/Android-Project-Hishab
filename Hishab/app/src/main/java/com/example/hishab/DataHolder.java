@@ -1,7 +1,5 @@
 package com.example.hishab;
 
-import android.content.Context;
-
 public class DataHolder {
 
     private int id;

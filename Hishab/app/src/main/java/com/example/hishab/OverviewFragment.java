@@ -29,11 +29,11 @@ import java.util.Locale;
 public class OverviewFragment extends Fragment implements View.OnClickListener {
 
     private TextView textView_expense;
-    private ExtendedFloatingActionButton button_filter;
+    private ExtendedFloatingActionButton btn_filter;
     private AlertDialog alertDialog;
     private AlertDialog.Builder alert;
     private EditText editText_filter_start_date, editText_filter_end_date;
-    private AutoCompleteTextView dropdown_category;
+    private AutoCompleteTextView dropdown_category, dropdown_sortBy;
     private ListView listView;
 
     public OverviewFragment() {
@@ -52,8 +52,8 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         //This calculates the top panel values on startup
         topPanelCalculation();
 
-        button_filter = view.findViewById(R.id.button_filter);
-        button_filter.setOnClickListener(this);
+        btn_filter = view.findViewById(R.id.button_filter);
+        btn_filter.setOnClickListener(this);
 
         listView = view.findViewById(R.id.listView);
         createBarChart();
@@ -71,25 +71,23 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_filter:
-                openFilterDialog();
-                break;
-            case R.id.button_filter_apply:
-                Toast.makeText(getContext(), dropdown_category.getText() + " & " + editText_filter_start_date.getText() + " & " + editText_filter_end_date.getText(), Toast.LENGTH_SHORT).show();
-                alertDialog.dismiss();
-                break;
-            case R.id.button_filter_cancel:
-                alertDialog.dismiss();
-                break;
-            case R.id.filterStartDate:
-                selectDate(editText_filter_start_date);
-                break;
-            case R.id.filterEndDate:
-                selectDate(editText_filter_end_date);
-                break;
-            default:
-                break;
+
+        if (v.getId() == R.id.button_filter) {
+            openFilterDialog();
+
+        } else if (v.getId() == R.id.button_filter_apply) {
+            Toast.makeText(getContext(), dropdown_category.getText() + " & " + editText_filter_start_date.getText() + " & " + editText_filter_end_date.getText(), Toast.LENGTH_SHORT).show();
+            alertDialog.dismiss();
+
+        } else if (v.getId() == R.id.button_filter_cancel) {
+            alertDialog.dismiss();
+
+        } else if (v.getId() == R.id.filterStartDate) {
+            selectDate(editText_filter_start_date);
+
+        } else if (v.getId() == R.id.filterEndDate) {
+            selectDate(editText_filter_end_date);
+
         }
 
     }
@@ -97,7 +95,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     //This is the filter dialog
     private void openFilterDialog() {
 
-        View mView = getLayoutInflater().inflate(R.layout.filter_layout_dialog, null);
+        View mView = getLayoutInflater().inflate(R.layout.filter_dialog, null);
         //This is the start date edit text on filter dialog
         editText_filter_start_date = mView.findViewById(R.id.filterStartDate);
         editText_filter_start_date.setOnClickListener(this::onClick);
@@ -107,12 +105,12 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         editText_filter_end_date.setOnClickListener(this::onClick);
 
         //This is the cancel button on filter dialog
-        Button button_cancel = mView.findViewById(R.id.button_filter_cancel);
-        button_cancel.setOnClickListener(this::onClick);
+        Button btn_cancel = mView.findViewById(R.id.button_filter_cancel);
+        btn_cancel.setOnClickListener(this::onClick);
 
         //This is the apply button on filter dialog
-        Button button_apply = mView.findViewById(R.id.button_filter_apply);
-        button_apply.setOnClickListener(this::onClick);
+        Button btn_apply = mView.findViewById(R.id.button_filter_apply);
+        btn_apply.setOnClickListener(this::onClick);
 
         alert = new AlertDialog.Builder(getActivity());
         alert.setView(mView);
@@ -121,12 +119,19 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
-        //This is the category spinner
+        //This is the category dropdown
         String[] category = getResources().getStringArray(R.array.Category);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
         dropdown_category = mView.findViewById(R.id.dropdown_category);
-        dropdown_category.setText(adapter.getItem(0), false);
-        dropdown_category.setAdapter(adapter);
+        dropdown_category.setText(categoryAdapter.getItem(0), false);
+        dropdown_category.setAdapter(categoryAdapter);
+
+        //This is the sort by dropdown
+        String[] sortBy = {"None", "Date: ASC", "Date: DES", "Money: ASC", "Money: DES"};
+        ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
+        dropdown_sortBy = mView.findViewById(R.id.dropdown_sortBy);
+        dropdown_sortBy.setText(sortByAdapter.getItem(0), false);
+        dropdown_sortBy.setAdapter(sortByAdapter);
 
     }
 
