@@ -25,6 +25,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StatisticsFragment extends Fragment {
@@ -50,7 +51,7 @@ public class StatisticsFragment extends Fragment {
         allData = new ArrayList<>(databaseHelper.getAllData());
 
         pieChart = view.findViewById(R.id.pieChart);
-        createPieChart();
+        setPieData();
 
         lineChart = view.findViewById(R.id.lineChart);
         createLineChart();
@@ -59,10 +60,42 @@ public class StatisticsFragment extends Fragment {
     }
 
 
-    //This creates the pie chart
-    private void createPieChart() {
-
+    //This sets the data into the pie chart
+    private void setPieData() {
         String[] category = getResources().getStringArray(R.array.Category);
+        float[] money = new float[category.length];
+        Arrays.fill(money, 0);
+        int index;
+
+        for (int i = 0; i < allData.size(); i++) {
+            index = Arrays.asList(category).indexOf(allData.get(i).getCategory());
+            money[index] += allData.get(i).getMoney();
+        }
+
+        ArrayList<PieEntry> values = new ArrayList<>();
+
+        //This adds the values into the PieEntry
+        for (int i = 0; i < category.length; i++) {
+            if (money[i] > 0) {
+                values.add(new PieEntry(money[i], category[i]));
+            }
+        }
+
+        //This inserts the PieEntry into the PieDataSet
+        PieDataSet dataSet = new PieDataSet(values, null);
+
+        //This creates the PieData from PieDataSet
+        PieData pieData = new PieData(dataSet);
+
+        if (values.size() > 0) {
+            pieChart.setData(pieData);
+        }
+        createPieChart(dataSet, pieData);
+    }
+
+
+    //This is the pie chart design
+    private void createPieChart(PieDataSet dataSet, PieData pieData) {
 
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
         List<Integer> colorList = new ArrayList<Integer>(colorArray.length);
@@ -73,42 +106,32 @@ public class StatisticsFragment extends Fragment {
         TypedValue color = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, color, true);
 
-        //This adds the values into the PieEntry
-        ArrayList<PieEntry> values = new ArrayList<>();
-        for (int i = 0; i < category.length; i++)
-            values.add(new PieEntry(i + 1, category[i]));
 
-
-        //This inserts the PieEntry into the PieDataSet
-        PieDataSet dataSet = new PieDataSet(values, null);
+        //Pie slice attr
         dataSet.setSliceSpace(0f);
         dataSet.setSelectionShift(5f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setColors(colorArray);
+        pieChart.setDrawRoundedSlices(false);
+        pieChart.setDrawSlicesUnderHole(false);
 
         //Outside values with line
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLinePart1OffsetPercentage(100f);
-        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart1Length(0.25f);
         dataSet.setValueLinePart2Length(0.15f);
         dataSet.setValueLineWidth(2f);
         dataSet.setUsingSliceColorAsValueLineColor(true);
 
-
-        //This creates the PieData from PieDataSet
-        PieData pieData = new PieData(dataSet);
+        //Pie value attr
         pieData.setValueTextSize(10f);
         pieData.setValueTextColors(colorList);
         pieData.setValueFormatter(new PercentFormatter(pieChart));
 
-        //Insert data
+        //No data text
         pieChart.setNoDataText("No data available");
-        pieChart.setData(pieData);
-
-        //Slice shape
-        pieChart.setDrawRoundedSlices(false);
-        pieChart.setDrawSlicesUnderHole(false);
+        pieChart.setNoDataTextColor(color.data);
 
         //Entry label
         pieChart.setDrawEntryLabels(false);
@@ -139,8 +162,7 @@ public class StatisticsFragment extends Fragment {
         //Off set
         pieChart.setExtraOffsets(25f, 0f, 25f, 0f);
 
-
-        //Legends are the detailed name of each slice
+        //Pie legend
         Legend legend = pieChart.getLegend();
         legend.setEnabled(true);
         legend.setTextColor(color.data);
@@ -156,7 +178,7 @@ public class StatisticsFragment extends Fragment {
         legend.setYEntrySpace(7f);
         legend.setDrawInside(false);
 
-        //Description of the chart
+        //Pie description
         Description description = pieChart.getDescription();
         description.setEnabled(false);
         description.setTextColor(color.data);
@@ -176,7 +198,7 @@ public class StatisticsFragment extends Fragment {
         ArrayList<Entry> values = new ArrayList<>();
 
         for (int i = 0; i < allData.size(); i++) {
-            values.add(new Entry(i+1, allData.get(i).getMoney()));
+            values.add(new Entry(i + 1, allData.get(i).getMoney()));
         }
 
         LineDataSet lineDataSet = new LineDataSet(values, "Data set");

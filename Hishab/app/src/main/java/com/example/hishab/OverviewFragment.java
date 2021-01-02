@@ -127,7 +127,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         dropdown_category.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
-        String[] sortBy = {"None", "Date: ASC", "Date: DES", "Money: ASC", "Money: DES"};
+        String[] sortBy = {"None", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
         ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
         dropdown_sortBy = mView.findViewById(R.id.dropdown_sortBy);
         dropdown_sortBy.setText(sortByAdapter.getItem(0), false);

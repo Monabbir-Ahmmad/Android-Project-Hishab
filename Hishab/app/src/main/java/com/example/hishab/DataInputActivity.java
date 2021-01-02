@@ -55,13 +55,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         editText_note = findViewById(R.id.editText_note);
 
         editText_date = findViewById(R.id.editText_date);
-        editText_date.setOnClickListener(this);
+        editText_date.setOnClickListener(this::onClick);
 
         editText_time = findViewById(R.id.editText_time);
-        editText_time.setOnClickListener(this);
+        editText_time.setOnClickListener(this::onClick);
 
         button_save_data = findViewById(R.id.button_save_data);
-        button_save_data.setOnClickListener(this);
+        button_save_data.setOnClickListener(this::onClick);
 
         setDefaultOnLoad();
     }

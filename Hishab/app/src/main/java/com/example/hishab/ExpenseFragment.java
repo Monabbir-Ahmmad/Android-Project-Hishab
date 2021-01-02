@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 
-public class ExpenseFragment extends Fragment implements View.OnClickListener {
 
-    private Button btn;
+public class ExpenseFragment extends Fragment {
 
+    private GridView gridView;
+    private String[] category;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -26,21 +29,35 @@ public class ExpenseFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
         getActivity().setTitle("Expense");
 
-        btn = view.findViewById(R.id.button_Misc);
-        btn.setOnClickListener(this);
+        gridView = view.findViewById(R.id.gridView);
+        createGridButtons();
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DataInputActivity.class);
+                intent.putExtra("key", category[position]);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
+    private void createGridButtons() {
 
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), DataInputActivity.class);
+        category = getResources().getStringArray(R.array.Category);
+        ArrayList<DataHolder> btn_array = new ArrayList<>();
+        for (int i = 0; i < category.length; i++) {
+            DataHolder dataHolder = new DataHolder();
+            dataHolder.setCategory(category[i]);
+            btn_array.add(dataHolder);
+        }
 
-        Button category_button = v.findViewById(v.getId());
-
-        intent.putExtra("key", category_button.getText().toString());
-        startActivity(intent);
+        GridAdapter gridAdapter = new GridAdapter(getActivity(), btn_array);
+        gridView.setAdapter(gridAdapter);
 
     }
+
 }
