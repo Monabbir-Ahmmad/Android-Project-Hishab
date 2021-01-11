@@ -11,11 +11,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -34,7 +35,9 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     private AlertDialog.Builder alert;
     private EditText editText_filter_start_date, editText_filter_end_date;
     private AutoCompleteTextView dropdown_category, dropdown_sortBy;
-    private ListView listView;
+    private RecyclerView recyclerView;
+    private DatabaseHelper databaseHelper;
+    private ArrayList<DataHolder> allData;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -47,6 +50,9 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         getActivity().setTitle("Overview");
 
+        databaseHelper = new DatabaseHelper(getActivity());
+        allData = new ArrayList<>(databaseHelper.getAllData());
+
         textView_expense = view.findViewById(R.id.textView_expense_value);
 
         //This calculates the top panel values on startup
@@ -55,19 +61,14 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         btn_filter = view.findViewById(R.id.button_filter);
         btn_filter.setOnClickListener(this);
 
-        listView = view.findViewById(R.id.listView);
-        createBarChart();
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        //This creates the RecyclerView
+        createRecyclerView(allData);
 
         return view;
     }
 
-    private void createBarChart() {
-        DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
-        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
-
-        ListChartAdapter listChartAdapter = new ListChartAdapter(getActivity(), allData);
-        listView.setAdapter(listChartAdapter);
-    }
 
     @Override
     public void onClick(View v) {
@@ -89,6 +90,19 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
             selectDate(editText_filter_end_date);
 
         }
+
+    }
+
+
+    //This creates the RecyclerView
+    private void createRecyclerView(ArrayList<DataHolder> dataList) {
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.Adapter recyclerView_adapter = new RecyclerViewAdapter(dataList);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(recyclerView_adapter);
 
     }
 
@@ -127,7 +141,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         dropdown_category.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
-        String[] sortBy = {"None", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
+        String[] sortBy = {"Default", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
         ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
         dropdown_sortBy = mView.findViewById(R.id.dropdown_sortBy);
         dropdown_sortBy.setText(sortByAdapter.getItem(0), false);
@@ -161,8 +175,8 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
         float expense = 0;
-        DatabaseHelper databaseHelper1 = new DatabaseHelper(getActivity());
-        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper1.getAllData());
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper.getAllData());
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < allData.size(); i++) {

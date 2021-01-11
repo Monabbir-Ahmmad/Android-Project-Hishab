@@ -1,0 +1,68 @@
+package com.example.hishab;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+
+    private ArrayList<DataHolder> dataList;
+
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView rv_icon;
+        public TextView rv_category, rv_date_time, rv_note, rv_money;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+
+            rv_icon = itemView.findViewById(R.id.rView_icon);
+            rv_category = itemView.findViewById(R.id.rView_category);
+            rv_date_time = itemView.findViewById(R.id.rView_date_time);
+            rv_note = itemView.findViewById(R.id.rView_note);
+            rv_money = itemView.findViewById(R.id.rView_money);
+        }
+    }
+
+    public RecyclerViewAdapter(ArrayList<DataHolder> dataList) {
+        this.dataList = dataList;
+    }
+
+    @Override
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
+        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(v);
+
+        return recyclerViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+
+        DataHolder data = dataList.get(position);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+
+        holder.rv_icon.setImageResource(data.getIcon());
+        holder.rv_category.setText(data.getCategory());
+        holder.rv_money.setText(decimalFormat.format(data.getMoney()) + " BDT");
+        holder.rv_date_time.setText(data.getTime() + "; " + data.getDate());
+        if (data.getNote() != null)
+            holder.rv_note.setText("Note: " + data.getNote());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+
+
+}
