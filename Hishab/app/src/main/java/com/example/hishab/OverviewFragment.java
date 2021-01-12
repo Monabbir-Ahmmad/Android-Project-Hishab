@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
-public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener {
+public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener, BottomSheetDialog.BottomSheetListener {
 
     private TextView textView_expense;
     private ExtendedFloatingActionButton btn_filter;
@@ -48,7 +48,10 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFilterDialog();
+                //This opens the filter dialog
+                FilterDialog filterDialog = new FilterDialog();
+                filterDialog.setTargetFragment(OverviewFragment.this, 1);
+                filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
             }
         });
 
@@ -64,19 +67,20 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     //This creates the RecyclerView
     private void createRecyclerView(ArrayList<DataHolder> dataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        RecyclerView.Adapter recyclerView_adapter = new RecyclerViewAdapter(dataList);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataList);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(recyclerView_adapter);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
-    }
-
-    //This is the filter dialog
-    private void openFilterDialog() {
-        FilterDialog filterDialog = new FilterDialog();
-        filterDialog.setTargetFragment(OverviewFragment.this, 1);
-        filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
+        recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataList.get(position), position);
+                bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
+                bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
+            }
+        });
 
     }
 
@@ -86,6 +90,11 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         Toast.makeText(getContext(), category + " & " + sortBy + " & " + startDate + " & " + endDate, Toast.LENGTH_SHORT).show();
     }
 
+    //Delete data when delete button is pressed on bottom sheet
+    @Override
+    public void deleteData(int position) {
+        Toast.makeText(getContext(), allData.get(position).getCategory(), Toast.LENGTH_SHORT).show();
+    }
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
@@ -102,6 +111,5 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         textView_expense.setText(decimalFormat.format(expense) + " BDT");
 
     }
-
 
 }

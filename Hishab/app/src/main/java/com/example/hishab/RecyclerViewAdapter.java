@@ -14,13 +14,22 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
     private ArrayList<DataHolder> dataList;
+    private onItemClickListener listener;
+
+    public interface onItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView rv_icon;
         public TextView rv_category, rv_date_time, rv_note, rv_money;
 
-        public RecyclerViewHolder(View itemView) {
+        public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
             rv_icon = itemView.findViewById(R.id.rView_icon);
@@ -28,6 +37,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             rv_date_time = itemView.findViewById(R.id.rView_date_time);
             rv_note = itemView.findViewById(R.id.rView_note);
             rv_money = itemView.findViewById(R.id.rView_money);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -38,8 +59,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
-        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
+        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
 
         return recyclerViewHolder;
     }
@@ -63,6 +84,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return dataList.size();
     }
-
 
 }

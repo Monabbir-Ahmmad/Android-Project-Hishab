@@ -25,6 +25,11 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
     private Button button_cancel, button_apply;
     private FilterDialogListener listener;
 
+    //Interface for FilterDialogListener
+    public interface FilterDialogListener {
+        void applyFilter(String category, String sortBy, String startDate, String endDate);
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Inflate the layout for this dialog fragment
@@ -66,30 +71,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         return builder.create();
     }
 
-
-    //This is date picker dialog
-    private void selectDate(EditText editText) {
-        Calendar calendar = Calendar.getInstance();
-        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        int mMonth = calendar.get(Calendar.MONTH);
-        int mYear = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-                editText.setText(simpleDateFormat.format(calendar.getTime()));
-            }
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-    }
-
     @Override
     public void onClick(View v) {
 
@@ -125,8 +106,27 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         }
     }
 
-    //Interface for FilterDialogListener
-    public interface FilterDialogListener {
-        void applyFilter(String category, String sortBy, String startDate, String endDate);
+    //This is date picker dialog
+    private void selectDate(EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mYear = calendar.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                editText.setText(simpleDateFormat.format(calendar.getTime()));
+            }
+        }, mYear, mMonth, mDay);
+
+        datePickerDialog.show();
     }
+
 }
