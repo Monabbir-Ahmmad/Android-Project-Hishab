@@ -1,16 +1,9 @@
 package com.example.hishab;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,20 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 
-public class OverviewFragment extends Fragment implements View.OnClickListener {
+public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener {
 
     private TextView textView_expense;
     private ExtendedFloatingActionButton btn_filter;
-    private AlertDialog alertDialog;
-    private AlertDialog.Builder alert;
-    private EditText editText_filter_start_date, editText_filter_end_date;
-    private AutoCompleteTextView dropdown_category, dropdown_sortBy;
     private RecyclerView recyclerView;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataHolder> allData;
@@ -59,7 +45,12 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         topPanelCalculation();
 
         btn_filter = view.findViewById(R.id.button_filter);
-        btn_filter.setOnClickListener(this);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFilterDialog();
+            }
+        });
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -70,33 +61,8 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.button_filter) {
-            openFilterDialog();
-
-        } else if (v.getId() == R.id.button_filter_apply) {
-            Toast.makeText(getContext(), dropdown_category.getText() + " & " + editText_filter_start_date.getText() + " & " + editText_filter_end_date.getText(), Toast.LENGTH_SHORT).show();
-            alertDialog.dismiss();
-
-        } else if (v.getId() == R.id.button_filter_cancel) {
-            alertDialog.dismiss();
-
-        } else if (v.getId() == R.id.filterStartDate) {
-            selectDate(editText_filter_start_date);
-
-        } else if (v.getId() == R.id.filterEndDate) {
-            selectDate(editText_filter_end_date);
-
-        }
-
-    }
-
-
     //This creates the RecyclerView
     private void createRecyclerView(ArrayList<DataHolder> dataList) {
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         RecyclerView.Adapter recyclerView_adapter = new RecyclerViewAdapter(dataList);
 
@@ -108,75 +74,24 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
 
     //This is the filter dialog
     private void openFilterDialog() {
-
-        View mView = getLayoutInflater().inflate(R.layout.filter_dialog, null);
-        //This is the start date edit text on filter dialog
-        editText_filter_start_date = mView.findViewById(R.id.filterStartDate);
-        editText_filter_start_date.setOnClickListener(this::onClick);
-
-        //This is the end date edit text on filter dialog
-        editText_filter_end_date = mView.findViewById(R.id.filterEndDate);
-        editText_filter_end_date.setOnClickListener(this::onClick);
-
-        //This is the cancel button on filter dialog
-        Button btn_cancel = mView.findViewById(R.id.button_filter_cancel);
-        btn_cancel.setOnClickListener(this::onClick);
-
-        //This is the apply button on filter dialog
-        Button btn_apply = mView.findViewById(R.id.button_filter_apply);
-        btn_apply.setOnClickListener(this::onClick);
-
-        alert = new AlertDialog.Builder(getActivity());
-        alert.setView(mView);
-
-        alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-
-        //This is the category dropdown
-        String[] category = getResources().getStringArray(R.array.Category);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
-        dropdown_category = mView.findViewById(R.id.dropdown_category);
-        dropdown_category.setText(categoryAdapter.getItem(0), false);
-        dropdown_category.setAdapter(categoryAdapter);
-
-        //This is the sort by dropdown
-        String[] sortBy = {"Default", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
-        ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
-        dropdown_sortBy = mView.findViewById(R.id.dropdown_sortBy);
-        dropdown_sortBy.setText(sortByAdapter.getItem(0), false);
-        dropdown_sortBy.setAdapter(sortByAdapter);
+        FilterDialog filterDialog = new FilterDialog();
+        filterDialog.setTargetFragment(OverviewFragment.this, 1);
+        filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
 
     }
 
-    //This is date picker dialog
-    private void selectDate(EditText editText) {
-        Calendar calendar = Calendar.getInstance();
-        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        int mMonth = calendar.get(Calendar.MONTH);
-        int mYear = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-                editText.setText(simpleDateFormat.format(calendar.getTime()));
-            }
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
+    //Applies the filters
+    @Override
+    public void applyFilter(String category, String sortBy, String startDate, String endDate) {
+        Toast.makeText(getContext(), category + " & " + sortBy + " & " + startDate + " & " + endDate, Toast.LENGTH_SHORT).show();
     }
+
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
         float expense = 0;
-        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-        ArrayList<DataHolder> allData = new ArrayList<>(databaseHelper.getAllData());
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+        ArrayList<DataHolder> allData = new ArrayList<>(dbHelper.getAllData());
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < allData.size(); i++) {
@@ -187,5 +102,6 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         textView_expense.setText(decimalFormat.format(expense) + " BDT");
 
     }
+
 
 }
