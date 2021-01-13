@@ -1,6 +1,6 @@
 package com.example.hishab;
 
-public class DataHolder {
+public class DataItem {
 
     private int id;
     private String category;
@@ -12,7 +12,7 @@ public class DataHolder {
     private int icon;
 
     //Constructor
-    public DataHolder() {
+    public DataItem() {
 
     }
 
@@ -80,8 +80,7 @@ public class DataHolder {
 
     private void setIcon(String category) {
 
-        //if (category == "Food")
-        this.icon = R.drawable.ic_amount;
+        this.icon = R.drawable.ic_misc;
     }
 
 

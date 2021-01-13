@@ -14,10 +14,10 @@ import java.util.ArrayList;
 public class ListChartAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<DataHolder> dataSet;
+    ArrayList<DataItem> dataSet;
     float sum;
 
-    ListChartAdapter(Context context, ArrayList<DataHolder> dataSet) {
+    ListChartAdapter(Context context, ArrayList<DataItem> dataSet) {
 
         this.context = context;
         this.dataSet = dataSet;

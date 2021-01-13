@@ -33,7 +33,7 @@ public class StatisticsFragment extends Fragment {
     private PieChart pieChart;
     private LineChart lineChart;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataHolder> allData;
+    private ArrayList<DataItem> allData;
 
 
     public StatisticsFragment() {
@@ -255,7 +255,7 @@ public class StatisticsFragment extends Fragment {
         yAxisLeft.setEnabled(true);
         yAxisLeft.setDrawLabels(true);
         yAxisLeft.setDrawAxisLine(true);
-        yAxisLeft.setDrawGridLines(false);
+        yAxisLeft.setDrawGridLines(true);
         yAxisLeft.setAxisMinimum(0);
         yAxisLeft.setGranularity(5);
         yAxisLeft.setTextColor(typedValue2.data);

@@ -48,11 +48,11 @@ public class ExpenseFragment extends Fragment {
     private void createGridButtons() {
 
         category = getResources().getStringArray(R.array.Category);
-        ArrayList<DataHolder> btn_array = new ArrayList<>();
+        ArrayList<DataItem> btn_array = new ArrayList<>();
         for (int i = 0; i < category.length; i++) {
-            DataHolder dataHolder = new DataHolder();
-            dataHolder.setCategory(category[i]);
-            btn_array.add(dataHolder);
+            DataItem dataItem = new DataItem();
+            dataItem.setCategory(category[i]);
+            btn_array.add(dataItem);
         }
 
         GridAdapter gridAdapter = new GridAdapter(getActivity(), btn_array);

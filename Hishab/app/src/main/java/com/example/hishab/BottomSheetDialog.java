@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
-    private DataHolder data;
+    private DataItem dataItem;
     private int position;
     private TextView textView_category, textView_amount, textView_date, textView_time, textView_note;
     private Button btn_delete;
@@ -28,8 +28,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         void deleteItem(int position);
     }
 
-    public BottomSheetDialog(DataHolder data, int position) {
-        this.data = data;
+    public BottomSheetDialog(DataItem dataItem, int position) {
+        this.dataItem = dataItem;
         this.position = position;
     }
 
@@ -39,21 +39,21 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
 
         textView_category = view.findViewById(R.id.bsheet_category);
-        textView_category.setText(data.getCategory());
+        textView_category.setText(dataItem.getCategory());
 
         textView_amount = view.findViewById(R.id.bsheet_amount);
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-        textView_amount.setText("Amount: " + decimalFormat.format(data.getMoney()) + " BDT");
+        textView_amount.setText("Amount: " + decimalFormat.format(dataItem.getMoney()) + " BDT");
 
         textView_date = view.findViewById(R.id.bsheet_date);
-        textView_date.setText("Date: " + data.getDate());
+        textView_date.setText("Date: " + dataItem.getDate());
 
         textView_time = view.findViewById(R.id.bsheet_time);
-        textView_time.setText("Time: " + data.getTime());
+        textView_time.setText("Time: " + dataItem.getTime());
 
         textView_note = view.findViewById(R.id.bsheet_note);
-        if (data.getNote() != null)
-            textView_note.setText("Note: " + data.getNote());
+        if (dataItem.getNote() != null)
+            textView_note.setText("Note: " + dataItem.getNote());
 
         btn_close = view.findViewById(R.id.bs_close);
         btn_close.setOnClickListener(new View.OnClickListener() {

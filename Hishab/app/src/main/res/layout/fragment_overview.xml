@@ -33,7 +33,7 @@
             android:id="@+id/textView_expense_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
+            android:layout_marginBottom="40dp"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="40sp"

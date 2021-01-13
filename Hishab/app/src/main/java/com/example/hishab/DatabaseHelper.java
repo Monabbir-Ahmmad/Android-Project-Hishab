@@ -116,25 +116,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This queries all data from table
-    public ArrayList<DataHolder> getAllData() {
+    public ArrayList<DataItem> getAllData() {
 
-        ArrayList<DataHolder> allData = new ArrayList<>();
+        ArrayList<DataItem> allData = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
         if (cursor.moveToFirst()) {
             do {
-                DataHolder dataHolder = new DataHolder();
+                DataItem dataItem = new DataItem();
 
-                dataHolder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-                dataHolder.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
-                dataHolder.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
-                dataHolder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
-                dataHolder.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
-                dataHolder.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
-                dataHolder.setDatetimeId(cursor.getLong(cursor.getColumnIndex(DATETIME_ID)));
+                dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+                dataItem.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
+                dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
+                dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
+                dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
+                dataItem.setDatetimeId(cursor.getLong(cursor.getColumnIndex(DATETIME_ID)));
 
-                allData.add(dataHolder);
+                allData.add(dataItem);
 
             } while (cursor.moveToNext());
         }

@@ -24,7 +24,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataHolder> allData;
+    private ArrayList<DataItem> dataSet;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -38,7 +38,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         getActivity().setTitle("Overview");
 
         databaseHelper = new DatabaseHelper(getActivity());
-        allData = new ArrayList<>(databaseHelper.getAllData());
+        dataSet = new ArrayList<>(databaseHelper.getAllData());
 
         textView_expense = view.findViewById(R.id.textView_expense_value);
 
@@ -59,14 +59,14 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         recyclerView = view.findViewById(R.id.recyclerView);
 
         //This creates the RecyclerView
-        createRecyclerView(allData);
+        createRecyclerView(dataSet);
 
         return view;
     }
 
 
     //This creates the RecyclerView
-    private void createRecyclerView(ArrayList<DataHolder> dataList) {
+    private void createRecyclerView(ArrayList<DataItem> dataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewAdapter = new RecyclerViewAdapter(dataList);
 
@@ -95,8 +95,8 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     @Override
     public void deleteItem(int position) {
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-        databaseHelper.deleteData(allData.get(position).getId());
-        allData.remove(position);
+        databaseHelper.deleteData(dataSet.get(position).getId());
+        dataSet.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);
         topPanelCalculation();
     }
@@ -104,12 +104,10 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
         float expense = 0;
-        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-        ArrayList<DataHolder> allData = new ArrayList<>(dbHelper.getAllData());
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
-        for (int i = 0; i < allData.size(); i++) {
-            expense += allData.get(i).getMoney();
+        for (int i = 0; i < dataSet.size(); i++) {
+            expense += dataSet.get(i).getMoney();
         }
 
         //This will set the current total expense

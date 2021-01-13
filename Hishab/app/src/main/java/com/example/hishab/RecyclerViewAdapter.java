@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private ArrayList<DataHolder> dataList;
+    private ArrayList<DataItem> dataList;
     private onItemClickListener listener;
 
     public interface onItemClickListener {
@@ -52,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(ArrayList<DataHolder> dataList) {
+    public RecyclerViewAdapter(ArrayList<DataItem> dataList) {
         this.dataList = dataList;
     }
 
@@ -68,15 +68,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
-        DataHolder data = dataList.get(position);
+        DataItem dataItem = dataList.get(position);
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
-        holder.rv_icon.setImageResource(data.getIcon());
-        holder.rv_category.setText(data.getCategory());
-        holder.rv_money.setText(decimalFormat.format(data.getMoney()) + " BDT");
-        holder.rv_date_time.setText(data.getTime() + "; " + data.getDate());
-        if (data.getNote() != null)
-            holder.rv_note.setText("Note: " + data.getNote());
+        holder.rv_icon.setImageResource(dataItem.getIcon());
+        holder.rv_category.setText(dataItem.getCategory());
+        holder.rv_money.setText(decimalFormat.format(dataItem.getMoney()) + " BDT");
+        holder.rv_date_time.setText(dataItem.getTime() + "; " + dataItem.getDate());
+        if (dataItem.getNote() != null)
+            holder.rv_note.setText("Note: " + dataItem.getNote());
 
     }
 
