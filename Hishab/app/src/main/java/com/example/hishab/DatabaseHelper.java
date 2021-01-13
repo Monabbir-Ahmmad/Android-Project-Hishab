@@ -106,6 +106,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //This removes specific row form table
+    public void deleteData(int id) {
+        String[] whereArgs = new String[]{String.valueOf(id)};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, ID + "=?", whereArgs);
+
+    }
+
     //This queries all data from table
     public ArrayList<DataHolder> getAllData() {
 

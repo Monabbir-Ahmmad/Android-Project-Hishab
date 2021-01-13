@@ -22,6 +22,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private TextView textView_expense;
     private ExtendedFloatingActionButton btn_filter;
     private RecyclerView recyclerView;
+    private RecyclerViewAdapter recyclerViewAdapter;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataHolder> allData;
 
@@ -67,7 +68,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     //This creates the RecyclerView
     private void createRecyclerView(ArrayList<DataHolder> dataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataList);
+        recyclerViewAdapter = new RecyclerViewAdapter(dataList);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -92,8 +93,12 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
     //Delete data when delete button is pressed on bottom sheet
     @Override
-    public void deleteData(int position) {
-        Toast.makeText(getContext(), allData.get(position).getCategory(), Toast.LENGTH_SHORT).show();
+    public void deleteItem(int position) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+        databaseHelper.deleteData(allData.get(position).getId());
+        allData.remove(position);
+        recyclerViewAdapter.notifyItemRemoved(position);
+        topPanelCalculation();
     }
 
     //This calculates the top panel values on startup

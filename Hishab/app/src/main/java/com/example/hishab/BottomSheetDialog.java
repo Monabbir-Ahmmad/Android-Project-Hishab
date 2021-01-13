@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -18,12 +19,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private int position;
     private TextView textView_category, textView_amount, textView_date, textView_time, textView_note;
     private Button btn_delete;
+    private ImageButton btn_close;
     private BottomSheetListener listener;
 
 
     //Interface for BottomSheetListener
     public interface BottomSheetListener {
-        void deleteData(int position);
+        void deleteItem(int position);
     }
 
     public BottomSheetDialog(DataHolder data, int position) {
@@ -53,11 +55,19 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         if (data.getNote() != null)
             textView_note.setText("Note: " + data.getNote());
 
+        btn_close = view.findViewById(R.id.bs_close);
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         btn_delete = view.findViewById(R.id.bsheet_delete);
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.deleteData(position);
+                listener.deleteItem(position);
                 dismiss();
             }
         });
