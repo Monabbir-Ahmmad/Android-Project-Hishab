@@ -59,16 +59,16 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         recyclerView = view.findViewById(R.id.recyclerView);
 
         //This creates the RecyclerView
-        createRecyclerView(dataSet);
+        createRecyclerView();
 
         return view;
     }
 
 
     //This creates the RecyclerView
-    private void createRecyclerView(ArrayList<DataItem> dataList) {
+    private void createRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewAdapter = new RecyclerViewAdapter(dataList);
+        recyclerViewAdapter = new RecyclerViewAdapter(dataSet);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -77,7 +77,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataList.get(position), position);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position), position);
                 bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
                 bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
             }
@@ -88,13 +88,15 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     //Applies the filters
     @Override
     public void applyFilter(String category, String sortBy, String startDate, String endDate) {
-        Toast.makeText(getContext(), category + " & " + sortBy + " & " + startDate + " & " + endDate, Toast.LENGTH_SHORT).show();
+        dataSet = databaseHelper.getFilteredData(category, sortBy, startDate, endDate);
+        createRecyclerView();
+        topPanelCalculation();
+        //Toast.makeText(getContext(), category + " & " + sortBy + " & " + startDate + " & " + endDate, Toast.LENGTH_SHORT).show();
     }
 
     //Delete data when delete button is pressed on bottom sheet
     @Override
     public void deleteItem(int position) {
-        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         databaseHelper.deleteData(dataSet.get(position).getId());
         dataSet.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);

@@ -120,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<DataItem> allData = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID + " DESC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -141,6 +141,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         cursor.close();
 
+        return allData;
+    }
+
+    //This queries filtered data from table
+    public ArrayList<DataItem> getFilteredData(String category, String sortBy, String startDate, String endDate) {
+        String order = ID;
+        String orderBy = "DESC";
+
+        if (category.contains("All"))
+            category = "";
+        if (sortBy.contains("ASC") || sortBy.contains("Oldest"))
+            orderBy = "ASC";
+        if (sortBy.contains("Money"))
+            order = MONEY;
+        else if (sortBy.contains("Date"))
+            order = DATETIME_ID;
+
+        ArrayList<DataItem> allData = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
+                            + CATEGORY + " LIKE '" + category + "%' AND " + DATETIME_ID + " BETWEEN "
+                            + startDate + " AND " + endDate + " ORDER BY " + order + " " + orderBy,
+                    null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    DataItem dataItem = new DataItem();
+
+                    dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                    dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
+                    dataItem.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
+                    dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
+                    dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
+                    dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
+                    dataItem.setDatetimeId(cursor.getLong(cursor.getColumnIndex(DATETIME_ID)));
+
+                    allData.add(dataItem);
+
+                } while (cursor.moveToNext());
+            }
+            db.close();
+            cursor.close();
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
+        }
         return allData;
     }
 }

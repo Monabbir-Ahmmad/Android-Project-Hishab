@@ -10,12 +10,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class FilterDialog extends AppCompatDialogFragment implements View.OnClickListener {
@@ -55,7 +59,9 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
 
 
         //This is the category dropdown
-        String[] category = getResources().getStringArray(R.array.Category);
+        ArrayList<String> category = new ArrayList<>();
+        category.add("All");
+        category.addAll(Arrays.asList(getResources().getStringArray(R.array.Category)));
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
         dropdown_category = view.findViewById(R.id.dropdown_category);
         dropdown_category.setText(categoryAdapter.getItem(0), false);
@@ -78,13 +84,28 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
             dismiss();
 
         } else if (v.getId() == R.id.button_filter_apply) {
-            String category = dropdown_category.getText().toString();
-            String sortBy = dropdown_sortBy.getText().toString();
-            String startDate = editText_filter_start_date.getText().toString();
-            String endDate = editText_filter_end_date.getText().toString();
+            String startDate = "01 Jan 1000";
+            String startTime = "12:00 am";
+            String endDate = "01 Jan 3000";
+            String endTime = "11:59 pm";
 
-            listener.applyFilter(category, sortBy, startDate, endDate);
-            dismiss();
+            if (!editText_filter_start_date.getText().toString().isEmpty()) {
+                startDate = editText_filter_start_date.getText().toString();
+            }
+
+            if (!editText_filter_end_date.getText().toString().isEmpty()) {
+                endDate = editText_filter_end_date.getText().toString();
+            }
+
+            String startDateID = generateDatetimeID(startDate, startTime);
+            String endDateID = generateDatetimeID(endDate, endTime);
+
+            if (Long.parseLong(startDateID) <= Long.parseLong(endDateID)) {
+                listener.applyFilter(dropdown_category.getText().toString(), dropdown_sortBy.getText().toString(), startDateID, endDateID);
+                dismiss();
+            } else {
+                Toast.makeText(getActivity(), "Wrong date interval", Toast.LENGTH_SHORT).show();
+            }
 
         } else if (v.getId() == R.id.filterStartDate) {
             selectDate(editText_filter_start_date);
@@ -127,6 +148,28 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         }, mYear, mMonth, mDay);
 
         datePickerDialog.show();
+    }
+
+    //This generates DatetimeID form Date
+    private String generateDatetimeID(String date, String time) {
+
+        String datetime = date + " " + time;
+        String inputPattern = "dd MMM yyyy hh:mm a";
+        String outputPattern = "yyyyMMddHHmm";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date datetimeInputFormat = null;
+        String datetimeOutputFormat = null;
+
+        try {
+            datetimeInputFormat = inputFormat.parse(datetime);
+            datetimeOutputFormat = outputFormat.format(datetimeInputFormat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return datetimeOutputFormat;
     }
 
 }
