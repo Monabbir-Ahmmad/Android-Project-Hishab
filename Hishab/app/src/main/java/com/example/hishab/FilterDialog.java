@@ -24,9 +24,9 @@ import java.util.Locale;
 
 public class FilterDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
-    private EditText editText_filter_start_date, editText_filter_end_date;
-    private AutoCompleteTextView dropdown_category, dropdown_sortBy;
-    private Button button_cancel, button_apply;
+    private EditText filter_startDate, filter_endDate;
+    private AutoCompleteTextView filter_category, filter_sortBy;
+    private Button filter_cancel, filter_apply;
     private FilterDialogListener listener;
 
     //Interface for FilterDialogListener
@@ -42,20 +42,20 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         builder.setView(view);
 
         //This is the start date edit text on filter dialog
-        editText_filter_start_date = view.findViewById(R.id.filterStartDate);
-        editText_filter_start_date.setOnClickListener(this::onClick);
+        filter_startDate = view.findViewById(R.id.filter_startDate);
+        filter_startDate.setOnClickListener(this::onClick);
 
         //This is the end date edit text on filter dialog
-        editText_filter_end_date = view.findViewById(R.id.filterEndDate);
-        editText_filter_end_date.setOnClickListener(this::onClick);
+        filter_endDate = view.findViewById(R.id.filter_endDate);
+        filter_endDate.setOnClickListener(this::onClick);
 
         //This is the cancel button on filter dialog
-        button_cancel = view.findViewById(R.id.button_filter_cancel);
-        button_cancel.setOnClickListener(this::onClick);
+        filter_cancel = view.findViewById(R.id.filter_cancel);
+        filter_cancel.setOnClickListener(this::onClick);
 
         //This is the apply button on filter dialog
-        button_apply = view.findViewById(R.id.button_filter_apply);
-        button_apply.setOnClickListener(this::onClick);
+        filter_apply = view.findViewById(R.id.filter_apply);
+        filter_apply.setOnClickListener(this::onClick);
 
 
         //This is the category dropdown
@@ -63,56 +63,54 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         category.add("All");
         category.addAll(Arrays.asList(getResources().getStringArray(R.array.Category)));
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
-        dropdown_category = view.findViewById(R.id.dropdown_category);
-        dropdown_category.setText(categoryAdapter.getItem(0), false);
-        dropdown_category.setAdapter(categoryAdapter);
+        filter_category = view.findViewById(R.id.filter_category);
+        filter_category.setText(categoryAdapter.getItem(0), false);
+        filter_category.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
         String[] sortBy = {"Default", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
         ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
-        dropdown_sortBy = view.findViewById(R.id.dropdown_sortBy);
-        dropdown_sortBy.setText(sortByAdapter.getItem(0), false);
-        dropdown_sortBy.setAdapter(sortByAdapter);
+        filter_sortBy = view.findViewById(R.id.filter_sortBy);
+        filter_sortBy.setText(sortByAdapter.getItem(0), false);
+        filter_sortBy.setAdapter(sortByAdapter);
 
         return builder.create();
     }
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.filter_apply) {
+            onFilterApplyClick();
 
-        if (v.getId() == R.id.button_filter_cancel) {
+        } else if (v.getId() == R.id.filter_cancel) {
             dismiss();
 
-        } else if (v.getId() == R.id.button_filter_apply) {
-            String startDate = "01 Jan 1000";
-            String startTime = "12:00 am";
-            String endDate = "01 Jan 3000";
-            String endTime = "11:59 pm";
+        } else if (v.getId() == R.id.filter_startDate) {
+            selectDate(filter_startDate);
 
-            if (!editText_filter_start_date.getText().toString().isEmpty()) {
-                startDate = editText_filter_start_date.getText().toString();
-            }
+        } else if (v.getId() == R.id.filter_endDate) {
+            selectDate(filter_endDate);
 
-            if (!editText_filter_end_date.getText().toString().isEmpty()) {
-                endDate = editText_filter_end_date.getText().toString();
-            }
+        }
+    }
 
-            String startDateID = generateDatetimeID(startDate, startTime);
-            String endDateID = generateDatetimeID(endDate, endTime);
+    //When apply button is pressed check conditions for date interval and apply filter
+    private void onFilterApplyClick() {
+        String startDate = "100000000000";
+        String endDate = "300000000000";
 
-            if (Long.parseLong(startDateID) <= Long.parseLong(endDateID)) {
-                listener.applyFilter(dropdown_category.getText().toString(), dropdown_sortBy.getText().toString(), startDateID, endDateID);
-                dismiss();
-            } else {
-                Toast.makeText(getActivity(), "Wrong date interval", Toast.LENGTH_SHORT).show();
-            }
+        if (!filter_startDate.getText().toString().isEmpty()) {
+            startDate = generateDatetimeID(filter_startDate.getText().toString(), "12:00 am");
+        }
+        if (!filter_endDate.getText().toString().isEmpty()) {
+            endDate = generateDatetimeID(filter_endDate.getText().toString(), "11:59 pm");
+        }
 
-        } else if (v.getId() == R.id.filterStartDate) {
-            selectDate(editText_filter_start_date);
-
-        } else if (v.getId() == R.id.filterEndDate) {
-            selectDate(editText_filter_end_date);
-
+        if (Long.parseLong(startDate) <= Long.parseLong(endDate)) {
+            listener.applyFilter(filter_category.getText().toString(), filter_sortBy.getText().toString(), startDate, endDate);
+            dismiss();
+        } else {
+            Toast.makeText(getActivity(), "Invalid date interval", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -152,7 +150,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
 
     //This generates DatetimeID form Date
     private String generateDatetimeID(String date, String time) {
-
         String datetime = date + " " + time;
         String inputPattern = "dd MMM yyyy hh:mm a";
         String outputPattern = "yyyyMMddHHmm";
@@ -171,5 +168,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
 
         return datetimeOutputFormat;
     }
+
 
 }

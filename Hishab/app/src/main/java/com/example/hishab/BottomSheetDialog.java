@@ -17,7 +17,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private DataItem dataItem;
     private int position;
-    private TextView textView_category, textView_amount, textView_date, textView_time, textView_note;
+    private TextView tv_category, tv_amount, tv_date, tv_time, tv_note;
     private Button btn_delete;
     private ImageButton btn_close;
     private BottomSheetListener listener;
@@ -38,24 +38,24 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
 
-        textView_category = view.findViewById(R.id.bsheet_category);
-        textView_category.setText(dataItem.getCategory());
+        tv_category = view.findViewById(R.id.bsheet_category);
+        tv_category.setText(dataItem.getCategory());
 
-        textView_amount = view.findViewById(R.id.bsheet_amount);
+        tv_amount = view.findViewById(R.id.bsheet_amount);
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-        textView_amount.setText("Amount: " + decimalFormat.format(dataItem.getMoney()) + " BDT");
+        tv_amount.setText("Amount: " + decimalFormat.format(dataItem.getMoney()) + " BDT");
 
-        textView_date = view.findViewById(R.id.bsheet_date);
-        textView_date.setText("Date: " + dataItem.getDate());
+        tv_date = view.findViewById(R.id.bsheet_date);
+        tv_date.setText("Date: " + dataItem.getDate());
 
-        textView_time = view.findViewById(R.id.bsheet_time);
-        textView_time.setText("Time: " + dataItem.getTime());
+        tv_time = view.findViewById(R.id.bsheet_time);
+        tv_time.setText("Time: " + dataItem.getTime());
 
-        textView_note = view.findViewById(R.id.bsheet_note);
+        tv_note = view.findViewById(R.id.bsheet_note);
         if (dataItem.getNote() != null)
-            textView_note.setText("Note: " + dataItem.getNote());
+            tv_note.setText("Note: " + dataItem.getNote());
 
-        btn_close = view.findViewById(R.id.bs_close);
+        btn_close = view.findViewById(R.id.bsheet_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

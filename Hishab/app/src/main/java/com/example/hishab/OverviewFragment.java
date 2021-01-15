@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 
 public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener, BottomSheetDialog.BottomSheetListener {
 
-    private TextView textView_expense;
+    private TextView tv_expense;
     private ExtendedFloatingActionButton btn_filter;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -40,7 +39,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         databaseHelper = new DatabaseHelper(getActivity());
         dataSet = new ArrayList<>(databaseHelper.getAllData());
 
-        textView_expense = view.findViewById(R.id.textView_expense_value);
+        tv_expense = view.findViewById(R.id.textView_expense);
 
         //This calculates the top panel values on startup
         topPanelCalculation();
@@ -77,6 +76,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                //This opens a bottom sheet with details from recyclerView item
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position), position);
                 bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
                 bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
@@ -91,7 +91,6 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         dataSet = databaseHelper.getFilteredData(category, sortBy, startDate, endDate);
         createRecyclerView();
         topPanelCalculation();
-        //Toast.makeText(getContext(), category + " & " + sortBy + " & " + startDate + " & " + endDate, Toast.LENGTH_SHORT).show();
     }
 
     //Delete data when delete button is pressed on bottom sheet
@@ -113,7 +112,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         }
 
         //This will set the current total expense
-        textView_expense.setText(decimalFormat.format(expense) + " BDT");
+        tv_expense.setText(decimalFormat.format(expense) + " BDT");
 
     }
 

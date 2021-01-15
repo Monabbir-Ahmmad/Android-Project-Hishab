@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/rView_date_time"
+            android:id="@+id/rView_dateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -56,7 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rView_icon"
-            app:layout_constraintTop_toBottomOf="@+id/rView_date_time" />
+            app:layout_constraintTop_toBottomOf="@+id/rView_dateTime" />
 
         <TextView
             android:id="@+id/rView_money"
@@ -68,7 +68,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rView_date_time"
+            app:layout_constraintStart_toEndOf="@+id/rView_dateTime"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         //This calls the method that controls the bottom navigation
         bottomNavigationBar();
         //This calls the method that saves app instance
-        appSaveInstance();
+        darkModeInstance();
 
     }
 
 
     //This method saves app instance
-    private void appSaveInstance() {
+    private void darkModeInstance() {
 
         sharedPrefs = getSharedPreferences("AppPrefs", 0);
         sharedPrefsEdit = sharedPrefs.edit();
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
-
                 Fragment selectedFragment = null;
 
                 if (id == R.id.overview) {
@@ -76,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new StatisticsFragment();
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             }
         });
     }

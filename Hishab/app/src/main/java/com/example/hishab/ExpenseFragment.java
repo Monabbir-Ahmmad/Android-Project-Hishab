@@ -37,7 +37,7 @@ public class ExpenseFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DataInputActivity.class);
-                intent.putExtra("key", category[position]);
+                intent.putExtra("category", category[position]);
                 startActivity(intent);
             }
         });

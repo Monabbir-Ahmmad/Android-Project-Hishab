@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private ArrayList<DataItem> dataList;
+    private ArrayList<DataItem> dataSet;
     private onItemClickListener listener;
 
+    //Interface for onItemClickListener
     public interface onItemClickListener {
         void onItemClick(int position);
     }
@@ -24,19 +25,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.listener = listener;
     }
 
+    //Inner view holder class
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView rv_icon;
-        public TextView rv_category, rv_date_time, rv_note, rv_money;
+        public ImageView rView_icon;
+        public TextView rView_category, rView_dateTime, rView_note, rView_money;
 
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
-            rv_icon = itemView.findViewById(R.id.rView_icon);
-            rv_category = itemView.findViewById(R.id.rView_category);
-            rv_date_time = itemView.findViewById(R.id.rView_date_time);
-            rv_note = itemView.findViewById(R.id.rView_note);
-            rv_money = itemView.findViewById(R.id.rView_money);
+            rView_icon = itemView.findViewById(R.id.rView_icon);
+            rView_category = itemView.findViewById(R.id.rView_category);
+            rView_dateTime = itemView.findViewById(R.id.rView_dateTime);
+            rView_note = itemView.findViewById(R.id.rView_note);
+            rView_money = itemView.findViewById(R.id.rView_money);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -52,13 +54,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(ArrayList<DataItem> dataList) {
-        this.dataList = dataList;
+    public RecyclerViewAdapter(ArrayList<DataItem> dataSet) {
+        this.dataSet = dataSet;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        // Inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
 
@@ -67,22 +69,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-
-        DataItem dataItem = dataList.get(position);
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
-        holder.rv_icon.setImageResource(dataItem.getIcon());
-        holder.rv_category.setText(dataItem.getCategory());
-        holder.rv_money.setText(decimalFormat.format(dataItem.getMoney()) + " BDT");
-        holder.rv_date_time.setText(dataItem.getTime() + "; " + dataItem.getDate());
-        if (dataItem.getNote() != null)
-            holder.rv_note.setText("Note: " + dataItem.getNote());
+        holder.rView_icon.setImageResource(dataSet.get(position).getIcon());
+        holder.rView_category.setText(dataSet.get(position).getCategory());
+        holder.rView_money.setText(decimalFormat.format(dataSet.get(position).getMoney()) + " BDT");
+        holder.rView_dateTime.setText(dataSet.get(position).getTime() + "; " + dataSet.get(position).getDate());
+        if (dataSet.get(position).getNote() != null)
+            holder.rView_note.setText("Note: " + dataSet.get(position).getNote());
 
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return dataSet.size();
     }
+
 
 }

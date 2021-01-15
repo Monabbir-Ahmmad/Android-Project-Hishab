@@ -8,7 +8,7 @@
     android:paddingTop="20dp">
 
     <Button
-        android:id="@+id/button_filter_apply"
+        android:id="@+id/filter_apply"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,15 +20,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
     <Button
-        android:id="@+id/button_filter_cancel"
+        android:id="@+id/filter_cancel"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="@+id/button_filter_apply"
-        app:layout_constraintEnd_toStartOf="@+id/button_filter_apply"
-        app:layout_constraintTop_toTopOf="@+id/button_filter_apply" />
+        app:layout_constraintBottom_toBottomOf="@+id/filter_apply"
+        app:layout_constraintEnd_toStartOf="@+id/filter_apply"
+        app:layout_constraintTop_toTopOf="@+id/filter_apply" />
 
     <TextView
         android:id="@+id/textView"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView2">
 
         <AutoCompleteTextView
-            android:id="@+id/dropdown_category"
+            android:id="@+id/filter_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout0">
 
         <AutoCompleteTextView
-            android:id="@+id/dropdown_sortBy"
+            android:id="@+id/filter_sortBy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
@@ -123,7 +123,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/filterStartDate"
+            android:id="@+id/filter_startDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -148,7 +148,7 @@
         app:layout_constraintTop_toTopOf="@+id/textInputLayout2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/filterEndDate"
+            android:id="@+id/filter_endDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"

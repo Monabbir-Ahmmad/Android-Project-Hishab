@@ -24,9 +24,9 @@ import java.util.Locale;
 public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private Button button_save_data;
-    private TextView textView_category;
-    private TextInputEditText editText_amount, editText_date, editText_time, editText_note;
+    private Button btn_saveData;
+    private TextView tv_category;
+    private TextInputEditText et_amount, et_date, et_time, et_note;
     private Calendar calendar;
     private SimpleDateFormat simpleDateFormat;
 
@@ -50,18 +50,18 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         });
 
 
-        textView_category = findViewById(R.id.textView_category);
-        editText_amount = findViewById(R.id.editText_amount);
-        editText_note = findViewById(R.id.editText_note);
+        tv_category = findViewById(R.id.textView_category);
+        et_amount = findViewById(R.id.editText_amount);
+        et_note = findViewById(R.id.editText_note);
 
-        editText_date = findViewById(R.id.editText_date);
-        editText_date.setOnClickListener(this::onClick);
+        et_date = findViewById(R.id.editText_date);
+        et_date.setOnClickListener(this::onClick);
 
-        editText_time = findViewById(R.id.editText_time);
-        editText_time.setOnClickListener(this::onClick);
+        et_time = findViewById(R.id.editText_time);
+        et_time.setOnClickListener(this::onClick);
 
-        button_save_data = findViewById(R.id.button_save_data);
-        button_save_data.setOnClickListener(this::onClick);
+        btn_saveData = findViewById(R.id.button_saveData);
+        btn_saveData.setOnClickListener(this::onClick);
 
         setDefaultOnLoad();
     }
@@ -69,17 +69,17 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
     //This sets expense category and current date-time on view create
     private void setDefaultOnLoad() {
-        textView_category.setText(getIntent().getStringExtra("key"));
-        editText_date.setText(new SimpleDateFormat("dd MMM yyyy",
+        tv_category.setText(getIntent().getStringExtra("category"));
+        et_date.setText(new SimpleDateFormat("dd MMM yyyy",
                 Locale.getDefault()).format(new Date()));
-        editText_time.setText(new SimpleDateFormat("hh:mm a",
+        et_time.setText(new SimpleDateFormat("hh:mm a",
                 Locale.getDefault()).format(new Date()));
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.button_save_data) {
+        if (v.getId() == R.id.button_saveData) {
             saveData();
         } else if (v.getId() == R.id.editText_time) {
             selectTime();
@@ -103,7 +103,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 
                 simpleDateFormat = new SimpleDateFormat(withAMPM ? "hh:mm a" : "HH:mm", Locale.getDefault());
-                editText_time.setText(simpleDateFormat.format(calendar.getTime()));
+                et_time.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, mHour, mMinute, !withAMPM);
 
@@ -127,7 +127,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-                editText_date.setText(simpleDateFormat.format(calendar.getTime()));
+                et_date.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, mYear, mMonth, mDay);
 
@@ -140,12 +140,12 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-        if (!editText_amount.getText().toString().isEmpty() && Float.parseFloat(editText_amount.getText().toString()) > 0) {
-            float money = Float.parseFloat(editText_amount.getText().toString());
-            String category = textView_category.getText().toString();
-            String date = editText_date.getText().toString();
-            String time = editText_time.getText().toString();
-            String note = editText_note.getText().toString();
+        if (!et_amount.getText().toString().isEmpty() && Float.parseFloat(et_amount.getText().toString()) > 0) {
+            float money = Float.parseFloat(et_amount.getText().toString());
+            String category = tv_category.getText().toString();
+            String date = et_date.getText().toString();
+            String time = et_time.getText().toString();
+            String note = et_note.getText().toString();
             Long datetime_id = Long.parseLong(generateDatetimeID(date, time));
 
             if (note.trim().isEmpty())
