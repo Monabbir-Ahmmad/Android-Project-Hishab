@@ -23,17 +23,22 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class StatisticsFragment extends Fragment {
 
     private PieChart pieChart;
     private LineChart lineChart;
+    private TabLayout tabLayout;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataItem> allData;
+    private ArrayList<DataItem> dataSet;
 
 
     public StatisticsFragment() {
@@ -45,18 +50,75 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        getActivity().setTitle("Statistics");
 
         databaseHelper = new DatabaseHelper(getActivity());
-        allData = new ArrayList<>(databaseHelper.getAllData());
+        dataSet = new ArrayList<>();
+
+        tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                statisticsFilter(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         pieChart = view.findViewById(R.id.pieChart);
-        setPieData();
+        statisticsFilter(2);
 
         lineChart = view.findViewById(R.id.lineChart);
-        createLineChart();
+        //createLineChart();
 
         return view;
+    }
+
+    private void statisticsFilter(int tab) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+        String startDate = null, endDate = null;
+
+        if (tab == 0) {
+            pieChart.setCenterText("Daily\nExpense");
+            startDate = simpleDateFormat.format(new Date());
+            endDate = startDate;
+
+        } else if (tab == 1) {
+            pieChart.setCenterText("Weekly\nExpense");
+            calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
+            startDate = simpleDateFormat.format(calendar.getTime());
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
+            endDate = simpleDateFormat.format(calendar.getTime());
+
+        } else if (tab == 2) {
+            pieChart.setCenterText("Monthly\nExpense");
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+            startDate = simpleDateFormat.format(calendar.getTime());
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            endDate = simpleDateFormat.format(calendar.getTime());
+
+        } else if (tab == 3) {
+            pieChart.setCenterText("Yearly\nExpense");
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
+            startDate = simpleDateFormat.format(calendar.getTime());
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+            endDate = simpleDateFormat.format(calendar.getTime());
+
+        }
+        startDate = generateDatetimeID(startDate, "12:00 am");
+        endDate = generateDatetimeID(endDate, "11:59 pm");
+        dataSet = databaseHelper.getFilteredData("All", "Default", startDate, endDate);
+
+        setPieData();
     }
 
 
@@ -67,11 +129,10 @@ public class StatisticsFragment extends Fragment {
         Arrays.fill(money, 0);
         int index;
 
-        for (int i = 0; i < allData.size(); i++) {
-            index = Arrays.asList(category).indexOf(allData.get(i).getCategory());
-            money[index] += allData.get(i).getMoney();
+        for (int i = 0; i < dataSet.size(); i++) {
+            index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
+            money[index] += dataSet.get(i).getMoney();
         }
-
 
         //This adds the values into the PieEntry
         ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
@@ -93,7 +154,7 @@ public class StatisticsFragment extends Fragment {
 
 
     //This is the pie chart design
-    private void createPieChart(PieDataSet dataSet, PieData pieData) {
+    private void createPieChart(PieDataSet pieDataSet, PieData pieData) {
         //This gets a color array
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
         List<Integer> colorList = new ArrayList<Integer>(colorArray.length);
@@ -104,23 +165,36 @@ public class StatisticsFragment extends Fragment {
         TypedValue colorBlackWhite = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
 
+        //Pie legend
+        Legend legend = pieChart.getLegend();
+        legend.setTextColor(colorBlackWhite.data);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setFormSize(10f);
+        legend.setWordWrapEnabled(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setYEntrySpace(7f);
+        legend.setDrawInside(false);
+
+        //Pie description
+        Description description = pieChart.getDescription();
+        description.setEnabled(false);
 
         //Pie slice attr
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setIconsOffset(new MPPointF(0, 40));
-        dataSet.setColors(colorArray);
-        pieChart.setDrawRoundedSlices(false);
-        pieChart.setDrawSlicesUnderHole(false);
+        pieDataSet.setSliceSpace(0f);
+        pieDataSet.setSelectionShift(5f);
+        pieDataSet.setIconsOffset(new MPPointF(0, 40));
+        pieDataSet.setColors(colorArray);
 
         //Outside values with line
-        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        dataSet.setValueLinePart1OffsetPercentage(100f);
-        dataSet.setValueLinePart1Length(0.25f);
-        dataSet.setValueLinePart2Length(0.15f);
-        dataSet.setValueLineWidth(2f);
-        dataSet.setUsingSliceColorAsValueLineColor(true);
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueLinePart1OffsetPercentage(100f);
+        pieDataSet.setValueLinePart1Length(0.25f);
+        pieDataSet.setValueLinePart2Length(0.15f);
+        pieDataSet.setValueLineWidth(2f);
+        pieDataSet.setUsingSliceColorAsValueLineColor(true);
 
         //Pie value attr
         pieData.setValueTextSize(10f);
@@ -133,8 +207,6 @@ public class StatisticsFragment extends Fragment {
 
         //Entry label
         pieChart.setDrawEntryLabels(false);
-        pieChart.setEntryLabelColor(colorBlackWhite.data);
-        pieChart.setEntryLabelTextSize(10f);
         pieChart.setUsePercentValues(true);
 
         //Transparent circle
@@ -149,7 +221,6 @@ public class StatisticsFragment extends Fragment {
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText("Weekly\nExpense");
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 
@@ -160,25 +231,9 @@ public class StatisticsFragment extends Fragment {
         //Off set
         pieChart.setExtraOffsets(25f, 0f, 25f, 0f);
 
-        //Pie legend
-        Legend legend = pieChart.getLegend();
-        legend.setEnabled(true);
-        legend.setTextColor(colorBlackWhite.data);
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setFormSize(10f);
-        legend.setWordWrapEnabled(true);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        //legend.setXOffset(0f);
-        //legend.setYOffset(5f);
-        //legend.setXEntrySpace(10f);
-        legend.setYEntrySpace(7f);
-        legend.setDrawInside(false);
-
-        //Pie description
-        Description description = pieChart.getDescription();
-        description.setEnabled(false);
+        //Refresh chart
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
 
     }
 
@@ -193,8 +248,8 @@ public class StatisticsFragment extends Fragment {
 
         //This adds the values into the LineEntry
         ArrayList<Entry> lineEntryArray = new ArrayList<>();
-        for (int i = allData.size() - 1; i >= 0; i--) {
-            lineEntryArray.add(new Entry(allData.size() - i, allData.get(i).getMoney()));
+        for (int i = dataSet.size() - 1; i >= 0; i--) {
+            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
         }
 
         //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
@@ -262,6 +317,27 @@ public class StatisticsFragment extends Fragment {
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
+    }
+
+    //This generates DatetimeID form Date
+    private String generateDatetimeID(String date, String time) {
+        String datetime = date + " " + time;
+        String inputPattern = "dd MMM yyyy hh:mm a";
+        String outputPattern = "yyyyMMddHHmm";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date datetimeInputFormat = null;
+        String datetimeOutputFormat = null;
+
+        try {
+            datetimeInputFormat = inputFormat.parse(datetime);
+            datetimeOutputFormat = outputFormat.format(datetimeInputFormat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return datetimeOutputFormat;
     }
 
 
