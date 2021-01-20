@@ -6,18 +6,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -25,6 +20,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,8 +31,8 @@ import java.util.List;
 public class StatisticsFragment extends Fragment {
 
     private PieChart pieChart;
-    private LineChart lineChart;
     private TabLayout tabLayout;
+    private TextView tv_total, tv_avg, tv_count;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
 
@@ -63,20 +59,19 @@ public class StatisticsFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
+        tv_total = view.findViewById(R.id.textView_totalExpense);
+        tv_avg = view.findViewById(R.id.textView_avgExpense);
+        tv_count = view.findViewById(R.id.textView_expenseCount);
         pieChart = view.findViewById(R.id.pieChart);
-        statisticsFilter(2);
 
-        lineChart = view.findViewById(R.id.lineChart);
-        //createLineChart();
+        statisticsFilter(0);
 
         return view;
     }
@@ -87,27 +82,27 @@ public class StatisticsFragment extends Fragment {
         String startDate = null, endDate = null;
 
         if (tab == 0) {
-            pieChart.setCenterText("Daily\nExpense");
+            startDate = "01 Jan 1000";
+            endDate = "31 Dec 3000";
+
+        } else if (tab == 1) {
             startDate = simpleDateFormat.format(new Date());
             endDate = startDate;
 
-        } else if (tab == 1) {
-            pieChart.setCenterText("Weekly\nExpense");
+        } else if (tab == 2) {
             calendar.setFirstDayOfWeek(Calendar.SUNDAY);
             calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
             endDate = simpleDateFormat.format(calendar.getTime());
 
-        } else if (tab == 2) {
-            pieChart.setCenterText("Monthly\nExpense");
+        } else if (tab == 3) {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             endDate = simpleDateFormat.format(calendar.getTime());
 
-        } else if (tab == 3) {
-            pieChart.setCenterText("Yearly\nExpense");
+        } else if (tab == 4) {
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
@@ -128,10 +123,13 @@ public class StatisticsFragment extends Fragment {
         float[] money = new float[category.length];
         Arrays.fill(money, 0);
         int index;
+        float sum = 0, avg = 0;
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < dataSet.size(); i++) {
             index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
             money[index] += dataSet.get(i).getMoney();
+            sum += dataSet.get(i).getMoney();
         }
 
         //This adds the values into the PieEntry
@@ -146,9 +144,19 @@ public class StatisticsFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
         PieData pieData = new PieData(pieDataSet);
 
+
         if (pieEntryArray.size() > 0) {
             pieChart.setData(pieData);
+            avg = sum / dataSet.size();
+
+        } else {
+            pieChart.clear();
         }
+
+        tv_total.setText(decimalFormat.format(sum) + " BDT");
+        tv_avg.setText(decimalFormat.format(avg) + " BDT");
+        tv_count.setText(String.valueOf(dataSet.size()));
+
         createPieChart(pieDataSet, pieData);
     }
 
@@ -217,10 +225,11 @@ public class StatisticsFragment extends Fragment {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleRadius(85f);
         pieChart.setCenterTextSize(50f);
-        pieChart.setCenterTextRadiusPercent(60f);
+        pieChart.setCenterTextRadiusPercent(70f);
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
+        pieChart.setCenterText("Expense");
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 
@@ -235,88 +244,6 @@ public class StatisticsFragment extends Fragment {
         pieChart.notifyDataSetChanged();
         pieChart.invalidate();
 
-    }
-
-
-    //This creates the line chart
-    private void createLineChart() {
-        //This gets a color according to theme
-        TypedValue colorPrimary = new TypedValue();
-        TypedValue colorBlackWhite = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
-        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
-
-        //This adds the values into the LineEntry
-        ArrayList<Entry> lineEntryArray = new ArrayList<>();
-        for (int i = dataSet.size() - 1; i >= 0; i--) {
-            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
-        }
-
-        //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
-        LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setNoDataText("No data available");
-        lineChart.setData(lineData);
-
-        lineDataSet.setLineWidth(3f);
-        lineDataSet.setColor(colorPrimary.data);
-        lineDataSet.setCircleRadius(5f);
-        lineDataSet.setCircleHoleRadius(1.5f);
-        lineDataSet.setCircleHoleColor(Color.TRANSPARENT);
-        lineDataSet.setCircleColor(colorPrimary.data);
-        lineDataSet.setHighlightEnabled(false);
-        lineDataSet.setDrawValues(true);
-        lineDataSet.setValueTextColor(colorBlackWhite.data);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawFilled(false);
-        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
-        lineDataSet.setCubicIntensity(0f);
-        lineDataSet.setFillColor(colorPrimary.data);
-
-        //Description of the chart
-        Description description = lineChart.getDescription();
-        description.setEnabled(false);
-
-        //Legends of the chart
-        Legend legend = lineChart.getLegend();
-        legend.setEnabled(false);
-
-        lineChart.setDrawGridBackground(false);
-        lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
-        lineChart.setPinchZoom(false);
-        lineChart.setScaleEnabled(true);
-        lineChart.setDrawBorders(false);
-
-
-        //X axis
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setEnabled(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(true);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setSpaceMin(0.1f);
-        xAxis.setSpaceMax(0.1f);
-        xAxis.setAxisMinimum(0);
-        xAxis.setGranularity(1);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(colorBlackWhite.data);
-        xAxis.setAxisLineColor(colorBlackWhite.data);
-
-        //Y axis left
-        YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setEnabled(true);
-        yAxisLeft.setDrawLabels(true);
-        yAxisLeft.setDrawAxisLine(true);
-        yAxisLeft.setDrawGridLines(true);
-        yAxisLeft.setAxisMinimum(0);
-        yAxisLeft.setGranularity(5);
-        yAxisLeft.setTextColor(colorBlackWhite.data);
-        yAxisLeft.setAxisLineColor(colorBlackWhite.data);
-
-        //Y axis left
-        YAxis yAxisRight = lineChart.getAxisRight();
-        yAxisRight.setEnabled(false);
     }
 
     //This generates DatetimeID form Date

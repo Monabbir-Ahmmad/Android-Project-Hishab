@@ -65,6 +65,7 @@
             android:layout_marginStart="8dp"
             android:gravity="end"
             android:text="0 BDT"
+            android:textColor="?attr/colorPrimary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
