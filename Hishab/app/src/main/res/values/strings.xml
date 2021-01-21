@@ -20,7 +20,7 @@
     <string name="transport">Transport</string>
 
 
-    <string-array name="Category">
+    <string-array name="categoryArray">
         <item>@string/autoAndVehicle</item>
         <item>@string/billAndUtility</item>
         <item>@string/clothing</item>
@@ -39,4 +39,24 @@
         <item>@string/tax</item>
         <item>@string/transport</item>
     </string-array>
+
+    <integer-array name="iconArray">
+        <item>@drawable/ic_automobile</item>
+        <item>@drawable/ic_bills</item>
+        <item>@drawable/ic_clothes</item>
+        <item>@drawable/ic_education</item>
+        <item>@drawable/ic_entertainment</item>
+        <item>@drawable/ic_finance</item>
+        <item>@drawable/ic_food</item>
+        <item>@drawable/ic_health</item>
+        <item>@drawable/ic_housing</item>
+        <item>@drawable/ic_misc</item>
+        <item>@drawable/ic_parenting</item>
+        <item>@drawable/ic_personal</item>
+        <item>@drawable/ic_pet</item>
+        <item>@drawable/ic_service</item>
+        <item>@drawable/ic_shopping</item>
+        <item>@drawable/ic_tax</item>
+        <item>@drawable/ic_transport</item>
+    </integer-array>
 </resources>

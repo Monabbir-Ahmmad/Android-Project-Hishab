@@ -61,7 +61,7 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         //This is the category dropdown
         ArrayList<String> category = new ArrayList<>();
         category.add("All");
-        category.addAll(Arrays.asList(getResources().getStringArray(R.array.Category)));
+        category.addAll(Arrays.asList(getResources().getStringArray(R.array.categoryArray)));
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
         filter_category = view.findViewById(R.id.filter_category);
         filter_category.setText(categoryAdapter.getItem(0), false);

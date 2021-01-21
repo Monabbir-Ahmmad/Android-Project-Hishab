@@ -46,7 +46,7 @@ public class ExpenseFragment extends Fragment {
 
     private void createGridButtons() {
 
-        category = getResources().getStringArray(R.array.Category);
+        category = getResources().getStringArray(R.array.categoryArray);
         ArrayList<DataItem> btn_array = new ArrayList<>();
         for (int i = 0; i < category.length; i++) {
             DataItem dataItem = new DataItem(getActivity());

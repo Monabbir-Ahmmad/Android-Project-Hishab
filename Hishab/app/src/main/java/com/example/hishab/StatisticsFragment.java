@@ -42,6 +42,7 @@ public class StatisticsFragment extends Fragment {
     private TextView tv_total, tv_avg, tv_count;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
+    private TypedValue colorBlackWhite;
 
 
     public StatisticsFragment() {
@@ -56,6 +57,10 @@ public class StatisticsFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getActivity());
         dataSet = new ArrayList<>();
+
+        //This gets a color according to theme
+        colorBlackWhite = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
 
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -80,7 +85,6 @@ public class StatisticsFragment extends Fragment {
         lineChart = view.findViewById(R.id.lineChart);
 
         statisticsFilter(0);
-        createLineChart();
 
         return view;
     }
@@ -144,19 +148,20 @@ public class StatisticsFragment extends Fragment {
         endDate = generateDatetimeID(endDate, "11:59 pm");
         dataSet = databaseHelper.getFilteredData("All", "Default", startDate, endDate);
 
-        setPieData();
+        setChartData();
     }
 
 
     //This sets the data into the charts
-    private void setPieData() {
-        String[] category = getResources().getStringArray(R.array.Category);
+    private void setChartData() {
+        String[] category = getResources().getStringArray(R.array.categoryArray);
         float[] money = new float[category.length];
         Arrays.fill(money, 0);
         int index;
         float sum = 0, avg = 0;
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
+        //This is for pie chart
         for (int i = 0; i < dataSet.size(); i++) {
             index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
             money[index] += dataSet.get(i).getMoney();
@@ -175,20 +180,39 @@ public class StatisticsFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
         PieData pieData = new PieData(pieDataSet);
 
+        //This adds the values into the LineEntry
+        ArrayList<Entry> lineEntryArray = new ArrayList<>();
+        for (int i = dataSet.size() - 1; i >= 0; i--) {
+            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
+        }
 
-        if (pieEntryArray.size() > 0) {
+        //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
+        LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
+        LineData lineData = new LineData(lineDataSet);
+
+
+        if (dataSet.size() > 0) {
             pieChart.setData(pieData);
+            lineChart.setData(lineData);
             avg = sum / dataSet.size();
+            createPieChart(pieDataSet, pieData);
+            createLineChart(lineDataSet, lineData);
 
         } else {
             pieChart.clear();
+            lineChart.clear();
+
+            //No data text
+            pieChart.setNoDataText("No data available");
+            pieChart.setNoDataTextColor(colorBlackWhite.data);
+            lineChart.setNoDataText("No data available");
+            lineChart.setNoDataTextColor(colorBlackWhite.data);
         }
 
         tv_total.setText(decimalFormat.format(sum) + " BDT");
         tv_avg.setText(decimalFormat.format(avg) + " BDT");
         tv_count.setText(String.valueOf(dataSet.size()));
 
-        createPieChart(pieDataSet, pieData);
     }
 
 
@@ -200,11 +224,8 @@ public class StatisticsFragment extends Fragment {
         for (int i : colorArray)
             colorList.add(i);
 
-        //This gets a color according to theme
-        TypedValue colorBlackWhite = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
 
-        //Pie legend
+        //Legends of the chart
         Legend legend = pieChart.getLegend();
         legend.setTextColor(colorBlackWhite.data);
         legend.setForm(Legend.LegendForm.CIRCLE);
@@ -214,13 +235,13 @@ public class StatisticsFragment extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         legend.setYEntrySpace(7f);
-        legend.setDrawInside(false);
+        legend.setDrawInside(true);
 
-        //Pie description
+        //Description of the chart
         Description description = pieChart.getDescription();
         description.setEnabled(false);
 
-        //Pie slice attr
+        //Pie slice attribute
         pieDataSet.setSliceSpace(0f);
         pieDataSet.setSelectionShift(5f);
         pieDataSet.setIconsOffset(new MPPointF(0, 40));
@@ -239,10 +260,6 @@ public class StatisticsFragment extends Fragment {
         pieData.setValueTextSize(10f);
         pieData.setValueTextColors(colorList);
         pieData.setValueFormatter(new PercentFormatter(pieChart));
-
-        //No data text
-        pieChart.setNoDataText("No data available");
-        pieChart.setNoDataTextColor(colorBlackWhite.data);
 
         //Entry label
         pieChart.setDrawEntryLabels(false);
@@ -269,7 +286,7 @@ public class StatisticsFragment extends Fragment {
         pieChart.setDragDecelerationFrictionCoef(0.97f);
 
         //Off set
-        pieChart.setExtraOffsets(25f, 0f, 25f, 0f);
+        pieChart.setExtraOffsets(0f, 10f, 0f, 60f);
 
         //Refresh chart
         pieChart.notifyDataSetChanged();
@@ -278,24 +295,10 @@ public class StatisticsFragment extends Fragment {
     }
 
     //This creates the line chart
-    private void createLineChart() {
+    private void createLineChart(LineDataSet lineDataSet, LineData lineData) {
         //This gets a color according to theme
         TypedValue colorPrimary = new TypedValue();
-        TypedValue colorBlackWhite = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
-        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
-
-        //This adds the values into the LineEntry
-        ArrayList<Entry> lineEntryArray = new ArrayList<>();
-        for (int i = dataSet.size() - 1; i >= 0; i--) {
-            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
-        }
-
-        //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
-        LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setNoDataText("No data available");
-        lineChart.setData(lineData);
 
         lineDataSet.setLineWidth(3f);
         lineDataSet.setColor(colorPrimary.data);
@@ -327,7 +330,6 @@ public class StatisticsFragment extends Fragment {
         lineChart.setScaleEnabled(true);
         lineChart.setDrawBorders(false);
 
-
         //X axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(false);
@@ -356,6 +358,10 @@ public class StatisticsFragment extends Fragment {
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
+
+        //Refresh chart
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
     }
 
 

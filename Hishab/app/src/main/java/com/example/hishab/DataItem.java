@@ -1,6 +1,7 @@
 package com.example.hishab;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 
 import java.util.Arrays;
 
@@ -15,11 +16,6 @@ public class DataItem {
     private String note;
     private Long datetimeId;
     private int icon;
-    private int[] iconArray = {R.drawable.ic_automobile, R.drawable.ic_bills, R.drawable.ic_clothes,
-            R.drawable.ic_education, R.drawable.ic_entertainment, R.drawable.ic_finance, R.drawable.ic_food,
-            R.drawable.ic_health, R.drawable.ic_housing, R.drawable.ic_misc, R.drawable.ic_parenting,
-            R.drawable.ic_personal, R.drawable.ic_pet, R.drawable.ic_service, R.drawable.ic_shopping,
-            R.drawable.ic_tax, R.drawable.ic_transport};
 
     //Constructor
     public DataItem(Context context) {
@@ -89,9 +85,10 @@ public class DataItem {
     }
 
     private void setIcon(String category) {
-        String[] categoryArray = context.getResources().getStringArray(R.array.Category);
+        String[] categoryArray = context.getResources().getStringArray(R.array.categoryArray);
+        TypedArray iconArray = context.getResources().obtainTypedArray(R.array.iconArray);
         int index = Arrays.asList(categoryArray).indexOf(category);
-        this.icon = iconArray[index];
+        this.icon = iconArray.getResourceId(index, -1);
     }
 
 

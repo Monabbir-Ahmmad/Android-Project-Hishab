@@ -144,8 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //This queries filtered data from table
     public ArrayList<DataItem> getFilteredData(String category, String sortBy, String startDate, String endDate) {
-        String order = ID;
-        String orderBy = "DESC";
+        String order = ID, orderBy = "DESC";
 
         if (category.contains("All"))
             category = "";
@@ -159,10 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<DataItem> allData = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
-                            + CATEGORY + " LIKE '" + category + "%' AND " + DATETIME_ID + " BETWEEN "
-                            + startDate + " AND " + endDate + " ORDER BY " + order + " " + orderBy,
-                    null);
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
+                    + " LIKE '" + category + "%' AND " + DATETIME_ID + " BETWEEN " + startDate
+                    + " AND " + endDate + " ORDER BY " + order + " " + orderBy, null);
 
             if (cursor.moveToFirst()) {
                 do {
