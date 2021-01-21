@@ -1,7 +1,12 @@
 package com.example.hishab;
 
+import android.content.Context;
+
+import java.util.Arrays;
+
 public class DataItem {
 
+    private Context context;
     private int id;
     private String category;
     private float money;
@@ -10,10 +15,15 @@ public class DataItem {
     private String note;
     private Long datetimeId;
     private int icon;
+    private int[] iconArray = {R.drawable.ic_automobile, R.drawable.ic_bills, R.drawable.ic_clothes,
+            R.drawable.ic_education, R.drawable.ic_entertainment, R.drawable.ic_finance, R.drawable.ic_food,
+            R.drawable.ic_health, R.drawable.ic_housing, R.drawable.ic_misc, R.drawable.ic_parenting,
+            R.drawable.ic_personal, R.drawable.ic_pet, R.drawable.ic_service, R.drawable.ic_shopping,
+            R.drawable.ic_tax, R.drawable.ic_transport};
 
     //Constructor
-    public DataItem() {
-
+    public DataItem(Context context) {
+        this.context = context;
     }
 
 
@@ -79,8 +89,9 @@ public class DataItem {
     }
 
     private void setIcon(String category) {
-
-        this.icon = R.drawable.ic_misc;
+        String[] categoryArray = context.getResources().getStringArray(R.array.Category);
+        int index = Arrays.asList(categoryArray).indexOf(category);
+        this.icon = iconArray[index];
     }
 
 

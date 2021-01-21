@@ -49,7 +49,7 @@ public class ExpenseFragment extends Fragment {
         category = getResources().getStringArray(R.array.Category);
         ArrayList<DataItem> btn_array = new ArrayList<>();
         for (int i = 0; i < category.length; i++) {
-            DataItem dataItem = new DataItem();
+            DataItem dataItem = new DataItem(getActivity());
             dataItem.setCategory(category[i]);
             btn_array.add(dataItem);
         }

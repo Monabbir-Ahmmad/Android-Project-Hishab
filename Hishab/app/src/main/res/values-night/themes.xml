@@ -19,6 +19,7 @@
         <item name="colorBlackWhite">@color/white</item>
         <item name="bgColor">@color/coal_black</item>
         <item name="toolbarColor">@color/light_black</item>
+        <item name="colorWhiteBlack">@color/black</item>
         <item name="colorWhiteLightBlack">@color/light_black</item>
         <item name="filterButton">@color/purple_200</item>
         <item name="filterText">@color/white</item>

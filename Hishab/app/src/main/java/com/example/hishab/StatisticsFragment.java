@@ -10,9 +10,15 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -31,6 +37,7 @@ import java.util.List;
 public class StatisticsFragment extends Fragment {
 
     private PieChart pieChart;
+    private LineChart lineChart;
     private TabLayout tabLayout;
     private TextView tv_total, tv_avg, tv_count;
     private DatabaseHelper databaseHelper;
@@ -70,12 +77,36 @@ public class StatisticsFragment extends Fragment {
         tv_avg = view.findViewById(R.id.textView_avgExpense);
         tv_count = view.findViewById(R.id.textView_expenseCount);
         pieChart = view.findViewById(R.id.pieChart);
+        lineChart = view.findViewById(R.id.lineChart);
 
         statisticsFilter(0);
+        createLineChart();
 
         return view;
     }
 
+    //This generates DatetimeID form Date
+    private String generateDatetimeID(String date, String time) {
+        String datetime = date + " " + time;
+        String inputPattern = "dd MMM yyyy hh:mm a";
+        String outputPattern = "yyyyMMddHHmm";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date datetimeInputFormat = null;
+        String datetimeOutputFormat = null;
+
+        try {
+            datetimeInputFormat = inputFormat.parse(datetime);
+            datetimeOutputFormat = outputFormat.format(datetimeInputFormat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return datetimeOutputFormat;
+    }
+
+    //This is the top filter for statistics
     private void statisticsFilter(int tab) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
@@ -117,7 +148,7 @@ public class StatisticsFragment extends Fragment {
     }
 
 
-    //This sets the data into the pie chart
+    //This sets the data into the charts
     private void setPieData() {
         String[] category = getResources().getStringArray(R.array.Category);
         float[] money = new float[category.length];
@@ -246,25 +277,85 @@ public class StatisticsFragment extends Fragment {
 
     }
 
-    //This generates DatetimeID form Date
-    private String generateDatetimeID(String date, String time) {
-        String datetime = date + " " + time;
-        String inputPattern = "dd MMM yyyy hh:mm a";
-        String outputPattern = "yyyyMMddHHmm";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+    //This creates the line chart
+    private void createLineChart() {
+        //This gets a color according to theme
+        TypedValue colorPrimary = new TypedValue();
+        TypedValue colorBlackWhite = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
 
-        Date datetimeInputFormat = null;
-        String datetimeOutputFormat = null;
-
-        try {
-            datetimeInputFormat = inputFormat.parse(datetime);
-            datetimeOutputFormat = outputFormat.format(datetimeInputFormat);
-        } catch (Exception e) {
-            e.printStackTrace();
+        //This adds the values into the LineEntry
+        ArrayList<Entry> lineEntryArray = new ArrayList<>();
+        for (int i = dataSet.size() - 1; i >= 0; i--) {
+            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
         }
 
-        return datetimeOutputFormat;
+        //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
+        LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setNoDataText("No data available");
+        lineChart.setData(lineData);
+
+        lineDataSet.setLineWidth(3f);
+        lineDataSet.setColor(colorPrimary.data);
+        lineDataSet.setCircleRadius(5f);
+        lineDataSet.setCircleHoleRadius(1.5f);
+        lineDataSet.setCircleHoleColor(Color.TRANSPARENT);
+        lineDataSet.setCircleColor(colorPrimary.data);
+        lineDataSet.setHighlightEnabled(false);
+        lineDataSet.setDrawValues(true);
+        lineDataSet.setValueTextColor(colorBlackWhite.data);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setDrawFilled(false);
+        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
+        lineDataSet.setCubicIntensity(0f);
+        lineDataSet.setFillColor(colorPrimary.data);
+
+        //Description of the chart
+        Description description = lineChart.getDescription();
+        description.setEnabled(false);
+
+        //Legends of the chart
+        Legend legend = lineChart.getLegend();
+        legend.setEnabled(false);
+
+        lineChart.setDrawGridBackground(false);
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setPinchZoom(false);
+        lineChart.setScaleEnabled(true);
+        lineChart.setDrawBorders(false);
+
+
+        //X axis
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setEnabled(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawLabels(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setSpaceMin(0.1f);
+        xAxis.setSpaceMax(0.1f);
+        xAxis.setAxisMinimum(0);
+        xAxis.setGranularity(1);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(colorBlackWhite.data);
+        xAxis.setAxisLineColor(colorBlackWhite.data);
+
+        //Y axis left
+        YAxis yAxisLeft = lineChart.getAxisLeft();
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setDrawLabels(true);
+        yAxisLeft.setDrawAxisLine(true);
+        yAxisLeft.setDrawGridLines(false);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setGranularity(5);
+        yAxisLeft.setTextColor(colorBlackWhite.data);
+        yAxisLeft.setAxisLineColor(colorBlackWhite.data);
+
+        //Y axis left
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
     }
 
 

@@ -122,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                DataItem dataItem = new DataItem();
+                DataItem dataItem = new DataItem(context);
 
                 dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
@@ -166,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             if (cursor.moveToFirst()) {
                 do {
-                    DataItem dataItem = new DataItem();
+                    DataItem dataItem = new DataItem(context);
 
                     dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                     dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
