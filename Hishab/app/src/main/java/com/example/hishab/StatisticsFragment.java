@@ -23,6 +23,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.material.tabs.TabLayout;
 
@@ -41,8 +43,9 @@ public class StatisticsFragment extends Fragment {
     private TabLayout tabLayout;
     private TextView tv_total, tv_avg, tv_count;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataItem> dataSet;
+    private ArrayList<DataItem> dataSet = new ArrayList<>();
     private TypedValue colorBlackWhite;
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
 
     public StatisticsFragment() {
@@ -56,7 +59,6 @@ public class StatisticsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        dataSet = new ArrayList<>();
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -146,7 +148,7 @@ public class StatisticsFragment extends Fragment {
         }
         startDate = generateDatetimeID(startDate, "12:00 am");
         endDate = generateDatetimeID(endDate, "11:59 pm");
-        dataSet = databaseHelper.getFilteredData("All", "Default", startDate, endDate);
+        dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startDate, endDate);
 
         setChartData();
     }
@@ -159,17 +161,19 @@ public class StatisticsFragment extends Fragment {
         Arrays.fill(money, 0);
         int index;
         float sum = 0, avg = 0;
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
-        //This is for pie chart
+        ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
+        ArrayList<Entry> lineEntryArray = new ArrayList<>();
+
+        //This is for pie chart and adds the values into the LineEntry
         for (int i = 0; i < dataSet.size(); i++) {
             index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
             money[index] += dataSet.get(i).getMoney();
             sum += dataSet.get(i).getMoney();
+            lineEntryArray.add(new Entry(i, dataSet.get(i).getMoney()));
         }
 
         //This adds the values into the PieEntry
-        ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
         for (int i = 0; i < category.length; i++) {
             if (money[i] > 0) {
                 pieEntryArray.add(new PieEntry(money[i], category[i]));
@@ -179,12 +183,6 @@ public class StatisticsFragment extends Fragment {
         //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
         PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
         PieData pieData = new PieData(pieDataSet);
-
-        //This adds the values into the LineEntry
-        ArrayList<Entry> lineEntryArray = new ArrayList<>();
-        for (int i = dataSet.size() - 1; i >= 0; i--) {
-            lineEntryArray.add(new Entry(dataSet.size() - i, dataSet.get(i).getMoney()));
-        }
 
         //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
         LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
@@ -224,6 +222,18 @@ public class StatisticsFragment extends Fragment {
         for (int i : colorArray)
             colorList.add(i);
 
+        //Pie chart click event
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                pieChart.setCenterText("Expense\n" + decimalFormat.format(e.getY()) + " BDT");
+            }
+
+            @Override
+            public void onNothingSelected() {
+                pieChart.setCenterText("Expense");
+            }
+        });
 
         //Legends of the chart
         Legend legend = pieChart.getLegend();
@@ -299,21 +309,28 @@ public class StatisticsFragment extends Fragment {
         //This gets a color according to theme
         TypedValue colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+        CustomMarkerView markerView = new CustomMarkerView(getActivity(), dataSet);
+        markerView.setChartView(lineChart);
+
+        lineChart.setMarker(markerView);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setPinchZoom(false);
+        lineChart.setScaleEnabled(true);
+        lineChart.setDrawBorders(false);
 
         lineDataSet.setLineWidth(3f);
         lineDataSet.setColor(colorPrimary.data);
-        lineDataSet.setCircleRadius(5f);
-        lineDataSet.setCircleHoleRadius(1.5f);
-        lineDataSet.setCircleHoleColor(Color.TRANSPARENT);
-        lineDataSet.setCircleColor(colorPrimary.data);
-        lineDataSet.setHighlightEnabled(false);
-        lineDataSet.setDrawValues(true);
-        lineDataSet.setValueTextColor(colorBlackWhite.data);
         lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawFilled(false);
+        lineDataSet.setCircleRadius(5f);
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setCircleColor(colorPrimary.data);
+        lineDataSet.setHighlightEnabled(true);
+        lineDataSet.setDrawValues(false);
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
         lineDataSet.setCubicIntensity(0f);
-        lineDataSet.setFillColor(colorPrimary.data);
+        lineDataSet.setHighLightColor(colorPrimary.data);
 
         //Description of the chart
         Description description = lineChart.getDescription();
@@ -323,33 +340,16 @@ public class StatisticsFragment extends Fragment {
         Legend legend = lineChart.getLegend();
         legend.setEnabled(false);
 
-        lineChart.setDrawGridBackground(false);
-        lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
-        lineChart.setPinchZoom(false);
-        lineChart.setScaleEnabled(true);
-        lineChart.setDrawBorders(false);
-
         //X axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(true);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setSpaceMin(0.1f);
-        xAxis.setSpaceMax(0.1f);
-        xAxis.setAxisMinimum(0);
-        xAxis.setGranularity(1);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(colorBlackWhite.data);
-        xAxis.setAxisLineColor(colorBlackWhite.data);
 
         //Y axis left
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setEnabled(true);
         yAxisLeft.setDrawLabels(true);
-        yAxisLeft.setDrawAxisLine(true);
-        yAxisLeft.setDrawGridLines(false);
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setDrawGridLines(true);
         yAxisLeft.setAxisMinimum(0);
         yAxisLeft.setGranularity(5);
         yAxisLeft.setTextColor(colorBlackWhite.data);
