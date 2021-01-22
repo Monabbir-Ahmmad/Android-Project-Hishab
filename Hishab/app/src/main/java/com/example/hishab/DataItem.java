@@ -14,7 +14,7 @@ public class DataItem {
     private String date;
     private String time;
     private String note;
-    private Long datetimeId;
+    private Long timestamp;
     private int icon;
 
     //Constructor
@@ -72,12 +72,12 @@ public class DataItem {
         this.note = note;
     }
 
-    public Long getDatetimeId() {
-        return datetimeId;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setDatetimeId(Long datetimeId) {
-        this.datetimeId = datetimeId;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public int getIcon() {

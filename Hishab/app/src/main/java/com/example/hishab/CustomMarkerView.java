@@ -18,7 +18,7 @@ public class CustomMarkerView extends MarkerView {
     private ArrayList<DataItem> dataSet;
     private DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
-
+    //Constructor
     public CustomMarkerView(Context context, ArrayList<DataItem> dataSet) {
         super(context, R.layout.custom_marker_view);
         this.dataSet = dataSet;
@@ -36,6 +36,7 @@ public class CustomMarkerView extends MarkerView {
         super.refreshContent(e, highlight);
     }
 
+    //Canvas position
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
         super.draw(canvas, posX, posY);

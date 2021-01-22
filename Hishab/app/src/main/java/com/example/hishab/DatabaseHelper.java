@@ -23,9 +23,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATE = "Date";
     private static final String TIME = "Time";
     private static final String NOTE = "Note";
-    private static final String DATETIME_ID = "DatetimeID";
+    private static final String TIMESTAMP = "Timestamp";
 
-
+    //Constructor
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION_NUMBER);
         this.context = context;
@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DATE + " TEXT, "
                 + TIME + " TEXT, "
                 + NOTE + " TEXT, "
-                + DATETIME_ID + " INTEGER);";
+                + TIMESTAMP + " INTEGER);";
 
         try {
             Toast.makeText(context, "New table created", Toast.LENGTH_SHORT).show();
@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into table
-    public void insertData(String category, float money, String date, String time, String note, Long datetime_id) {
+    public void insertData(String category, float money, String date, String time, String note, Long timestamp) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(DATE, date);
         contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
-        contentValues.put(DATETIME_ID, datetime_id);
+        contentValues.put(TIMESTAMP, timestamp);
 
         long rowID = db.insert(TABLE_NAME, null, contentValues);
 
@@ -130,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                 dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                 dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
-                dataItem.setDatetimeId(cursor.getLong(cursor.getColumnIndex(DATETIME_ID)));
+                dataItem.setTimestamp(cursor.getLong(cursor.getColumnIndex(TIMESTAMP)));
 
                 allData.add(dataItem);
 
@@ -143,7 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This queries filtered data from table
-    public ArrayList<DataItem> getFilteredData(String category, String sortBy, String startDate, String endDate) {
+    public ArrayList<DataItem> getFilteredData(String category, String sortBy, long startTimestamp, long endTimestamp) {
         String order = ID, orderBy = "DESC";
 
         if (category.contains("All"))
@@ -153,14 +153,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (sortBy.contains("Money"))
             order = MONEY;
         else if (sortBy.contains("Date"))
-            order = DATETIME_ID;
+            order = TIMESTAMP;
 
         ArrayList<DataItem> allData = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         try {
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
-                    + " LIKE '" + category + "%' AND " + DATETIME_ID + " BETWEEN " + startDate
-                    + " AND " + endDate + " ORDER BY " + order + " " + orderBy, null);
+                    + " LIKE '" + category + "%' AND " + TIMESTAMP + " BETWEEN " + startTimestamp
+                    + " AND " + endTimestamp + " ORDER BY " + order + " " + orderBy, null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -172,7 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                     dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                     dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
-                    dataItem.setDatetimeId(cursor.getLong(cursor.getColumnIndex(DATETIME_ID)));
+                    dataItem.setTimestamp(cursor.getLong(cursor.getColumnIndex(TIMESTAMP)));
 
                     allData.add(dataItem);
 

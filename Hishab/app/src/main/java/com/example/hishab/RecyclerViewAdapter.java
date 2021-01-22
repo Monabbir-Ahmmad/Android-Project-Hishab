@@ -31,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView rView_icon;
         public TextView rView_category, rView_dateTime, rView_note, rView_money;
 
+        //Constructor
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
@@ -54,6 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    //Constructor
     public RecyclerViewAdapter(ArrayList<DataItem> dataSet) {
         this.dataSet = dataSet;
     }

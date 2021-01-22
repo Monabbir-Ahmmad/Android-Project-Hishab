@@ -25,6 +25,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
 
+
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -63,6 +64,25 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     }
 
 
+    //Applies the filters
+    @Override
+    public void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp) {
+        dataSet = databaseHelper.getFilteredData(category, sortBy, startTimestamp, endTimestamp);
+        createRecyclerView();
+        topPanelCalculation();
+    }
+
+
+    //Delete data when delete button is pressed on bottom sheet
+    @Override
+    public void deleteItem(int position) {
+        databaseHelper.deleteData(dataSet.get(position).getId());
+        dataSet.remove(position);
+        recyclerViewAdapter.notifyItemRemoved(position);
+        topPanelCalculation();
+    }
+
+
     //This creates the RecyclerView
     private void createRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -84,35 +104,19 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
     }
 
-    //Applies the filters
-    @Override
-    public void applyFilter(String category, String sortBy, String startDate, String endDate) {
-        dataSet = databaseHelper.getFilteredData(category, sortBy, startDate, endDate);
-        createRecyclerView();
-        topPanelCalculation();
-    }
-
-    //Delete data when delete button is pressed on bottom sheet
-    @Override
-    public void deleteItem(int position) {
-        databaseHelper.deleteData(dataSet.get(position).getId());
-        dataSet.remove(position);
-        recyclerViewAdapter.notifyItemRemoved(position);
-        topPanelCalculation();
-    }
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
-        float expense = 0;
+        float totalExpense = 0;
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < dataSet.size(); i++) {
-            expense += dataSet.get(i).getMoney();
+            totalExpense += dataSet.get(i).getMoney();
         }
 
         //This will set the current total expense
-        tv_expense.setText(decimalFormat.format(expense) + " BDT");
-
+        tv_expense.setText(decimalFormat.format(totalExpense) + " BDT");
     }
+
 
 }

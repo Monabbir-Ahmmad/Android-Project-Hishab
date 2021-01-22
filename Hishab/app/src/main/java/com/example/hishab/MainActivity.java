@@ -44,9 +44,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //This is the toolbar option menu inflater
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.findItem(R.id.darkMode).setChecked(isDarkModeOn);
+        return true;
+    }
+
+
+    //This is the toolbar menus selection
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.darkMode) {
+
+            if (item.isChecked()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                sharedPrefsEdit.putBoolean("DarkMode", false);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                sharedPrefsEdit.putBoolean("DarkMode", true);
+            }
+            item.setChecked(isDarkModeOn);
+            sharedPrefsEdit.apply();
+            chipNavigationBar.setItemSelected(R.id.overview, true);
+
+        } else if (item.getItemId() == R.id.clearData) {
+            DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+            databaseHelper.removeAll();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     //This method saves app instance
     private void darkModeInstance() {
-
         sharedPrefs = getSharedPreferences("AppPrefs", 0);
         sharedPrefsEdit = sharedPrefs.edit();
         isDarkModeOn = sharedPrefs.getBoolean("DarkMode", false);
@@ -82,39 +116,5 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    //This is the toolbar option menu inflater
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.findItem(R.id.darkMode).setChecked(isDarkModeOn);
-        return true;
-    }
-
-
-    //This is the toolbar menus selection
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.darkMode) {
-
-            if (item.isChecked()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                sharedPrefsEdit.putBoolean("DarkMode", false);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                sharedPrefsEdit.putBoolean("DarkMode", true);
-            }
-            item.setChecked(isDarkModeOn);
-            sharedPrefsEdit.apply();
-            chipNavigationBar.setItemSelected(R.id.overview, true);
-
-        } else if (item.getItemId() == R.id.clearData) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-            databaseHelper.removeAll();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }

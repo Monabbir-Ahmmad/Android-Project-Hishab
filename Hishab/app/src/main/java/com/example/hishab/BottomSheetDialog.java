@@ -28,6 +28,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         void deleteItem(int position);
     }
 
+    //Constructor
     public BottomSheetDialog(DataItem dataItem, int position) {
         this.dataItem = dataItem;
         this.position = position;
@@ -74,6 +75,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         return view;
     }
+
 
     @Override
     public void onAttach(Context context) {

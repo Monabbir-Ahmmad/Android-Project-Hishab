@@ -18,6 +18,7 @@ public class ExpenseFragment extends Fragment {
     private GridView gridView;
     private String[] category;
 
+
     public ExpenseFragment() {
         // Required empty public constructor
     }
@@ -44,8 +45,8 @@ public class ExpenseFragment extends Fragment {
         return view;
     }
 
+    //This creates the category grid buttons
     private void createGridButtons() {
-
         category = getResources().getStringArray(R.array.categoryArray);
         ArrayList<DataItem> btn_array = new ArrayList<>();
         for (int i = 0; i < category.length; i++) {
@@ -56,7 +57,7 @@ public class ExpenseFragment extends Fragment {
 
         GridAdapter gridAdapter = new GridAdapter(getActivity(), btn_array);
         gridView.setAdapter(gridAdapter);
-
     }
+
 
 }

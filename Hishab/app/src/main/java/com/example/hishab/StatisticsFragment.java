@@ -46,6 +46,7 @@ public class StatisticsFragment extends Fragment {
     private ArrayList<DataItem> dataSet = new ArrayList<>();
     private TypedValue colorBlackWhite;
     private DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    private CustomDateTime customDateTime;
 
 
     public StatisticsFragment() {
@@ -59,6 +60,7 @@ public class StatisticsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         databaseHelper = new DatabaseHelper(getActivity());
+        customDateTime = new CustomDateTime(getActivity());
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -91,26 +93,6 @@ public class StatisticsFragment extends Fragment {
         return view;
     }
 
-    //This generates DatetimeID form Date
-    private String generateDatetimeID(String date, String time) {
-        String datetime = date + " " + time;
-        String inputPattern = "dd MMM yyyy hh:mm a";
-        String outputPattern = "yyyyMMddHHmm";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-        Date datetimeInputFormat = null;
-        String datetimeOutputFormat = null;
-
-        try {
-            datetimeInputFormat = inputFormat.parse(datetime);
-            datetimeOutputFormat = outputFormat.format(datetimeInputFormat);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return datetimeOutputFormat;
-    }
 
     //This is the top filter for statistics
     private void statisticsFilter(int tab) {
@@ -119,8 +101,8 @@ public class StatisticsFragment extends Fragment {
         String startDate = null, endDate = null;
 
         if (tab == 0) {
-            startDate = "01 Jan 1000";
-            endDate = "31 Dec 3000";
+            startDate = "01 Jan 1970";
+            endDate = "31 Dec 2100";
 
         } else if (tab == 1) {
             startDate = simpleDateFormat.format(new Date());
@@ -146,9 +128,9 @@ public class StatisticsFragment extends Fragment {
             endDate = simpleDateFormat.format(calendar.getTime());
 
         }
-        startDate = generateDatetimeID(startDate, "12:00 am");
-        endDate = generateDatetimeID(endDate, "11:59 pm");
-        dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startDate, endDate);
+        long startTimestamp = customDateTime.getTimestamp(startDate, "12:00 am");
+        long endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
+        dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
         setChartData();
     }
@@ -156,6 +138,10 @@ public class StatisticsFragment extends Fragment {
 
     //This sets the data into the charts
     private void setChartData() {
+        //Clear charts before updating data
+        pieChart.clear();
+        lineChart.clear();
+
         String[] category = getResources().getStringArray(R.array.categoryArray);
         float[] money = new float[category.length];
         Arrays.fill(money, 0);
@@ -195,17 +181,13 @@ public class StatisticsFragment extends Fragment {
             avg = sum / dataSet.size();
             createPieChart(pieDataSet, pieData);
             createLineChart(lineDataSet, lineData);
-
-        } else {
-            pieChart.clear();
-            lineChart.clear();
-
-            //No data text
-            pieChart.setNoDataText("No data available");
-            pieChart.setNoDataTextColor(colorBlackWhite.data);
-            lineChart.setNoDataText("No data available");
-            lineChart.setNoDataTextColor(colorBlackWhite.data);
         }
+
+        //No data text
+        pieChart.setNoDataText("No data available");
+        pieChart.setNoDataTextColor(colorBlackWhite.data);
+        lineChart.setNoDataText("No data available");
+        lineChart.setNoDataTextColor(colorBlackWhite.data);
 
         tv_total.setText(decimalFormat.format(sum) + " BDT");
         tv_avg.setText(decimalFormat.format(avg) + " BDT");
