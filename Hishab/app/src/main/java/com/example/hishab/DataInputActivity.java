@@ -13,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -23,15 +22,17 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     private Button btn_saveData;
     private TextView tv_category;
     private TextInputEditText et_amount, et_date, et_time, et_note;
-    private Calendar calendar;
-    private SimpleDateFormat simpleDateFormat;
     private CustomDateTime customDateTime;
+    private boolean isUpdate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_input);
+
+        //Check if the call is for adding new date or update existing data
+        isUpdate = getIntent().getBooleanExtra("update", false);
 
         //This is the toolbar
         toolbar = findViewById(R.id.toolbar_dataInput);
@@ -62,7 +63,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         btn_saveData = findViewById(R.id.button_saveData);
         btn_saveData.setOnClickListener(this::onClick);
 
-        setDefaultOnLoad();
+        if (!isUpdate) {
+            setTitle("Add new entry");
+            setViewsForNew();
+        } else {
+            setTitle("Update entry");
+            setViewsForUpdate();
+        }
     }
 
 
@@ -78,13 +85,23 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    //This sets expense category and current date and time on create
-    private void setDefaultOnLoad() {
+    //Set expense category, date, time, note on create
+    private void setViewsForNew() {
         tv_category.setText(getIntent().getStringExtra("category"));
         et_date.setText(new SimpleDateFormat("dd MMM yyyy",
                 Locale.getDefault()).format(new Date()));
         et_time.setText(new SimpleDateFormat("hh:mm a",
                 Locale.getDefault()).format(new Date()));
+    }
+
+
+    //Set expense category, amount, date, time, note on create to update data
+    private void setViewsForUpdate() {
+        tv_category.setText(getIntent().getStringExtra("category"));
+        et_amount.setText(getIntent().getStringExtra("money"));
+        et_date.setText(getIntent().getStringExtra("date"));
+        et_time.setText(getIntent().getStringExtra("time"));
+        et_note.setText(getIntent().getStringExtra("note"));
     }
 
 
@@ -104,7 +121,15 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
             if (note.trim().isEmpty())
                 note = null;
 
-            databaseHelper.insertData(category, money, date, time, note, timestamp);
+            //If not update data, insert new data
+            if (!isUpdate) {
+                databaseHelper.insertData(category, money, date, time, note, timestamp);
+            }
+            //If update, update existing data
+            else {
+                int id = getIntent().getIntExtra("id", -1);
+                databaseHelper.updateData(id, category, money, date, time, note, timestamp);
+            }
             startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
         } else {

@@ -1,6 +1,6 @@
 package com.example.hishab;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +16,14 @@ import java.text.DecimalFormat;
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private DataItem dataItem;
-    private int position;
     private TextView tv_category, tv_amount, tv_date, tv_time, tv_note;
-    private Button btn_delete;
+    private Button btn_edit;
     private ImageButton btn_close;
-    private BottomSheetListener listener;
 
-
-    //Interface for BottomSheetListener
-    public interface BottomSheetListener {
-        void deleteItem(int position);
-    }
 
     //Constructor
-    public BottomSheetDialog(DataItem dataItem, int position) {
+    public BottomSheetDialog(DataItem dataItem) {
         this.dataItem = dataItem;
-        this.position = position;
     }
 
 
@@ -64,11 +56,19 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
-        btn_delete = view.findViewById(R.id.bsheet_delete);
-        btn_delete.setOnClickListener(new View.OnClickListener() {
+        btn_edit = view.findViewById(R.id.bsheet_edit);
+        btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.deleteItem(position);
+                Intent intent = new Intent(getActivity(), DataInputActivity.class);
+                intent.putExtra("update", true);
+                intent.putExtra("id", dataItem.getId());
+                intent.putExtra("category", dataItem.getCategory());
+                intent.putExtra("money", String.valueOf(dataItem.getMoney()));
+                intent.putExtra("date", dataItem.getDate());
+                intent.putExtra("time", dataItem.getTime());
+                intent.putExtra("note", dataItem.getNote());
+                startActivity(intent);
                 dismiss();
             }
         });
@@ -77,14 +77,4 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (BottomSheetListener) getTargetFragment();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement BottomSheetListener");
-        }
-    }
 }

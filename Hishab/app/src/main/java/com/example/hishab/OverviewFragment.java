@@ -1,22 +1,29 @@
 package com.example.hishab;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
-public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener, BottomSheetDialog.BottomSheetListener {
+public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener {
 
     private TextView tv_expense;
     private ExtendedFloatingActionButton btn_filter;
@@ -59,6 +66,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
         //This creates the RecyclerView
         createRecyclerView();
+        createRecyclerViewSwipe();
 
         return view;
     }
@@ -73,13 +81,44 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     }
 
 
-    //Delete data when delete button is pressed on bottom sheet
-    @Override
-    public void deleteItem(int position) {
-        databaseHelper.deleteData(dataSet.get(position).getId());
+    //Delete data when delete gesture is used and show snackBar to undo
+    private void deleteEntry(int position) {
+        DataItem dataItem = dataSet.get(position);
         dataSet.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);
         topPanelCalculation();
+
+        //SnackBar for Undoing item delete
+        Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataSet.add(position, dataItem);
+                recyclerViewAdapter.notifyItemInserted(position);
+                topPanelCalculation();
+            }
+        }).addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    // SnackBar closed on without pressing Undo
+                    databaseHelper.deleteData(dataItem.getId());
+                }
+            }
+        }).show();
+    }
+
+
+    //This calculates the top panel values on startup
+    private void topPanelCalculation() {
+        float totalExpense = 0;
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+
+        for (int i = 0; i < dataSet.size(); i++) {
+            totalExpense += dataSet.get(i).getMoney();
+        }
+
+        //This will set the current total expense
+        tv_expense.setText(decimalFormat.format(totalExpense) + " BDT");
     }
 
 
@@ -96,7 +135,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
             @Override
             public void onItemClick(int position) {
                 //This opens a bottom sheet with details from recyclerView item
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position), position);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
                 bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
                 bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
             }
@@ -105,17 +144,62 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     }
 
 
-    //This calculates the top panel values on startup
-    private void topPanelCalculation() {
-        float totalExpense = 0;
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    ////RecyclerView swipe gesture
+    private void createRecyclerViewSwipe() {
 
-        for (int i = 0; i < dataSet.size(); i++) {
-            totalExpense += dataSet.get(i).getMoney();
-        }
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
-        //This will set the current total expense
-        tv_expense.setText(decimalFormat.format(totalExpense) + " BDT");
+            //Swipe gesture listener
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                deleteEntry(viewHolder.getAdapterPosition());
+            }
+
+            //Draw background with icon for recyclerView swipe gesture
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                Drawable icon = ContextCompat.getDrawable(getActivity(), R.drawable.ic_delete);
+                icon.setTint(Color.WHITE);
+                ColorDrawable background = new ColorDrawable(Color.RED);
+
+                View itemView = viewHolder.itemView;
+                int backgroundCornerOffset = 20;
+                int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                int iconBottom = iconTop + icon.getIntrinsicHeight();
+
+                if (dX > 0) { // Swiping to the right
+                    int iconLeft = itemView.getLeft() + iconMargin;
+                    int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+                    background.setBounds(itemView.getLeft(), itemView.getTop(),
+                            itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
+                } else if (dX < 0) { // Swiping to the left
+                    int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+                    int iconRight = itemView.getRight() - iconMargin;
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+                    background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+                            itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                } else { // view is unSwiped
+                    background.setBounds(0, 0, 0, 0);
+                }
+
+                background.draw(c);
+                icon.draw(c);
+            }
+        });
+
+        //Attach itemTouchHelper to recyclerView
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
 

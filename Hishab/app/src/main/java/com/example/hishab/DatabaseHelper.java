@@ -93,6 +93,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //This updates existing data
+    public void updateData(int id, String category, float money, String date, String time, String note, Long timestamp) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(CATEGORY, category);
+        contentValues.put(MONEY, money);
+        contentValues.put(DATE, date);
+        contentValues.put(TIME, time);
+        contentValues.put(NOTE, note);
+        contentValues.put(TIMESTAMP, timestamp);
+        long rowID = db.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
+
+        if (rowID == -1) {
+            Toast.makeText(context, "Failed to update data", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully updated data", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //This removes all rows form table
     public void removeAll() {
 
