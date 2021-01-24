@@ -38,6 +38,7 @@ import java.util.List;
 
 public class StatisticsFragment extends Fragment {
 
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private PieChart pieChart;
     private LineChart lineChart;
     private TabLayout tabLayout;
@@ -45,7 +46,6 @@ public class StatisticsFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet = new ArrayList<>();
     private TypedValue colorBlackWhite;
-    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private CustomDateTime customDateTime;
 
 

@@ -76,7 +76,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         return builder.create();
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.filter_apply) {
@@ -94,7 +93,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         }
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -105,7 +103,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
             throw new ClassCastException(context.toString() + " must implement FilterDialogListener");
         }
     }
-
 
     //When apply button is pressed check conditions for date interval and apply filter
     private void onFilterApplyClick() {
@@ -126,6 +123,7 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
             Toast.makeText(getActivity(), "Invalid date interval", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 }

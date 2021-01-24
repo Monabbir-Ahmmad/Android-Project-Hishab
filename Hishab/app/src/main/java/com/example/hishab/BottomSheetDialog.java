@@ -16,10 +16,10 @@ import java.text.DecimalFormat;
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private final DataItem dataItem;
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private TextView tv_category, tv_amount, tv_date, tv_time, tv_note;
     private Button btn_edit;
     private ImageButton btn_close;
-    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
 
     //Constructor

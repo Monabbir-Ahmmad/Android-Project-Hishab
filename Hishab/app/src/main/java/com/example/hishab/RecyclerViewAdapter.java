@@ -16,13 +16,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final ArrayList<DataItem> dataSet;
     private onItemClickListener listener;
 
+
     //Interface for onItemClickListener
     public interface onItemClickListener {
         void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(onItemClickListener listener) {
-        this.listener = listener;
     }
 
     //Inner view holder class
@@ -31,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView rView_icon;
         public TextView rView_category, rView_dateTime, rView_note, rView_money;
 
-        //Constructor
+        //Inner classConstructor
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
@@ -55,9 +52,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+
     //Constructor
     public RecyclerViewAdapter(ArrayList<DataItem> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
