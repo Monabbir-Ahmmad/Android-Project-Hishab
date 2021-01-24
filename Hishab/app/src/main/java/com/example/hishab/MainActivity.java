@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (item.getItemId() == R.id.clearData) {
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-            databaseHelper.removeAll();
+            databaseHelper.deleteTable();
         }
 
         return super.onOptionsItemSelected(item);

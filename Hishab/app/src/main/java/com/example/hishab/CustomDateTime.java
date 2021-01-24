@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class CustomDateTime {
 
-    private Context context;
+    private final Context context;
 
 
     //Constructor
@@ -68,7 +68,7 @@ public class CustomDateTime {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a");
         long timestamp = 0L;
         try {
-            Date datetime = (Date) simpleDateFormat.parse(date + " " + time);
+            Date datetime = simpleDateFormat.parse(date + " " + time);
             timestamp = datetime.getTime() / 1000L;
         } catch (ParseException e) {
             e.printStackTrace();

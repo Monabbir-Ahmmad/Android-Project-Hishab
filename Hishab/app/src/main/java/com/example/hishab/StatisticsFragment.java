@@ -45,7 +45,7 @@ public class StatisticsFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet = new ArrayList<>();
     private TypedValue colorBlackWhite;
-    private DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private CustomDateTime customDateTime;
 
 
@@ -297,9 +297,10 @@ public class StatisticsFragment extends Fragment {
         lineChart.setMarker(markerView);
         lineChart.setDrawGridBackground(false);
         lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
+        lineChart.setDragEnabled(false);
         lineChart.setPinchZoom(false);
-        lineChart.setScaleEnabled(true);
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setScaleEnabled(false);
         lineChart.setDrawBorders(false);
 
         lineDataSet.setLineWidth(3f);
@@ -333,7 +334,7 @@ public class StatisticsFragment extends Fragment {
         yAxisLeft.setDrawAxisLine(false);
         yAxisLeft.setDrawGridLines(true);
         yAxisLeft.setAxisMinimum(0);
-        yAxisLeft.setGranularity(5);
+        yAxisLeft.setGranularity(1);
         yAxisLeft.setTextColor(colorBlackWhite.data);
         yAxisLeft.setAxisLineColor(colorBlackWhite.data);
 

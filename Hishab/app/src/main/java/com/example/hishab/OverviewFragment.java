@@ -2,7 +2,6 @@ package com.example.hishab;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -163,31 +162,30 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                View itemView = viewHolder.itemView;
+
+                Drawable background = ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_rectangle);
+                background.setTint(Color.parseColor("#FF432C"));
+                background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
                 Drawable icon = ContextCompat.getDrawable(getActivity(), R.drawable.ic_delete);
                 icon.setTint(Color.WHITE);
-                ColorDrawable background = new ColorDrawable(Color.RED);
 
-                View itemView = viewHolder.itemView;
-                int backgroundCornerOffset = 20;
-                int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                int iconMargin = itemView.getHeight() / 4;
                 int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
                 int iconBottom = iconTop + icon.getIntrinsicHeight();
+                int iconLeft, iconRight;
 
                 if (dX > 0) { // Swiping to the right
-                    int iconLeft = itemView.getLeft() + iconMargin;
-                    int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
+                    iconLeft = itemView.getLeft() + iconMargin;
+                    iconRight = iconLeft + icon.getIntrinsicWidth();
                     icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                    background.setBounds(itemView.getLeft(), itemView.getTop(),
-                            itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
                 } else if (dX < 0) { // Swiping to the left
-                    int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
-                    int iconRight = itemView.getRight() - iconMargin;
+                    iconRight = itemView.getRight() - iconMargin;
+                    iconLeft = iconRight - icon.getIntrinsicWidth();
                     icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                    background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
-                            itemView.getTop(), itemView.getRight(), itemView.getBottom());
                 } else { // view is unSwiped
                     background.setBounds(0, 0, 0, 0);
                 }

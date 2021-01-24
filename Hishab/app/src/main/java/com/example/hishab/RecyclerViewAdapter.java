@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private ArrayList<DataItem> dataSet;
+    private final ArrayList<DataItem> dataSet;
     private onItemClickListener listener;
 
     //Interface for onItemClickListener

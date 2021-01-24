@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class DataItem {
 
-    private Context context;
+    private final Context context;
     private int id;
     private String category;
     private float money;

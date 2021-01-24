@@ -15,10 +15,11 @@ import java.text.DecimalFormat;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
-    private DataItem dataItem;
+    private final DataItem dataItem;
     private TextView tv_category, tv_amount, tv_date, tv_time, tv_note;
     private Button btn_edit;
     private ImageButton btn_close;
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
 
     //Constructor
@@ -35,7 +36,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         tv_category.setText(dataItem.getCategory());
 
         tv_amount = view.findViewById(R.id.bsheet_amount);
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
         tv_amount.setText("Amount: " + decimalFormat.format(dataItem.getMoney()) + " BDT");
 
         tv_date = view.findViewById(R.id.bsheet_date);

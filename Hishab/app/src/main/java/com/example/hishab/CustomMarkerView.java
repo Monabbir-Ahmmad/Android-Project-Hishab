@@ -14,17 +14,19 @@ import java.util.ArrayList;
 
 public class CustomMarkerView extends MarkerView {
 
-    private TextView tv_amount, tv_date, tv_time;
-    private ArrayList<DataItem> dataSet;
-    private DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    private final TextView tv_amount;
+    private final TextView tv_date;
+    private final TextView tv_time;
+    private final ArrayList<DataItem> dataSet;
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
     //Constructor
     public CustomMarkerView(Context context, ArrayList<DataItem> dataSet) {
         super(context, R.layout.custom_marker_view);
         this.dataSet = dataSet;
-        tv_amount = (TextView) findViewById(R.id.markerView_amount);
-        tv_date = (TextView) findViewById(R.id.markerView_date);
-        tv_time = (TextView) findViewById(R.id.markerView_time);
+        tv_amount = findViewById(R.id.markerView_amount);
+        tv_date = findViewById(R.id.markerView_date);
+        tv_time = findViewById(R.id.markerView_time);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
@@ -36,16 +38,21 @@ public class CustomMarkerView extends MarkerView {
         super.refreshContent(e, highlight);
     }
 
-    //Canvas position
+    //Canvas draw position
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
+        if (posY > getChartView().getHeight() / 2) { //When value in above chart center
+            posY = posY - getHeight();
+        } else { //When value in below chart center
+            posY = posY + getHeight();
+        }
         super.draw(canvas, posX, posY);
         getOffsetForDrawingAtPoint(posX, posY);
     }
 
-    //Marker position
+    //Marker position center of highlighted point
     @Override
     public MPPointF getOffset() {
-        return new MPPointF(-(getWidth() / 2), -getHeight());
+        return new MPPointF(-(getWidth() / 2), -(getHeight() / 2));
     }
 }

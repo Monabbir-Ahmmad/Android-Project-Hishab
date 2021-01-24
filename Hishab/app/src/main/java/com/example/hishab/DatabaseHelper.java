@@ -11,11 +11,8 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
-
     private static final String DATABASE_NAME = "ExpenseManager.db";
     private static final int VERSION_NUMBER = 1;
-
     private static final String TABLE_NAME = "Transactions";
     private static final String ID = "ID";
     private static final String CATEGORY = "Category";
@@ -24,6 +21,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TIME = "Time";
     private static final String NOTE = "Note";
     private static final String TIMESTAMP = "Timestamp";
+
+    private final Context context;
+    private SQLiteDatabase database;
+
 
     //Constructor
     public DatabaseHelper(Context context) {
@@ -53,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //This checks if a table exists
+    //This checks if a table exists and upgrades table version when called
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -67,13 +68,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
 
-
     }
 
     //This inserts data into table
     public void insertData(String category, float money, String date, String time, String note, Long timestamp) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
+        database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
@@ -83,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(NOTE, note);
         contentValues.put(TIMESTAMP, timestamp);
 
-        long rowID = db.insert(TABLE_NAME, null, contentValues);
+        long rowID = database.insert(TABLE_NAME, null, contentValues);
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to insert data", Toast.LENGTH_SHORT).show();
@@ -95,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //This updates existing data
     public void updateData(int id, String category, float money, String date, String time, String note, Long timestamp) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
@@ -104,7 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
         contentValues.put(TIMESTAMP, timestamp);
-        long rowID = db.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
+        long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to update data", Toast.LENGTH_SHORT).show();
@@ -113,14 +112,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //This removes all rows form table
-    public void removeAll() {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTs " + TABLE_NAME);
+    //This removes a table and creates new table
+    public void deleteTable() {
+        database = this.getWritableDatabase();
+        database.execSQL("DROP TABLE IF EXISTs " + TABLE_NAME);
 
         Toast.makeText(context, "All data cleared", Toast.LENGTH_SHORT).show();
-        onCreate(db);
+        onCreate(database);
 
     }
 
@@ -128,17 +126,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteData(int id) {
         String[] whereArgs = new String[]{String.valueOf(id)};
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, ID + "=?", whereArgs);
+        try {
+            database = this.getWritableDatabase();
+            database.delete(TABLE_NAME, ID + "=?", whereArgs);
+        } catch (Exception e) {
+            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     //This queries all data from table
     public ArrayList<DataItem> getAllData() {
-
         ArrayList<DataItem> allData = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID + " DESC", null);
+        database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID + " DESC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -156,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
-        db.close();
+        database.close();
         cursor.close();
 
         return allData;
@@ -176,9 +177,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             order = TIMESTAMP;
 
         ArrayList<DataItem> allData = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
+        database = this.getReadableDatabase();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
+            Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
                     + " LIKE '" + category + "%' AND " + TIMESTAMP + " BETWEEN " + startTimestamp
                     + " AND " + endTimestamp + " ORDER BY " + order + " " + orderBy, null);
 
@@ -198,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 } while (cursor.moveToNext());
             }
-            db.close();
+            database.close();
             cursor.close();
 
         } catch (Exception e) {
