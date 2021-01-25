@@ -1,40 +1,39 @@
-package com.example.hishab;
+package com.example.hishab.statistics;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.widget.TextView;
 
+import com.example.hishab.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 public class CustomMarkerView extends MarkerView {
 
     private final TextView tv_amount;
-    private final TextView tv_date;
-    private final TextView tv_time;
-    private final ArrayList<DataItem> dataSet;
+    private final TextView tv_dateTime;
+    private final long startTimestamp;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy\nhh:mm a");
 
     //Constructor
-    public CustomMarkerView(Context context, ArrayList<DataItem> dataSet) {
+    public CustomMarkerView(Context context, long startTimestamp) {
         super(context, R.layout.custom_marker_view);
-        this.dataSet = dataSet;
+        this.startTimestamp = startTimestamp;
         tv_amount = findViewById(R.id.markerView_amount);
-        tv_date = findViewById(R.id.markerView_date);
-        tv_time = findViewById(R.id.markerView_time);
+        tv_dateTime = findViewById(R.id.markerView_dateTime);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tv_amount.setText(decimalFormat.format(e.getY()) + " BDT");
-        tv_date.setText(dataSet.get((int) e.getX()).getDate());
-        tv_time.setText(dataSet.get((int) e.getX()).getTime());
+        tv_dateTime.setText(dateFormat.format((startTimestamp + (long) e.getX()) * 1000L));
         super.refreshContent(e, highlight);
     }
 

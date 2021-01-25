@@ -1,4 +1,4 @@
-package com.example.hishab;
+package com.example.hishab.statistics;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.hishab.CustomDateTime;
+import com.example.hishab.DataItem;
+import com.example.hishab.DatabaseHelper;
+import com.example.hishab.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -132,15 +136,16 @@ public class StatisticsFragment extends Fragment {
         long endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
-        setChartData();
+        setPieData();
+        setLineData();
     }
 
 
-    //This sets the data into the charts
-    private void setChartData() {
-        //Clear charts before updating data
+    //This sets the data into the pie chart
+    private void setPieData() {
+        //Clear chart before updating data
         pieChart.clear();
-        lineChart.clear();
+
 
         String[] category = getResources().getStringArray(R.array.categoryArray);
         float[] money = new float[category.length];
@@ -148,50 +153,75 @@ public class StatisticsFragment extends Fragment {
         int index;
         float sum = 0, avg = 0;
 
-        ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
-        ArrayList<Entry> lineEntryArray = new ArrayList<>();
+        if (dataSet.size() > 0) { //If there is any data
+            ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
 
-        //This is for pie chart and adds the values into the LineEntry
-        for (int i = 0; i < dataSet.size(); i++) {
-            index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
-            money[index] += dataSet.get(i).getMoney();
-            sum += dataSet.get(i).getMoney();
-            lineEntryArray.add(new Entry(i, dataSet.get(i).getMoney()));
-        }
-
-        //This adds the values into the PieEntry
-        for (int i = 0; i < category.length; i++) {
-            if (money[i] > 0) {
-                pieEntryArray.add(new PieEntry(money[i], category[i]));
+            //This calculates sum of each category for pie chart
+            for (int i = 0; i < dataSet.size(); i++) {
+                index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
+                money[index] += dataSet.get(i).getMoney();
+                sum += dataSet.get(i).getMoney(); //Calculate the total expense
             }
-        }
+            avg = sum / dataSet.size(); //Calculate the average expense
 
-        //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
-        PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
-        PieData pieData = new PieData(pieDataSet);
+            //This adds the values of each category into the PieEntry
+            for (int i = 0; i < category.length; i++) {
+                if (money[i] > 0) {
+                    pieEntryArray.add(new PieEntry(money[i], category[i]));
+                }
+            }
 
-        //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
-        LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
-        LineData lineData = new LineData(lineDataSet);
+            //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
+            PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
+            PieData pieData = new PieData(pieDataSet);
 
-
-        if (dataSet.size() > 0) {
             pieChart.setData(pieData);
-            lineChart.setData(lineData);
-            avg = sum / dataSet.size();
             createPieChart(pieDataSet, pieData);
-            createLineChart(lineDataSet, lineData);
+
         }
 
         //No data text
         pieChart.setNoDataText("No data available");
         pieChart.setNoDataTextColor(colorBlackWhite.data);
-        lineChart.setNoDataText("No data available");
-        lineChart.setNoDataTextColor(colorBlackWhite.data);
 
         tv_total.setText(decimalFormat.format(sum) + " BDT");
         tv_avg.setText(decimalFormat.format(avg) + " BDT");
         tv_count.setText(String.valueOf(dataSet.size()));
+
+    }
+
+    //This sets the data into the line chart
+    private void setLineData() {
+        //Clear chart before updating data
+        lineChart.clear();
+        long startTimestamp = dataSet.get(0).getTimestamp();
+        float index = 0;
+
+        if (dataSet.size() > 0) { //If there is any data
+            ArrayList<Entry> lineEntryArray = new ArrayList<>();
+
+            //This adds the values into the LineEntry
+            for (int i = 0; i < dataSet.size(); i++) {
+                if (i > 0) {
+                    if (dataSet.get(i).getTimestamp() - startTimestamp <= index) {
+                        index += 1;
+                    } else {
+                        index = dataSet.get(i).getTimestamp() - startTimestamp;
+                    }
+                }
+                lineEntryArray.add(new Entry(index, dataSet.get(i).getMoney()));
+            }
+
+            //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
+            LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
+            LineData lineData = new LineData(lineDataSet);
+
+            lineChart.setData(lineData);
+            createLineChart(lineDataSet, lineData);
+        }
+
+        lineChart.setNoDataText("No data available");
+        lineChart.setNoDataTextColor(colorBlackWhite.data);
 
     }
 
@@ -291,7 +321,7 @@ public class StatisticsFragment extends Fragment {
         //This gets a color according to theme
         TypedValue colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
-        CustomMarkerView markerView = new CustomMarkerView(getActivity(), dataSet);
+        CustomMarkerView markerView = new CustomMarkerView(getActivity(), dataSet.get(0).getTimestamp());
         markerView.setChartView(lineChart);
 
         lineChart.setMarker(markerView);
@@ -303,17 +333,23 @@ public class StatisticsFragment extends Fragment {
         lineChart.setScaleEnabled(false);
         lineChart.setDrawBorders(false);
 
-        lineDataSet.setLineWidth(3f);
+        //Line attribute
+        lineDataSet.setLineWidth(2f);
         lineDataSet.setColor(colorPrimary.data);
         lineDataSet.setDrawCircles(true);
-        lineDataSet.setCircleRadius(5f);
-        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setCircleRadius(3f);
         lineDataSet.setCircleColor(colorPrimary.data);
+        lineDataSet.setDrawCircleHole(false);
         lineDataSet.setHighlightEnabled(true);
         lineDataSet.setDrawValues(false);
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setFillColor(colorPrimary.data);
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
-        lineDataSet.setCubicIntensity(0f);
+
+        //Highlight
+        lineDataSet.setHighlightEnabled(true);
         lineDataSet.setHighLightColor(colorPrimary.data);
+        lineDataSet.setHighlightLineWidth(1f);
 
         //Description of the chart
         Description description = lineChart.getDescription();

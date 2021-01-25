@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.hishab.expense.ExpenseFragment;
+import com.example.hishab.overview.OverviewFragment;
+import com.example.hishab.statistics.StatisticsFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
