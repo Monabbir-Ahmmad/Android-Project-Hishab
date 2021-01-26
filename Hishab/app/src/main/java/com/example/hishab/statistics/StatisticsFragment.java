@@ -105,33 +105,34 @@ public class StatisticsFragment extends Fragment {
         String startDate = null, endDate = null;
 
         if (tab == 0) {
-            startDate = "01 Jan 1970";
-            endDate = "31 Dec 2100";
-
-        } else if (tab == 1) {
             startDate = simpleDateFormat.format(new Date());
             endDate = startDate;
 
-        } else if (tab == 2) {
+        } else if (tab == 1) {
             calendar.setFirstDayOfWeek(Calendar.SUNDAY);
             calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
             endDate = simpleDateFormat.format(calendar.getTime());
 
-        } else if (tab == 3) {
+        } else if (tab == 2) {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             endDate = simpleDateFormat.format(calendar.getTime());
 
-        } else if (tab == 4) {
+        } else if (tab == 3) {
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
             endDate = simpleDateFormat.format(calendar.getTime());
 
+        } else if (tab == 4) {
+            startDate = "01 Jan 1970";
+            endDate = "31 Dec 2100";
+
         }
+
         long startTimestamp = customDateTime.getTimestamp(startDate, "12:00 am");
         long endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
@@ -176,7 +177,7 @@ public class StatisticsFragment extends Fragment {
             PieData pieData = new PieData(pieDataSet);
 
             pieChart.setData(pieData);
-            createPieChart(pieDataSet, pieData);
+            createPieChart(pieDataSet);
 
         }
 
@@ -194,7 +195,6 @@ public class StatisticsFragment extends Fragment {
     private void setLineData() {
         //Clear chart before updating data
         lineChart.clear();
-        long startTimestamp = dataSet.get(0).getTimestamp();
         float index = 0;
 
         if (dataSet.size() > 0) { //If there is any data
@@ -203,10 +203,10 @@ public class StatisticsFragment extends Fragment {
             //This adds the values into the LineEntry
             for (int i = 0; i < dataSet.size(); i++) {
                 if (i > 0) {
-                    if (dataSet.get(i).getTimestamp() - startTimestamp <= index) {
+                    if (index >= (dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp())) {
                         index += 1;
                     } else {
-                        index = dataSet.get(i).getTimestamp() - startTimestamp;
+                        index = dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp();
                     }
                 }
                 lineEntryArray.add(new Entry(index, dataSet.get(i).getMoney()));
@@ -217,7 +217,7 @@ public class StatisticsFragment extends Fragment {
             LineData lineData = new LineData(lineDataSet);
 
             lineChart.setData(lineData);
-            createLineChart(lineDataSet, lineData);
+            createLineChart(lineDataSet);
         }
 
         lineChart.setNoDataText("No data available");
@@ -227,7 +227,7 @@ public class StatisticsFragment extends Fragment {
 
 
     //This is the pie chart design
-    private void createPieChart(PieDataSet pieDataSet, PieData pieData) {
+    private void createPieChart(PieDataSet pieDataSet) {
         //This gets a color array
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
         List<Integer> colorList = new ArrayList<Integer>(colorArray.length);
@@ -279,9 +279,9 @@ public class StatisticsFragment extends Fragment {
         pieDataSet.setUsingSliceColorAsValueLineColor(true);
 
         //Pie value attr
-        pieData.setValueTextSize(10f);
-        pieData.setValueTextColors(colorList);
-        pieData.setValueFormatter(new PercentFormatter(pieChart));
+        pieDataSet.setValueTextSize(10f);
+        pieDataSet.setValueTextColors(colorList);
+        pieDataSet.setValueFormatter(new PercentFormatter(pieChart));
 
         //Entry label
         pieChart.setDrawEntryLabels(false);
@@ -317,7 +317,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     //This creates the line chart
-    private void createLineChart(LineDataSet lineDataSet, LineData lineData) {
+    private void createLineChart(LineDataSet lineDataSet) {
         //This gets a color according to theme
         TypedValue colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
@@ -327,24 +327,24 @@ public class StatisticsFragment extends Fragment {
         lineChart.setMarker(markerView);
         lineChart.setDrawGridBackground(false);
         lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(false);
-        lineChart.setPinchZoom(false);
+        lineChart.setDragEnabled(true);
+        lineChart.setPinchZoom(true);
         lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setScaleEnabled(false);
+        lineChart.setScaleEnabled(true);
         lineChart.setDrawBorders(false);
 
         //Line attribute
-        lineDataSet.setLineWidth(2f);
+        lineDataSet.setLineWidth(3f);
         lineDataSet.setColor(colorPrimary.data);
         lineDataSet.setDrawCircles(true);
-        lineDataSet.setCircleRadius(3f);
+        lineDataSet.setCircleRadius(3.5f);
         lineDataSet.setCircleColor(colorPrimary.data);
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setHighlightEnabled(true);
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillColor(colorPrimary.data);
-        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
+        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
 
         //Highlight
         lineDataSet.setHighlightEnabled(true);
@@ -380,6 +380,7 @@ public class StatisticsFragment extends Fragment {
 
         //Refresh chart
         lineChart.notifyDataSetChanged();
+        lineChart.fitScreen();
         lineChart.invalidate();
     }
 
