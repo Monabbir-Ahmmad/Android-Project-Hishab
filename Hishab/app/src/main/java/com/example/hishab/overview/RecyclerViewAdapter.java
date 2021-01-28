@@ -81,7 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.rView_icon.setImageResource(dataSet.get(position).getIcon());
         holder.rView_category.setText(dataSet.get(position).getCategory());
         holder.rView_money.setText(decimalFormat.format(dataSet.get(position).getMoney()) + " BDT");
-        holder.rView_dateTime.setText(dataSet.get(position).getTime() + "; " + dataSet.get(position).getDate());
+        holder.rView_dateTime.setText(dataSet.get(position).getDate() + " " + dataSet.get(position).getTime());
         if (dataSet.get(position).getNote() != null)
             holder.rView_note.setText("Note: " + dataSet.get(position).getNote());
 

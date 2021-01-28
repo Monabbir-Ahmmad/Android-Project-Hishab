@@ -2,6 +2,9 @@ package com.example.hishab.statistics;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +51,7 @@ public class StatisticsFragment extends Fragment {
     private TabLayout tabLayout;
     private TextView tv_total, tv_avg, tv_count;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataItem> dataSet = new ArrayList<>();
+    private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite;
     private CustomDateTime customDateTime;
 
@@ -147,7 +150,6 @@ public class StatisticsFragment extends Fragment {
         //Clear chart before updating data
         pieChart.clear();
 
-
         String[] category = getResources().getStringArray(R.array.categoryArray);
         float[] money = new float[category.length];
         Arrays.fill(money, 0);
@@ -203,9 +205,12 @@ public class StatisticsFragment extends Fragment {
             //This adds the values into the LineEntry
             for (int i = 0; i < dataSet.size(); i++) {
                 if (i > 0) {
+                    //If current data's timestamp equals previous timestamp, increase index value by 1sec to avoid error
                     if (index >= (dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp())) {
                         index += 1;
-                    } else {
+                    }
+                    //Else set new index value
+                    else {
                         index = dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp();
                     }
                 }
@@ -231,18 +236,25 @@ public class StatisticsFragment extends Fragment {
         //This gets a color array
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
         List<Integer> colorList = new ArrayList<Integer>(colorArray.length);
-        for (int i : colorArray)
+        for (int i : colorArray) {
             colorList.add(i);
+        }
 
         //Pie chart click event
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                pieChart.setCenterText("Expense\n" + decimalFormat.format(e.getY()) + " BDT");
+                //Change the center text to selected entry value and label with SpannableString styling
+                PieEntry entry = (PieEntry) e;
+                String money = decimalFormat.format(e.getY()) + " BDT";
+                String label = entry.getLabel();
+                SpannableString centerText = new SpannableString(money + "\n" + label);
+                centerText.setSpan(new RelativeSizeSpan(.7f), money.length(), money.length() + label.length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                pieChart.setCenterText(centerText);
             }
 
             @Override
-            public void onNothingSelected() {
+            public void onNothingSelected() { //Reset center text
                 pieChart.setCenterText("Expense");
             }
         });
@@ -344,7 +356,7 @@ public class StatisticsFragment extends Fragment {
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillColor(colorPrimary.data);
-        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
 
         //Highlight
         lineDataSet.setHighlightEnabled(true);
@@ -366,7 +378,6 @@ public class StatisticsFragment extends Fragment {
         //Y axis left
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setEnabled(true);
-        yAxisLeft.setDrawLabels(true);
         yAxisLeft.setDrawAxisLine(false);
         yAxisLeft.setDrawGridLines(true);
         yAxisLeft.setAxisMinimum(0);
@@ -377,6 +388,9 @@ public class StatisticsFragment extends Fragment {
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
+
+        //Animation
+        lineChart.animateY(1000);
 
         //Refresh chart
         lineChart.notifyDataSetChanged();

@@ -46,7 +46,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        dataSet = new ArrayList<>(databaseHelper.getAllData());
+        dataSet = databaseHelper.getAllData();
 
         tv_expense = view.findViewById(R.id.textView_expense);
 
