@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CustomDateTime {
 
@@ -35,7 +36,7 @@ public class CustomDateTime {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
                 editText.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -55,7 +56,7 @@ public class CustomDateTime {
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
                 editText.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
@@ -65,7 +66,7 @@ public class CustomDateTime {
 
     //Generates Timestamp in sec form Date and time
     public long getTimestamp(String date, String time) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
         long timestamp = 0L;
         try {
             Date datetime = simpleDateFormat.parse(date + " " + time);

@@ -12,6 +12,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class CustomMarkerView extends MarkerView {
 
@@ -19,7 +20,7 @@ public class CustomMarkerView extends MarkerView {
     private final TextView tv_dateTime;
     private final long startTimestamp;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy\nhh:mm a");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy\nhh:mm a", Locale.getDefault());
 
     //Constructor
     public CustomMarkerView(Context context, long startTimestamp) {

@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class StatisticsFragment extends Fragment {
 
@@ -104,7 +105,7 @@ public class StatisticsFragment extends Fragment {
     //This is the top filter for statistics
     private void statisticsFilter(int tab) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String startDate = null, endDate = null;
 
         if (tab == 0) {
