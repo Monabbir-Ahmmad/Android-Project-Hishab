@@ -2,6 +2,8 @@ package com.example.hishab.statistics;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.widget.TextView;
 
 import com.example.hishab.R;
@@ -41,6 +43,12 @@ public class CustomMarkerView extends MarkerView {
     //Canvas draw position
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(posX, posY, 10f, paint);
+
         if (posY > getChartView().getHeight() / 2) { //When value in above chart center
             posY = posY - getHeight();
         } else { //When value in below chart center

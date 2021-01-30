@@ -47,6 +47,7 @@ import java.util.Locale;
 public class StatisticsFragment extends Fragment {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
     private PieChart pieChart;
     private LineChart lineChart;
     private TabLayout tabLayout;
@@ -55,6 +56,7 @@ public class StatisticsFragment extends Fragment {
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite;
     private CustomDateTime customDateTime;
+    private long startTimestamp, endTimestamp;
 
 
     public StatisticsFragment() {
@@ -105,7 +107,6 @@ public class StatisticsFragment extends Fragment {
     //This is the top filter for statistics
     private void statisticsFilter(int tab) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String startDate = null, endDate = null;
 
         if (tab == 0) {
@@ -113,20 +114,19 @@ public class StatisticsFragment extends Fragment {
             endDate = startDate;
 
         } else if (tab == 1) {
-            calendar.setFirstDayOfWeek(Calendar.SUNDAY);
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
             startDate = simpleDateFormat.format(calendar.getTime());
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
+            calendar.add(Calendar.DAY_OF_WEEK, 6);
             endDate = simpleDateFormat.format(calendar.getTime());
 
         } else if (tab == 2) {
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             endDate = simpleDateFormat.format(calendar.getTime());
 
         } else if (tab == 3) {
-            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
+            calendar.set(Calendar.DAY_OF_YEAR, 1);
             startDate = simpleDateFormat.format(calendar.getTime());
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
             endDate = simpleDateFormat.format(calendar.getTime());
@@ -137,12 +137,12 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        long startTimestamp = customDateTime.getTimestamp(startDate, "12:00 am");
-        long endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
+        startTimestamp = customDateTime.getTimestamp(startDate, "12:00 am");
+        endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
-        setPieData();
         setLineData();
+        setPieData();
     }
 
 
@@ -227,7 +227,7 @@ public class StatisticsFragment extends Fragment {
         }
 
         lineChart.setNoDataText("No data available");
-        lineChart.setNoDataTextColor(colorBlackWhite.data);
+        lineChart.setNoDataTextColor(Color.WHITE);
 
     }
 
@@ -349,7 +349,7 @@ public class StatisticsFragment extends Fragment {
         lineDataSet.setLineWidth(3f);
         lineDataSet.setColor(Color.WHITE);
         lineDataSet.setDrawCircles(true);
-        lineDataSet.setCircleRadius(3.5f);
+        lineDataSet.setCircleRadius(1.5f);
         lineDataSet.setCircleColor(Color.WHITE);
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setHighlightEnabled(true);
