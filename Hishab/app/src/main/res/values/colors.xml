@@ -11,22 +11,22 @@
     <color name="light_gray">#8A8A8A</color>
 
     <array name="colorArray">
-        <item>#BDBDBD</item>
-        <item>#717171</item>
-        <item>#90CAF9</item>
-        <item>#42A5F5</item>
-        <item>#1E88E5</item>
         <item>#B388FF</item>
         <item>#7C4DFF</item>
         <item>#5E35B1</item>
+        <item>#68B3FF</item>
+        <item>#0F7EEF</item>
+        <item>#005AB5</item>
         <item>#A5D6A7</item>
-        <item>#66BB6A</item>
-        <item>#43A047</item>
-        <item>#FFEB3F</item>
-        <item>#FFB74D</item>
-        <item>#FF7A50</item>
-        <item>#FF8A80</item>
-        <item>#FF4646</item>
-        <item>#E040FB</item>
+        <item>#5ED882</item>
+        <item>#4CAF50</item>
+        <item>#C0CA33</item>
+        <item>#FDD835</item>
+        <item>#FF8400</item>
+        <item>#FF7676</item>
+        <item>#D32F2F</item>
+        <item>#EB3693</item>
+        <item>#BDBDBD</item>
+        <item>#858585</item>
     </array>
 </resources>
