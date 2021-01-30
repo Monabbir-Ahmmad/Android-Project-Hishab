@@ -331,13 +331,12 @@ public class StatisticsFragment extends Fragment {
 
     //This creates the line chart
     private void createLineChart(LineDataSet lineDataSet) {
-        //This gets a color according to theme
-        TypedValue colorPrimary = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+        //Marker view
         CustomMarkerView markerView = new CustomMarkerView(getActivity(), dataSet.get(0).getTimestamp());
         markerView.setChartView(lineChart);
-
         lineChart.setMarker(markerView);
+
+        //Touch attribute
         lineChart.setDrawGridBackground(false);
         lineChart.setTouchEnabled(true);
         lineChart.setDragEnabled(true);
@@ -348,20 +347,20 @@ public class StatisticsFragment extends Fragment {
 
         //Line attribute
         lineDataSet.setLineWidth(3f);
-        lineDataSet.setColor(colorPrimary.data);
+        lineDataSet.setColor(Color.WHITE);
         lineDataSet.setDrawCircles(true);
         lineDataSet.setCircleRadius(3.5f);
-        lineDataSet.setCircleColor(colorPrimary.data);
+        lineDataSet.setCircleColor(Color.WHITE);
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setHighlightEnabled(true);
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawFilled(true);
-        lineDataSet.setFillColor(colorPrimary.data);
+        lineDataSet.setFillColor(Color.WHITE);
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
 
         //Highlight
         lineDataSet.setHighlightEnabled(true);
-        lineDataSet.setHighLightColor(colorPrimary.data);
+        lineDataSet.setHighLightColor(Color.WHITE);
         lineDataSet.setHighlightLineWidth(1f);
 
         //Description of the chart
@@ -378,13 +377,7 @@ public class StatisticsFragment extends Fragment {
 
         //Y axis left
         YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setEnabled(true);
-        yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setDrawGridLines(true);
-        yAxisLeft.setAxisMinimum(0);
-        yAxisLeft.setGranularity(1);
-        yAxisLeft.setTextColor(colorBlackWhite.data);
-        yAxisLeft.setAxisLineColor(colorBlackWhite.data);
+        yAxisLeft.setEnabled(false);
 
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
@@ -392,6 +385,9 @@ public class StatisticsFragment extends Fragment {
 
         //Animation
         lineChart.animateY(1000);
+
+        //View port offset
+        lineChart.setViewPortOffsets(0, 0, 0, 0);
 
         //Refresh chart
         lineChart.notifyDataSetChanged();
