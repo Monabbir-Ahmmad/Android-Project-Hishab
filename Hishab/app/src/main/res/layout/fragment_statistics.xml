@@ -52,7 +52,9 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="?attr/colorWhiteLightBlack"
             app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +71,28 @@
                     android:layout_height="0dp"
                     android:background="?attr/colorPrimary"
                     android:orientation="vertical"
-                    app:layout_constraintDimensionRatio="1:0.5"
+                    app:layout_constraintDimensionRatio="1:0.6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView_totalExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="6dp"
+                        android:text="0 BDT"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Total expense"
+                        android:textColor="@color/white" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/lineChart"
@@ -81,57 +101,17 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="16dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_sum"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Total Expense"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-                <TextView
-                    android:id="@+id/textView_totalExpense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="0 BDT"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                    app:layout_constraintStart_toEndOf="@+id/imageView" />
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="16dp"
-                    android:alpha="0.5"
-                    android:background="@color/light_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_margin="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_average"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
                     app:tint="?attr/colorPrimary" />
 
                 <TextView
@@ -139,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Average Expense"
+                    android:text="Average expense"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
@@ -155,10 +135,11 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
                 <View
-                    android:id="@+id/view2"
+                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
                     android:alpha="0.5"
                     android:background="@color/light_gray"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -169,12 +150,13 @@
                     android:id="@+id/imageView3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_margin="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_counter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view2"
+                    app:layout_constraintTop_toBottomOf="@id/view"
                     app:tint="?attr/colorPrimary" />
 
                 <TextView
@@ -182,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Number of Expenses"
+                    android:text="Number of expenses"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
                     app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
@@ -206,7 +188,10 @@
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="?attr/colorWhiteLightBlack"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"

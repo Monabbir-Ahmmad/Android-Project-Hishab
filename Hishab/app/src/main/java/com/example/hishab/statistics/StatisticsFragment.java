@@ -19,6 +19,7 @@ import com.example.hishab.DatabaseHelper;
 import com.example.hishab.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -30,6 +31,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
@@ -384,6 +386,16 @@ public class StatisticsFragment extends Fragment {
         //X axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(false);
+//        xAxis.setDrawAxisLine(true);
+//        xAxis.setAxisLineColor(Color.WHITE);
+//        xAxis.setAxisLineWidth(1.5f);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setGridColor(Color.WHITE);
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setAvoidFirstLastClipping(true);
+//        xAxis.setGranularityEnabled(true);
+//        xAxis.setTextColor(Color.WHITE);
+//        scaleXAxis(xAxis);
 
         //Animation
         lineChart.animateY(1000);
@@ -395,6 +407,57 @@ public class StatisticsFragment extends Fragment {
         lineChart.notifyDataSetChanged();
         lineChart.fitScreen();
         lineChart.invalidate();
+    }
+
+    //This sets, scales and formats line chart x axis
+    private void scaleXAxis(XAxis xAxis) {
+        boolean axisEnable = false;
+        float maxDiff = dataSet.get(dataSet.size() - 1).getTimestamp() - dataSet.get(0).getTimestamp();
+        int DAY = 86400;
+        int labelCount = 3;
+        boolean labelForce = true;
+        String dateFormatPattern = "dd MMM hh:mma";
+
+        if (dataSet.size() > 1) {
+            axisEnable = true;
+            xAxis.resetAxisMinimum();
+            xAxis.resetAxisMaximum();
+
+            if (maxDiff <= DAY) {
+                dateFormatPattern = "hh:mma";
+
+                if (maxDiff <= 60)
+                    labelCount = 2;
+                else if (maxDiff / 60 == 2 || (maxDiff / 2) % 60 == 0)
+                    labelCount = 3;
+                else if (maxDiff / 60 == 3)
+                    labelCount = 4;
+                else
+                    labelForce = false;
+
+            } else {
+                xAxis.setAxisMinimum(0);
+                xAxis.setAxisMaximum(lineEndPosX - lineStartPosX);
+                labelCount = 3;
+            }
+        }
+
+        xAxis.setEnabled(axisEnable);
+        xAxis.setLabelCount(labelCount, labelForce);
+        xAxis.setGranularity(60);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat(dateFormatPattern);
+
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if (value % DAY == 0)
+                    return dateFormat.format((lineStartPosX + (long) value) * 1000L);
+                else
+                    return dateFormat2.format((lineStartPosX + (long) value) * 1000L);
+            }
+        });
+
     }
 
 
