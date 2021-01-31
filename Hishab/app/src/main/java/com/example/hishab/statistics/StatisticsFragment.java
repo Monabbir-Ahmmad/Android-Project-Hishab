@@ -57,6 +57,7 @@ public class StatisticsFragment extends Fragment {
     private TypedValue colorBlackWhite;
     private CustomDateTime customDateTime;
     private long startTimestamp, endTimestamp;
+    private long lineStartPosX, lineEndPosX;
 
 
     public StatisticsFragment() {
@@ -137,8 +138,8 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        startTimestamp = customDateTime.getTimestamp(startDate, "12:00 am");
-        endTimestamp = customDateTime.getTimestamp(endDate, "11:59 pm");
+        startTimestamp = customDateTime.getTimestamp(startDate, customDateTime.START_OF_DAY);
+        endTimestamp = customDateTime.getTimestamp(endDate, customDateTime.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
         setLineData();
@@ -198,23 +199,24 @@ public class StatisticsFragment extends Fragment {
     private void setLineData() {
         //Clear chart before updating data
         lineChart.clear();
-        float index = 0;
 
         if (dataSet.size() > 0) { //If there is any data
-            ArrayList<Entry> lineEntryArray = new ArrayList<>();
+            lineStartPosX = customDateTime.getTimestamp(dataSet.get(0).getDate(), customDateTime.START_OF_DAY);
+            lineEndPosX = customDateTime.getTimestamp(dataSet.get(dataSet.size() - 1).getDate(), customDateTime.START_OF_DAY) + 86400L;
+            float index = 0;
 
+            ArrayList<Entry> lineEntryArray = new ArrayList<>();
             //This adds the values into the LineEntry
             for (int i = 0; i < dataSet.size(); i++) {
-                if (i > 0) {
-                    //If current data's timestamp equals previous timestamp, increase index value by 1sec to avoid error
-                    if (index >= (dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp())) {
-                        index += 1;
-                    }
-                    //Else set new index value
-                    else {
-                        index = dataSet.get(i).getTimestamp() - dataSet.get(0).getTimestamp();
-                    }
+                //If current data's timestamp equals previous timestamp, increase index value by 1sec to avoid error
+                if (index >= (dataSet.get(i).getTimestamp() - lineStartPosX)) {
+                    index += 1;
                 }
+                //Else set new index value
+                else {
+                    index = dataSet.get(i).getTimestamp() - lineStartPosX;
+                }
+
                 lineEntryArray.add(new Entry(index, dataSet.get(i).getMoney()));
             }
 
@@ -332,7 +334,7 @@ public class StatisticsFragment extends Fragment {
     //This creates the line chart
     private void createLineChart(LineDataSet lineDataSet) {
         //Marker view
-        CustomMarkerView markerView = new CustomMarkerView(getActivity(), dataSet.get(0).getTimestamp());
+        CustomMarkerView markerView = new CustomMarkerView(getActivity(), lineStartPosX);
         markerView.setChartView(lineChart);
         lineChart.setMarker(markerView);
 
@@ -371,10 +373,6 @@ public class StatisticsFragment extends Fragment {
         Legend legend = lineChart.getLegend();
         legend.setEnabled(false);
 
-        //X axis
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setEnabled(false);
-
         //Y axis left
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setEnabled(false);
@@ -382,6 +380,10 @@ public class StatisticsFragment extends Fragment {
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
+
+        //X axis
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setEnabled(false);
 
         //Animation
         lineChart.animateY(1000);

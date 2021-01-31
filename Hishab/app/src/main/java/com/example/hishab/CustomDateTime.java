@@ -16,7 +16,8 @@ import java.util.Locale;
 public class CustomDateTime {
 
     private final Context context;
-
+    public final String START_OF_DAY = "12:00 am";
+    public final String END_OF_DAY = "11:59 pm";
 
     //Constructor
     public CustomDateTime(Context context) {
@@ -65,6 +66,9 @@ public class CustomDateTime {
 
     //Generates Timestamp in sec form Date and time
     public long getTimestamp(String date, String time) {
+        if (time == null || time.isEmpty())
+            time = START_OF_DAY;
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
         long timestamp = 0L;
         try {

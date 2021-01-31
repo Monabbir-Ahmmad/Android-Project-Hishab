@@ -113,10 +113,10 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         long endTimestamp = 4200000000L;
 
         if (!filter_startDate.getText().toString().isEmpty()) {
-            startTimestamp = customDateTime.getTimestamp(filter_startDate.getText().toString(), "12:00 am");
+            startTimestamp = customDateTime.getTimestamp(filter_startDate.getText().toString(), customDateTime.START_OF_DAY);
         }
         if (!filter_endDate.getText().toString().isEmpty()) {
-            endTimestamp = customDateTime.getTimestamp(filter_endDate.getText().toString(), "11:59 pm");
+            endTimestamp = customDateTime.getTimestamp(filter_endDate.getText().toString(), customDateTime.END_OF_DAY);
         }
 
         if (startTimestamp <= endTimestamp) {
