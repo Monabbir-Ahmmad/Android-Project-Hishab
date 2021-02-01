@@ -64,10 +64,10 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         btn_saveData.setOnClickListener(this::onClick);
 
         if (!isUpdate) {
-            setTitle("Add new entry");
+            setTitle("Add new");
             setViewsForNew();
         } else {
-            setTitle("Update entry");
+            setTitle("Edit");
             setViewsForUpdate();
         }
     }

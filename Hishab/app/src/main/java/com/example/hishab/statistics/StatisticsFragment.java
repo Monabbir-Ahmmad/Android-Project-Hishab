@@ -17,6 +17,7 @@ import com.example.hishab.CustomDateTime;
 import com.example.hishab.DataItem;
 import com.example.hishab.DatabaseHelper;
 import com.example.hishab.R;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -35,6 +36,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.DecimalFormat;
@@ -154,9 +156,10 @@ public class StatisticsFragment extends Fragment {
 
     //This calculates the total, average, minimum, maximum and number of expense
     private void setTextViews() {
-        float sum = 0, avg = 0, min = 100000000, max = 0;
+        float sum = 0, avg = 0, min = 0, max = 0;
 
         if (dataSet.size() > 0) { //If there is any data
+            min = 100000000;
             //Calculate the sum of expenses
             for (int i = 0; i < dataSet.size(); i++) {
                 sum += dataSet.get(i).getMoney();
@@ -215,8 +218,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         //No data text
-        pieChart.setNoDataText("No data available");
+        pieChart.setNoDataText("No data to display!");
         pieChart.setNoDataTextColor(colorBlackWhite.data);
+        pieChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
 
@@ -253,8 +257,9 @@ public class StatisticsFragment extends Fragment {
             createLineChart(lineDataSet);
         }
 
-        lineChart.setNoDataText("No data available");
+        lineChart.setNoDataText("No data to display!");
         lineChart.setNoDataTextColor(Color.WHITE);
+        lineChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
 
@@ -277,13 +282,13 @@ public class StatisticsFragment extends Fragment {
                 String money = decimalFormat.format(e.getY()) + " BDT";
                 String label = entry.getLabel();
                 SpannableString centerText = new SpannableString(money + "\n" + label);
-                centerText.setSpan(new RelativeSizeSpan(.7f), money.length(), money.length() + label.length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                centerText.setSpan(new RelativeSizeSpan(.7f), money.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 pieChart.setCenterText(centerText);
             }
 
             @Override
             public void onNothingSelected() { //Reset center text
-                pieChart.setCenterText("Expense");
+                pieChart.setCenterText("Expense by\nCategory");
             }
         });
 
@@ -339,7 +344,7 @@ public class StatisticsFragment extends Fragment {
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText("Expense");
+        pieChart.setCenterText("Expense by\nCategory");
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 
