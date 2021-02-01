@@ -53,7 +53,7 @@ public class StatisticsFragment extends Fragment {
     private PieChart pieChart;
     private LineChart lineChart;
     private TabLayout tabLayout;
-    private TextView tv_total, tv_avg, tv_count;
+    private TextView tv_total, tv_avg, tv_count, tv_min, tv_max;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite;
@@ -98,6 +98,8 @@ public class StatisticsFragment extends Fragment {
         tv_total = view.findViewById(R.id.textView_totalExpense);
         tv_avg = view.findViewById(R.id.textView_avgExpense);
         tv_count = view.findViewById(R.id.textView_expenseCount);
+        tv_min = view.findViewById(R.id.textView_minimum);
+        tv_max = view.findViewById(R.id.textView_maximum);
         pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
 
@@ -144,8 +146,38 @@ public class StatisticsFragment extends Fragment {
         endTimestamp = customDateTime.getTimestamp(endDate, customDateTime.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
+        setTextViews();
         setLineData();
         setPieData();
+    }
+
+
+    //This calculates the total, average, minimum, maximum and number of expense
+    private void setTextViews() {
+        float sum = 0, avg = 0, min = 100000000, max = 0;
+
+        if (dataSet.size() > 0) { //If there is any data
+            //Calculate the sum of expenses
+            for (int i = 0; i < dataSet.size(); i++) {
+                sum += dataSet.get(i).getMoney();
+
+                if (dataSet.get(i).getMoney() < min) { //Find new minimum
+                    min = dataSet.get(i).getMoney();
+                }
+                if (dataSet.get(i).getMoney() > max) { //Find new maximum
+                    max = dataSet.get(i).getMoney();
+                }
+            }
+            avg = sum / dataSet.size(); //Calculate the average expense
+
+        }
+
+        tv_total.setText(decimalFormat.format(sum) + " BDT");
+        tv_avg.setText(decimalFormat.format(avg) + " BDT");
+        tv_count.setText(String.valueOf(dataSet.size()));
+        tv_min.setText(decimalFormat.format(min) + " BDT");
+        tv_max.setText(decimalFormat.format(max) + " BDT");
+
     }
 
 
@@ -154,22 +186,18 @@ public class StatisticsFragment extends Fragment {
         //Clear chart before updating data
         pieChart.clear();
 
-        String[] category = getResources().getStringArray(R.array.categoryArray);
-        float[] money = new float[category.length];
-        Arrays.fill(money, 0);
-        int index;
-        float sum = 0, avg = 0;
-
         if (dataSet.size() > 0) { //If there is any data
-            ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
+            String[] category = getResources().getStringArray(R.array.categoryArray);
+            float[] money = new float[category.length];
+            Arrays.fill(money, 0);
+            int index;
 
+            ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
             //This calculates sum of each category for pie chart
             for (int i = 0; i < dataSet.size(); i++) {
                 index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
                 money[index] += dataSet.get(i).getMoney();
-                sum += dataSet.get(i).getMoney(); //Calculate the total expense
             }
-            avg = sum / dataSet.size(); //Calculate the average expense
 
             //This adds the values of each category into the PieEntry
             for (int i = 0; i < category.length; i++) {
@@ -184,16 +212,11 @@ public class StatisticsFragment extends Fragment {
 
             pieChart.setData(pieData);
             createPieChart(pieDataSet);
-
         }
 
         //No data text
         pieChart.setNoDataText("No data available");
         pieChart.setNoDataTextColor(colorBlackWhite.data);
-
-        tv_total.setText(decimalFormat.format(sum) + " BDT");
-        tv_avg.setText(decimalFormat.format(avg) + " BDT");
-        tv_count.setText(String.valueOf(dataSet.size()));
 
     }
 
@@ -386,16 +409,6 @@ public class StatisticsFragment extends Fragment {
         //X axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(false);
-//        xAxis.setDrawAxisLine(true);
-//        xAxis.setAxisLineColor(Color.WHITE);
-//        xAxis.setAxisLineWidth(1.5f);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setGridColor(Color.WHITE);
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setAvoidFirstLastClipping(true);
-//        xAxis.setGranularityEnabled(true);
-//        xAxis.setTextColor(Color.WHITE);
-//        scaleXAxis(xAxis);
 
         //Animation
         lineChart.animateY(1000);
