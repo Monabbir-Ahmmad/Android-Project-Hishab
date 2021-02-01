@@ -1,43 +1,32 @@
 <resources>
     <string name="app_name">Hishab</string>
 
-    <string name="autoAndVehicle">Auto &amp; Vehicle</string>
-    <string name="billAndUtility">Bill &amp; Utility</string>
-    <string name="clothing">Clothing</string>
-    <string name="education">Education</string>
-    <string name="entertainment">Entertainment</string>
-    <string name="finance">Finance</string>
-    <string name="foodAndDrink">Food &amp; Drink</string>
-    <string name="healthCare">Health care</string>
-    <string name="housing">Housing</string>
-    <string name="miscellaneous">Miscellaneous</string>
-    <string name="parenting">Parenting</string>
-    <string name="personalCare">Personal care</string>
-    <string name="petCare">Pet care</string>
-    <string name="service">Service</string>
-    <string name="shopping">Shopping</string>
-    <string name="tax">Tax</string>
-    <string name="transport">Transport</string>
-
-
     <string-array name="categoryArray">
-        <item>@string/autoAndVehicle</item>
-        <item>@string/billAndUtility</item>
-        <item>@string/clothing</item>
-        <item>@string/education</item>
-        <item>@string/entertainment</item>
-        <item>@string/finance</item>
-        <item>@string/foodAndDrink</item>
-        <item>@string/healthCare</item>
-        <item>@string/housing</item>
-        <item>@string/miscellaneous</item>
-        <item>@string/parenting</item>
-        <item>@string/personalCare</item>
-        <item>@string/petCare</item>
-        <item>@string/service</item>
-        <item>@string/shopping</item>
-        <item>@string/tax</item>
-        <item>@string/transport</item>
+        <item>Auto &amp; Vehicle</item>
+        <item>Bill &amp; Utility</item>
+        <item>Clothing</item>
+        <item>Education</item>
+        <item>Entertainment</item>
+        <item>Finance</item>
+        <item>Food &amp; Drink</item>
+        <item>Health care</item>
+        <item>Housing</item>
+        <item>Miscellaneous</item>
+        <item>Parenting</item>
+        <item>Personal care</item>
+        <item>Pet care</item>
+        <item>Service</item>
+        <item>Shopping</item>
+        <item>Tax</item>
+        <item>Transport</item>
+    </string-array>
+
+    <string-array name="sortByArray">
+        <item>Default</item>
+        <item>Date: Newest</item>
+        <item>Date: Oldest</item>
+        <item>Money: ASC</item>
+        <item>Money: DESC</item>
     </string-array>
 
     <integer-array name="iconArray">
@@ -59,4 +48,5 @@
         <item>@drawable/ic_tax</item>
         <item>@drawable/ic_transport</item>
     </integer-array>
+
 </resources>

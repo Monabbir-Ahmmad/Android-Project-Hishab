@@ -70,7 +70,7 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         filter_category.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
-        String[] sortBy = {"Default", "Date: Newest", "Date: Oldest", "Money: ASC", "Money: DESC"};
+        String[] sortBy = getResources().getStringArray(R.array.sortByArray);
         ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
         filter_sortBy = view.findViewById(R.id.filter_sortBy);
         filter_sortBy.setText(sortByAdapter.getItem(0), false);
