@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "Transactions";
     private static final String ID = "ID";
     private static final String CATEGORY = "Category";
-    private static final String MONEY = "Money";
+    private static final String AMOUNT = "Amount";
     private static final String DATE = "Date";
     private static final String TIME = "Time";
     private static final String NOTE = "Note";
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String createTable = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CATEGORY + " TEXT, "
-                + MONEY + " INTEGER, "
+                + AMOUNT + " INTEGER, "
                 + DATE + " TEXT, "
                 + TIME + " TEXT, "
                 + NOTE + " TEXT, "
@@ -71,12 +71,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into table
-    public void insertData(String category, float money, String date, String time, String note, Long timestamp) {
+    public void insertData(String category, float amount, String date, String time, String note, Long timestamp) {
         database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
-        contentValues.put(MONEY, money);
+        contentValues.put(AMOUNT, amount);
         contentValues.put(DATE, date);
         contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
@@ -93,12 +93,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This updates existing data
-    public void updateData(int id, String category, float money, String date, String time, String note, Long timestamp) {
+    public void updateData(int id, String category, float amount, String date, String time, String note, Long timestamp) {
         database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
-        contentValues.put(MONEY, money);
+        contentValues.put(AMOUNT, amount);
         contentValues.put(DATE, date);
         contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
@@ -147,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
-                dataItem.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
+                dataItem.setAmount(cursor.getFloat(cursor.getColumnIndex(AMOUNT)));
                 dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                 dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                 dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
@@ -171,8 +171,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             category = "";
         if (sortBy.contains("ASC") || sortBy.contains("Oldest"))
             orderBy = "ASC";
-        if (sortBy.contains("Money"))
-            order = MONEY;
+        if (sortBy.contains("Amount"))
+            order = AMOUNT;
         else if (sortBy.contains("Date"))
             order = TIMESTAMP;
 
@@ -189,7 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                     dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                     dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
-                    dataItem.setMoney(cursor.getFloat(cursor.getColumnIndex(MONEY)));
+                    dataItem.setAmount(cursor.getFloat(cursor.getColumnIndex(AMOUNT)));
                     dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                     dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                     dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));

@@ -9,6 +9,14 @@
         android:title="Dark mode"
         app:showAsAction="never" />
     <item
+        android:id="@+id/feedback"
+        android:title="Feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/about"
+        android:title="About"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/clearData"
         android:title="Clear all data"
         app:showAsAction="never" />

@@ -1,9 +1,12 @@
 package com.example.hishab;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -73,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
             sharedPrefsEdit.apply();
             chipNavigationBar.setItemSelected(R.id.overview, true);
 
+        } else if (item.getItemId() == R.id.feedback) {
+            sendFeedback();
+
+        } else if (item.getItemId() == R.id.about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+
         } else if (item.getItemId() == R.id.clearData) {
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
             databaseHelper.deleteTable();
@@ -117,6 +127,21 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             }
         });
+    }
+
+
+    //This will let users send feedback to the developers
+    private void sendFeedback() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"monabbir.ahmmad@yahoo.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: Hishab App " + BuildConfig.VERSION_NAME);
+            startActivity(Intent.createChooser(intent, "Send email using"));
+
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email client installed on your device.", Toast.LENGTH_SHORT);
+        }
     }
 
 

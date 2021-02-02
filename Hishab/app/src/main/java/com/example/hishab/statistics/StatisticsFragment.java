@@ -162,13 +162,13 @@ public class StatisticsFragment extends Fragment {
             min = 100000000;
             //Calculate the sum of expenses
             for (int i = 0; i < dataSet.size(); i++) {
-                sum += dataSet.get(i).getMoney();
+                sum += dataSet.get(i).getAmount();
 
-                if (dataSet.get(i).getMoney() < min) { //Find new minimum
-                    min = dataSet.get(i).getMoney();
+                if (dataSet.get(i).getAmount() < min) { //Find new minimum
+                    min = dataSet.get(i).getAmount();
                 }
-                if (dataSet.get(i).getMoney() > max) { //Find new maximum
-                    max = dataSet.get(i).getMoney();
+                if (dataSet.get(i).getAmount() > max) { //Find new maximum
+                    max = dataSet.get(i).getAmount();
                 }
             }
             avg = sum / dataSet.size(); //Calculate the average expense
@@ -191,21 +191,21 @@ public class StatisticsFragment extends Fragment {
 
         if (dataSet.size() > 0) { //If there is any data
             String[] category = getResources().getStringArray(R.array.categoryArray);
-            float[] money = new float[category.length];
-            Arrays.fill(money, 0);
+            float[] amount = new float[category.length];
+            Arrays.fill(amount, 0);
             int index;
 
             ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
             //This calculates sum of each category for pie chart
             for (int i = 0; i < dataSet.size(); i++) {
                 index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
-                money[index] += dataSet.get(i).getMoney();
+                amount[index] += dataSet.get(i).getAmount();
             }
 
             //This adds the values of each category into the PieEntry
             for (int i = 0; i < category.length; i++) {
-                if (money[i] > 0) {
-                    pieEntryArray.add(new PieEntry(money[i], category[i]));
+                if (amount[i] > 0) {
+                    pieEntryArray.add(new PieEntry(amount[i], category[i]));
                 }
             }
 
@@ -246,7 +246,7 @@ public class StatisticsFragment extends Fragment {
                     index = dataSet.get(i).getTimestamp() - lineStartPosX;
                 }
 
-                lineEntryArray.add(new Entry(index, dataSet.get(i).getMoney()));
+                lineEntryArray.add(new Entry(index, dataSet.get(i).getAmount()));
             }
 
             //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
@@ -279,10 +279,10 @@ public class StatisticsFragment extends Fragment {
             public void onValueSelected(Entry e, Highlight h) {
                 //Change the center text to selected entry value and label with SpannableString styling
                 PieEntry entry = (PieEntry) e;
-                String money = decimalFormat.format(e.getY()) + " BDT";
+                String amount = decimalFormat.format(e.getY()) + " BDT";
                 String label = entry.getLabel();
-                SpannableString centerText = new SpannableString(money + "\n" + label);
-                centerText.setSpan(new RelativeSizeSpan(.7f), money.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString centerText = new SpannableString(amount + "\n" + label);
+                centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 pieChart.setCenterText(centerText);
             }
 

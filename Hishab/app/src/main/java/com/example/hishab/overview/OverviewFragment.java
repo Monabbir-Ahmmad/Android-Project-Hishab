@@ -116,7 +116,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < dataSet.size(); i++) {
-            totalExpense += dataSet.get(i).getMoney();
+            totalExpense += dataSet.get(i).getAmount();
         }
 
         //This will set the current total expense

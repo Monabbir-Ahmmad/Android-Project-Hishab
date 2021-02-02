@@ -98,7 +98,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     //Set expense category, amount, date, time, note on create to update data
     private void setViewsForUpdate() {
         tv_category.setText(getIntent().getStringExtra("category"));
-        et_amount.setText(getIntent().getStringExtra("money"));
+        et_amount.setText(getIntent().getStringExtra("amount"));
         et_date.setText(getIntent().getStringExtra("date"));
         et_time.setText(getIntent().getStringExtra("time"));
         et_note.setText(getIntent().getStringExtra("note"));
@@ -111,7 +111,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
         if (!et_amount.getText().toString().isEmpty() && Float.parseFloat(et_amount.getText().toString()) > 0) {
-            float money = Float.parseFloat(et_amount.getText().toString());
+            float amount = Float.parseFloat(et_amount.getText().toString());
             String category = tv_category.getText().toString();
             String date = et_date.getText().toString();
             String time = et_time.getText().toString();
@@ -123,12 +123,12 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
             //If not update data, insert new data
             if (!isUpdate) {
-                databaseHelper.insertData(category, money, date, time, note, timestamp);
+                databaseHelper.insertData(category, amount, date, time, note, timestamp);
             }
             //If update, update existing data
             else {
                 int id = getIntent().getIntExtra("id", -1);
-                databaseHelper.updateData(id, category, money, date, time, note, timestamp);
+                databaseHelper.updateData(id, category, amount, date, time, note, timestamp);
             }
             startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 

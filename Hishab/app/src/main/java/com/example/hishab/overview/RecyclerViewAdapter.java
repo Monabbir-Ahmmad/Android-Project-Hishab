@@ -29,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView rView_icon;
-        public TextView rView_category, rView_dateTime, rView_note, rView_money;
+        public TextView rView_category, rView_amount, rView_dateTime, rView_note;
 
         //Inner classConstructor
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
@@ -37,9 +37,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             rView_icon = itemView.findViewById(R.id.rView_icon);
             rView_category = itemView.findViewById(R.id.rView_category);
+            rView_amount = itemView.findViewById(R.id.rView_amount);
             rView_dateTime = itemView.findViewById(R.id.rView_dateTime);
             rView_note = itemView.findViewById(R.id.rView_note);
-            rView_money = itemView.findViewById(R.id.rView_money);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.rView_icon.setImageResource(dataSet.get(position).getIcon());
         holder.rView_category.setText(dataSet.get(position).getCategory());
-        holder.rView_money.setText(decimalFormat.format(dataSet.get(position).getMoney()) + " BDT");
+        holder.rView_amount.setText(decimalFormat.format(dataSet.get(position).getAmount()) + " BDT");
         holder.rView_dateTime.setText(dataSet.get(position).getDate() + " " + dataSet.get(position).getTime());
         if (dataSet.get(position).getNote() != null)
             holder.rView_note.setText("Note: " + dataSet.get(position).getNote());

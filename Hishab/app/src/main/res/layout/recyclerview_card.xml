@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/rView_dateTime" />
 
         <TextView
-            android:id="@+id/rView_money"
+            android:id="@+id/rView_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

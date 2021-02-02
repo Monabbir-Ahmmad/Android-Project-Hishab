@@ -10,7 +10,7 @@ public class DataItem {
     private final Context context;
     private int id;
     private String category;
-    private float money;
+    private float amount;
     private String date;
     private String time;
     private String note;
@@ -40,12 +40,12 @@ public class DataItem {
         setIcon(this.category);
     }
 
-    public float getMoney() {
-        return money;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setMoney(float money) {
-        this.money = money;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
     public String getDate() {

@@ -39,7 +39,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         tv_category.setText(dataItem.getCategory());
 
         tv_amount = view.findViewById(R.id.bsheet_amount);
-        tv_amount.setText("Amount: " + decimalFormat.format(dataItem.getMoney()) + " BDT");
+        tv_amount.setText("Amount: " + decimalFormat.format(dataItem.getAmount()) + " BDT");
 
         tv_date = view.findViewById(R.id.bsheet_date);
         tv_date.setText("Date: " + dataItem.getDate());
@@ -67,7 +67,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                 intent.putExtra("update", true);
                 intent.putExtra("id", dataItem.getId());
                 intent.putExtra("category", dataItem.getCategory());
-                intent.putExtra("money", String.valueOf(dataItem.getMoney()));
+                intent.putExtra("amount", String.valueOf(dataItem.getAmount()));
                 intent.putExtra("date", dataItem.getDate());
                 intent.putExtra("time", dataItem.getTime());
                 intent.putExtra("note", dataItem.getNote());

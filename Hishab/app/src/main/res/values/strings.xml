@@ -25,8 +25,8 @@
         <item>Default</item>
         <item>Date: Newest</item>
         <item>Date: Oldest</item>
-        <item>Money: ASC</item>
-        <item>Money: DESC</item>
+        <item>Amount: ASC</item>
+        <item>Amount: DESC</item>
     </string-array>
 
     <integer-array name="iconArray">
