@@ -84,7 +84,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
 
     //Delete data when delete gesture is used and show snackBar to undo
-    private void deleteEntry(int position) {
+    private void deleteItem(int position) {
         DataItem dataItem = dataSet.get(position);
         dataSet.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);
@@ -158,7 +158,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
             //Swipe gesture listener
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                deleteEntry(viewHolder.getAdapterPosition());
+                deleteItem(viewHolder.getAdapterPosition());
             }
 
             //Draw background with icon for recyclerView swipe gesture
