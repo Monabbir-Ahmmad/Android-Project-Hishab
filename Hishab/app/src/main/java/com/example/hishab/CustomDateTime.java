@@ -15,9 +15,9 @@ import java.util.Locale;
 
 public class CustomDateTime {
 
-    private final Context context;
     public final String START_OF_DAY = "12:00 am";
     public final String END_OF_DAY = "11:59 pm";
+    private final Context context;
 
     //Constructor
     public CustomDateTime(Context context) {

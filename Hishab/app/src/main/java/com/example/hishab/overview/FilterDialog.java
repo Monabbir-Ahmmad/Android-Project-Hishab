@@ -27,13 +27,6 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
     private FilterDialogListener listener;
     private CustomDateTime customDateTime;
 
-
-    //Interface for FilterDialogListener
-    public interface FilterDialogListener {
-        void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp);
-    }
-
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Inflate the layout for this dialog fragment
@@ -127,6 +120,10 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
         }
     }
 
+    //Interface for FilterDialogListener
+    public interface FilterDialogListener {
+        void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp);
+    }
 
 
 }

@@ -20,42 +20,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private onItemClickListener listener;
 
 
-    //Interface for onItemClickListener
-    public interface onItemClickListener {
-        void onItemClick(int position);
-    }
-
-    //Inner view holder class
-    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        public ImageView rView_icon;
-        public TextView rView_category, rView_amount, rView_dateTime, rView_note;
-
-        //Inner classConstructor
-        public RecyclerViewHolder(View itemView, onItemClickListener listener) {
-            super(itemView);
-
-            rView_icon = itemView.findViewById(R.id.rView_icon);
-            rView_category = itemView.findViewById(R.id.rView_category);
-            rView_amount = itemView.findViewById(R.id.rView_amount);
-            rView_dateTime = itemView.findViewById(R.id.rView_dateTime);
-            rView_note = itemView.findViewById(R.id.rView_note);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-
     //Constructor
     public RecyclerViewAdapter(ArrayList<DataItem> dataSet) {
         this.dataSet = dataSet;
@@ -90,6 +54,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    //Interface for onItemClickListener
+    public interface onItemClickListener {
+        void onItemClick(int position);
+    }
+
+    //Inner view holder class
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView rView_icon;
+        public TextView rView_category, rView_amount, rView_dateTime, rView_note;
+
+        //Inner classConstructor
+        public RecyclerViewHolder(View itemView, onItemClickListener listener) {
+            super(itemView);
+
+            rView_icon = itemView.findViewById(R.id.rView_icon);
+            rView_category = itemView.findViewById(R.id.rView_category);
+            rView_amount = itemView.findViewById(R.id.rView_amount);
+            rView_dateTime = itemView.findViewById(R.id.rView_dateTime);
+            rView_note = itemView.findViewById(R.id.rView_note);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+        }
     }
 
 
