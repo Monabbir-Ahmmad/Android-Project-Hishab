@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TIME = "Time";
     private static final String NOTE = "Note";
     private static final String TIMESTAMP = "Timestamp";
+    private static final String DELETED = "Deleted";
 
     private final Context context;
     private SQLiteDatabase database;
@@ -43,10 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DATE + " TEXT, "
                 + TIME + " TEXT, "
                 + NOTE + " TEXT, "
-                + TIMESTAMP + " INTEGER);";
+                + TIMESTAMP + " INTEGER, "
+                + DELETED + " INTEGER DEFAULT 0);";
 
         try {
-            Toast.makeText(context, "New table created", Toast.LENGTH_SHORT).show();
             db.execSQL(createTable);
 
         } catch (Exception e) {
@@ -85,9 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long rowID = database.insert(TABLE_NAME, null, contentValues);
 
         if (rowID == -1) {
-            Toast.makeText(context, "Failed to insert data", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Successfully inserted data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed to insert", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -106,9 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
 
         if (rowID == -1) {
-            Toast.makeText(context, "Failed to update data", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Successfully updated data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -123,23 +120,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This removes specific row form table
-    public void deleteData(int id) {
-        String[] whereArgs = new String[]{String.valueOf(id)};
+    public void deleteData(int id, int isDeleted) {
+        database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
 
-        try {
-            database = this.getWritableDatabase();
-            database.delete(TABLE_NAME, ID + "=?", whereArgs);
-        } catch (Exception e) {
-            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
+        contentValues.put(DELETED, isDeleted);
+
+        long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
+
+        if (rowID == -1) {
+            Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     //This queries all data from table
     public ArrayList<DataItem> getAllData() {
         ArrayList<DataItem> allData = new ArrayList<>();
         database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID + " DESC", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + DELETED + " = 0" + " ORDER BY " + ID + " DESC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -181,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
                     + " LIKE '" + category + "%' AND " + TIMESTAMP + " BETWEEN " + startTimestamp
-                    + " AND " + endTimestamp + " ORDER BY " + order + " " + orderBy, null);
+                    + " AND " + endTimestamp + " AND " + DELETED + " = 0" + " ORDER BY " + order + " " + orderBy, null);
 
             if (cursor.moveToFirst()) {
                 do {

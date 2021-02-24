@@ -31,7 +31,7 @@
 
     <integer-array name="iconArray">
         <item>@drawable/ic_automobile</item>
-        <item>@drawable/ic_bills</item>
+        <item>@drawable/ic_bill</item>
         <item>@drawable/ic_clothes</item>
         <item>@drawable/ic_education</item>
         <item>@drawable/ic_entertainment</item>

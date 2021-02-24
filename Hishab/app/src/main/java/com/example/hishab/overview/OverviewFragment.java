@@ -89,6 +89,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         dataSet.remove(position);
         recyclerViewAdapter.notifyItemRemoved(position);
         topPanelCalculation();
+        databaseHelper.deleteData(dataItem.getId(), 1);
 
         //SnackBar for Undoing item delete
         Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
@@ -97,14 +98,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
                 dataSet.add(position, dataItem);
                 recyclerViewAdapter.notifyItemInserted(position);
                 topPanelCalculation();
-            }
-        }).addCallback(new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar snackbar, int event) {
-                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    // SnackBar closed on without pressing Undo
-                    databaseHelper.deleteData(dataItem.getId());
-                }
+                databaseHelper.deleteData(dataItem.getId(), 0);
             }
         }).show();
     }
