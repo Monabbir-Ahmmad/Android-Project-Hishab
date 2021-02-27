@@ -3,9 +3,7 @@ package com.example.hishab;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +15,9 @@ public class CustomDateTime {
 
     public final String START_OF_DAY = "12:00 am";
     public final String END_OF_DAY = "11:59 pm";
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+    private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
     private final Context context;
 
     //Constructor
@@ -29,16 +30,12 @@ public class CustomDateTime {
     public void pickDate(EditText editText) {
         Calendar calendar = Calendar.getInstance();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-                editText.setText(simpleDateFormat.format(calendar.getTime()));
-            }
+            editText.setText(dateFormat.format(calendar.getTime()));
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.getDatePicker().setMinDate(1L);
 
@@ -50,15 +47,11 @@ public class CustomDateTime {
     public void pickTime(EditText editText) {
         Calendar calendar = Calendar.getInstance();
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-                editText.setText(simpleDateFormat.format(calendar.getTime()));
-            }
+            editText.setText(timeFormat.format(calendar.getTime()));
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
 
         timePickerDialog.show();
@@ -69,10 +62,9 @@ public class CustomDateTime {
         if (time == null || time.isEmpty())
             time = START_OF_DAY;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
         long timestamp = 0L;
         try {
-            Date datetime = simpleDateFormat.parse(date + " " + time);
+            Date datetime = dateTimeFormat.parse(date + " " + time);
             timestamp = datetime.getTime() / 1000L;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -80,4 +72,16 @@ public class CustomDateTime {
 
         return timestamp;
     }
+
+    //Get get date from timestamp
+    public String getDate(long timestamp) {
+        return dateFormat.format(timestamp * 1000L);
+    }
+
+    //Get get time from timestamp
+    public String getTime(long timestamp) {
+        return timeFormat.format(timestamp * 1000L);
+    }
+
+
 }

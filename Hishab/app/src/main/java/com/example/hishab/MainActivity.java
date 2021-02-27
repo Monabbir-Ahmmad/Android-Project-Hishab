@@ -111,21 +111,18 @@ public class MainActivity extends AppCompatActivity {
 
     //This controls fragment transitions and bottom navigation
     private void bottomNavigationBar() {
-        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int id) {
-                Fragment selectedFragment = null;
+        chipNavigationBar.setOnItemSelectedListener(id -> {
+            Fragment selectedFragment = null;
 
-                if (id == R.id.overview) {
-                    selectedFragment = new OverviewFragment();
-                } else if (id == R.id.expense) {
-                    selectedFragment = new ExpenseFragment();
-                } else if (id == R.id.statistics) {
-                    selectedFragment = new StatisticsFragment();
-                }
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            if (id == R.id.overview) {
+                selectedFragment = new OverviewFragment();
+            } else if (id == R.id.expense) {
+                selectedFragment = new ExpenseFragment();
+            } else if (id == R.id.statistics) {
+                selectedFragment = new StatisticsFragment();
             }
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         });
     }
 
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(intent, "Send email using"));
 
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "There are no email client installed on your device.", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "There are no email client installed on your device.", Toast.LENGTH_SHORT).show();
         }
     }
 

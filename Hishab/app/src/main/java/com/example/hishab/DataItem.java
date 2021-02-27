@@ -11,15 +11,17 @@ public class DataItem {
     private int id;
     private String category;
     private float amount;
-    private String date;
-    private String time;
     private String note;
-    private Long timestamp;
+    private final String[] categoryArray;
     private int icon;
+    private final TypedArray iconArray;
+    private long timestamp;
 
     //Constructor
     public DataItem(Context context) {
         this.context = context;
+        categoryArray = context.getResources().getStringArray(R.array.categoryArray);
+        iconArray = context.getResources().obtainTypedArray(R.array.iconArray);
     }
 
 
@@ -48,22 +50,6 @@ public class DataItem {
         this.amount = amount;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public String getNote() {
         return note;
     }
@@ -72,11 +58,11 @@ public class DataItem {
         this.note = note;
     }
 
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -85,8 +71,6 @@ public class DataItem {
     }
 
     private void setIcon(String category) {
-        String[] categoryArray = context.getResources().getStringArray(R.array.categoryArray);
-        TypedArray iconArray = context.getResources().obtainTypedArray(R.array.iconArray);
         int index = Arrays.asList(categoryArray).indexOf(category);
         this.icon = iconArray.getResourceId(index, -1);
     }

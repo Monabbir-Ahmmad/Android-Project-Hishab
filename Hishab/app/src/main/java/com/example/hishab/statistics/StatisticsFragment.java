@@ -59,7 +59,7 @@ public class StatisticsFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite;
-    private CustomDateTime customDateTime;
+    private CustomDateTime cDateTime;
     private long startTimestamp, endTimestamp;
     private long lineStartPosX, lineEndPosX;
 
@@ -75,7 +75,7 @@ public class StatisticsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        customDateTime = new CustomDateTime(getActivity());
+        cDateTime = new CustomDateTime(getActivity());
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -144,19 +144,19 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        startTimestamp = customDateTime.getTimestamp(startDate, customDateTime.START_OF_DAY);
-        endTimestamp = customDateTime.getTimestamp(endDate, customDateTime.END_OF_DAY);
+        startTimestamp = cDateTime.getTimestamp(startDate, cDateTime.START_OF_DAY);
+        endTimestamp = cDateTime.getTimestamp(endDate, cDateTime.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
-        setTextViews();
+        setStatisticsSummary();
         setLineData();
         setPieData();
     }
 
 
     //This calculates the total, average, minimum, maximum and number of expense
-    private void setTextViews() {
-        float sum = 0, avg = 0, min = 0, max = 0;
+    private void setStatisticsSummary() {
+        double sum = 0, avg = 0, min = 0, max = 0;
 
         if (dataSet.size() > 0) { //If there is any data
             min = 100000000;
@@ -175,11 +175,11 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        tv_total.setText(decimalFormat.format(sum) + " BDT");
-        tv_avg.setText(decimalFormat.format(avg) + " BDT");
+        tv_total.setText(String.format("%s BDT", decimalFormat.format(sum)));
+        tv_avg.setText(String.format("%s BDT", decimalFormat.format(avg)));
         tv_count.setText(String.valueOf(dataSet.size()));
-        tv_min.setText(decimalFormat.format(min) + " BDT");
-        tv_max.setText(decimalFormat.format(max) + " BDT");
+        tv_min.setText(String.format("%s BDT", decimalFormat.format(min)));
+        tv_max.setText(String.format("%s BDT", decimalFormat.format(max)));
 
     }
 
@@ -230,8 +230,10 @@ public class StatisticsFragment extends Fragment {
         lineChart.clear();
 
         if (dataSet.size() > 0) { //If there is any data
-            lineStartPosX = customDateTime.getTimestamp(dataSet.get(0).getDate(), customDateTime.START_OF_DAY);
-            lineEndPosX = customDateTime.getTimestamp(dataSet.get(dataSet.size() - 1).getDate(), customDateTime.START_OF_DAY) + 86400L;
+            lineStartPosX = cDateTime.getTimestamp(cDateTime.getDate(dataSet.get(0).getTimestamp())
+                    , cDateTime.START_OF_DAY);
+            lineEndPosX = cDateTime.getTimestamp(cDateTime.getDate(dataSet.get(dataSet.size() - 1).getTimestamp())
+                    , cDateTime.START_OF_DAY) + 86400L;
             float index = 0;
 
             ArrayList<Entry> lineEntryArray = new ArrayList<>();
@@ -268,7 +270,7 @@ public class StatisticsFragment extends Fragment {
     private void createPieChart(PieDataSet pieDataSet) {
         //This gets a color array
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
-        List<Integer> colorList = new ArrayList<Integer>(colorArray.length);
+        List<Integer> colorList = new ArrayList<>(colorArray.length);
         for (int i : colorArray) {
             colorList.add(i);
         }
@@ -463,8 +465,8 @@ public class StatisticsFragment extends Fragment {
         xAxis.setEnabled(axisEnable);
         xAxis.setLabelCount(labelCount, labelForce);
         xAxis.setGranularity(60);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat(dateFormatPattern);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat(dateFormatPattern, Locale.getDefault());
 
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override

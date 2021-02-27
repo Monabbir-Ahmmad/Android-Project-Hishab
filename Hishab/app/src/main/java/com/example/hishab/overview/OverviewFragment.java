@@ -21,6 +21,8 @@ import com.example.hishab.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -54,14 +56,11 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         topPanelCalculation();
 
         btn_filter = view.findViewById(R.id.button_filter);
-        btn_filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //This opens the filter dialog
-                FilterDialog filterDialog = new FilterDialog();
-                filterDialog.setTargetFragment(OverviewFragment.this, 1);
-                filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
-            }
+        btn_filter.setOnClickListener(v -> {
+            //This opens the filter dialog
+            FilterDialog filterDialog = new FilterDialog();
+            filterDialog.setTargetFragment(OverviewFragment.this, 1);
+            filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
         });
 
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -92,21 +91,18 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         databaseHelper.deleteData(dataItem.getId(), 1);
 
         //SnackBar for Undoing item delete
-        Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dataSet.add(position, dataItem);
-                recyclerViewAdapter.notifyItemInserted(position);
-                topPanelCalculation();
-                databaseHelper.deleteData(dataItem.getId(), 0);
-            }
+        Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", view -> {
+            dataSet.add(position, dataItem);
+            recyclerViewAdapter.notifyItemInserted(position);
+            topPanelCalculation();
+            databaseHelper.deleteData(dataItem.getId(), 0);
         }).show();
     }
 
 
     //This calculates the top panel values on startup
     private void topPanelCalculation() {
-        float totalExpense = 0;
+        double totalExpense = 0;
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
         for (int i = 0; i < dataSet.size(); i++) {
@@ -114,27 +110,24 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         }
 
         //This will set the current total expense
-        tv_expense.setText(decimalFormat.format(totalExpense) + " BDT");
+        tv_expense.setText(String.format("%s BDT", decimalFormat.format(totalExpense)));
     }
 
 
     //This creates the RecyclerView
     private void createRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewAdapter = new RecyclerViewAdapter(dataSet);
+        recyclerViewAdapter = new RecyclerViewAdapter(dataSet, getActivity());
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                //This opens a bottom sheet with details from recyclerView item
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
-                bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
-                bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
-            }
+        recyclerViewAdapter.setOnItemClickListener(position -> {
+            //This opens a bottom sheet with details from recyclerView item
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
+            bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
+            bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
         });
 
     }
@@ -145,19 +138,19 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             //Swipe gesture listener
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
                 deleteItem(viewHolder.getAdapterPosition());
             }
 
             //Draw background with icon for recyclerView swipe gesture
             @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 View itemView = viewHolder.itemView;
 

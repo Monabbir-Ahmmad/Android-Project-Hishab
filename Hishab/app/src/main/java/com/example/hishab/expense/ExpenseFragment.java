@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
@@ -37,13 +36,10 @@ public class ExpenseFragment extends Fragment {
         createGridButtons();
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DataInputActivity.class);
-                intent.putExtra("category", category[position]);
-                startActivity(intent);
-            }
+        gridView.setOnItemClickListener((parent, view1, position, id) -> {
+            Intent intent = new Intent(getActivity(), DataInputActivity.class);
+            intent.putExtra("category", category[position]);
+            startActivity(intent);
         });
 
         return view;
@@ -53,9 +49,9 @@ public class ExpenseFragment extends Fragment {
     private void createGridButtons() {
         category = getResources().getStringArray(R.array.categoryArray);
         ArrayList<DataItem> btn_array = new ArrayList<>();
-        for (int i = 0; i < category.length; i++) {
+        for (String s : category) {
             DataItem dataItem = new DataItem(getActivity());
-            dataItem.setCategory(category[i]);
+            dataItem.setCategory(s);
             btn_array.add(dataItem);
         }
 

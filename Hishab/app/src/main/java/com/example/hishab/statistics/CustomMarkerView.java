@@ -35,7 +35,7 @@ public class CustomMarkerView extends MarkerView {
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tv_amount.setText(decimalFormat.format(e.getY()) + " BDT");
+        tv_amount.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
         tv_dateTime.setText(dateFormat.format((startTimestamp + (long) e.getX()) * 1000L));
         super.refreshContent(e, highlight);
     }

@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.hishab.CustomDateTime;
 import com.example.hishab.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,6 +29,7 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
     private FilterDialogListener listener;
     private CustomDateTime customDateTime;
 
+    @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Inflate the layout for this dialog fragment
@@ -38,19 +41,19 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
 
         //This is the start date edit text on filter dialog
         filter_startDate = view.findViewById(R.id.filter_startDate);
-        filter_startDate.setOnClickListener(this::onClick);
+        filter_startDate.setOnClickListener(this);
 
         //This is the end date edit text on filter dialog
         filter_endDate = view.findViewById(R.id.filter_endDate);
-        filter_endDate.setOnClickListener(this::onClick);
+        filter_endDate.setOnClickListener(this);
 
         //This is the cancel button on filter dialog
         filter_cancel = view.findViewById(R.id.filter_cancel);
-        filter_cancel.setOnClickListener(this::onClick);
+        filter_cancel.setOnClickListener(this);
 
         //This is the apply button on filter dialog
         filter_apply = view.findViewById(R.id.filter_apply);
-        filter_apply.setOnClickListener(this::onClick);
+        filter_apply.setOnClickListener(this);
 
 
         //This is the category dropdown
@@ -90,7 +93,7 @@ public class FilterDialog extends AppCompatDialogFragment implements View.OnClic
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
 
         try {

@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             Toast.makeText(context, "Table Upgraded", Toast.LENGTH_SHORT).show();
 
-            db.execSQL("DROP TABLE IF EXISTs " + TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
 
         } catch (Exception e) {
@@ -146,8 +146,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
                 dataItem.setAmount(cursor.getFloat(cursor.getColumnIndex(AMOUNT)));
-                dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
-                dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                 dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
                 dataItem.setTimestamp(cursor.getLong(cursor.getColumnIndex(TIMESTAMP)));
 
@@ -188,8 +186,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     dataItem.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                     dataItem.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
                     dataItem.setAmount(cursor.getFloat(cursor.getColumnIndex(AMOUNT)));
-                    dataItem.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
-                    dataItem.setTime(cursor.getString(cursor.getColumnIndex(TIME)));
                     dataItem.setNote(cursor.getString(cursor.getColumnIndex(NOTE)));
                     dataItem.setTimestamp(cursor.getLong(cursor.getColumnIndex(TIMESTAMP)));
 

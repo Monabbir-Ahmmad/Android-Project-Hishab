@@ -41,12 +41,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //Toolbar back arrow
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         customDateTime = new CustomDateTime(this);
 
@@ -55,13 +50,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         et_note = findViewById(R.id.editText_note);
 
         et_date = findViewById(R.id.editText_date);
-        et_date.setOnClickListener(this::onClick);
+        et_date.setOnClickListener(this);
 
         et_time = findViewById(R.id.editText_time);
-        et_time.setOnClickListener(this::onClick);
+        et_time.setOnClickListener(this);
 
         btn_saveData = findViewById(R.id.button_saveData);
-        btn_saveData.setOnClickListener(this::onClick);
+        btn_saveData.setOnClickListener(this);
 
         if (!isUpdate) {
             setTitle("Add new");

@@ -1,7 +1,6 @@
 package com.example.hishab;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,14 +23,9 @@ public class AboutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //Toolbar back arrow
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         tv_appVersion = findViewById(R.id.textView_appVersion);
-        tv_appVersion.setText("Version " + BuildConfig.VERSION_NAME);
+        tv_appVersion.setText(String.format("Version %s", BuildConfig.VERSION_NAME));
     }
 }
