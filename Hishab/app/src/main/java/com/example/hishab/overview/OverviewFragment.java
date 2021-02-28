@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener {
 
-    private TextView tv_expense;
-    private ExtendedFloatingActionButton btn_filter;
+    private TextView tvExpense;
+    private ExtendedFloatingActionButton btnFilter;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private DatabaseHelper databaseHelper;
@@ -50,13 +50,13 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         databaseHelper = new DatabaseHelper(getActivity());
         dataSet = databaseHelper.getAllData();
 
-        tv_expense = view.findViewById(R.id.textView_expense);
+        tvExpense = view.findViewById(R.id.textView_expense);
 
         //This calculates the top panel values on startup
         topPanelCalculation();
 
-        btn_filter = view.findViewById(R.id.button_filter);
-        btn_filter.setOnClickListener(v -> {
+        btnFilter = view.findViewById(R.id.button_filter);
+        btnFilter.setOnClickListener(v -> {
             //This opens the filter dialog
             FilterDialog filterDialog = new FilterDialog();
             filterDialog.setTargetFragment(OverviewFragment.this, 1);
@@ -110,7 +110,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         }
 
         //This will set the current total expense
-        tv_expense.setText(String.format("%s BDT", decimalFormat.format(totalExpense)));
+        tvExpense.setText(String.format("%s BDT", decimalFormat.format(totalExpense)));
     }
 
 

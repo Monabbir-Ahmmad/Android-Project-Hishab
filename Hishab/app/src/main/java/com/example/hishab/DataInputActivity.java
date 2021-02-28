@@ -19,9 +19,9 @@ import java.util.Locale;
 public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private Button btn_saveData;
-    private TextView tv_category;
-    private TextInputEditText et_amount, et_date, et_time, et_note;
+    private Button btnSaveData;
+    private TextView tvCategory;
+    private TextInputEditText etAmount, etDate, etTime, etNote;
     private CustomDateTime customDateTime;
     private boolean isUpdate;
 
@@ -45,25 +45,25 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         customDateTime = new CustomDateTime(this);
 
-        tv_category = findViewById(R.id.textView_category);
-        et_amount = findViewById(R.id.editText_amount);
-        et_note = findViewById(R.id.editText_note);
+        tvCategory = findViewById(R.id.textView_category);
+        etAmount = findViewById(R.id.editText_amount);
+        etNote = findViewById(R.id.editText_note);
 
-        et_date = findViewById(R.id.editText_date);
-        et_date.setOnClickListener(this);
+        etDate = findViewById(R.id.editText_date);
+        etDate.setOnClickListener(this);
 
-        et_time = findViewById(R.id.editText_time);
-        et_time.setOnClickListener(this);
+        etTime = findViewById(R.id.editText_time);
+        etTime.setOnClickListener(this);
 
-        btn_saveData = findViewById(R.id.button_saveData);
-        btn_saveData.setOnClickListener(this);
+        btnSaveData = findViewById(R.id.button_saveData);
+        btnSaveData.setOnClickListener(this);
 
         if (!isUpdate) {
             setTitle("Add new");
-            setViewsForNew();
+            setViewsNew();
         } else {
             setTitle("Edit");
-            setViewsForUpdate();
+            setViewsUpdate();
         }
     }
 
@@ -73,30 +73,30 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         if (v.getId() == R.id.button_saveData) {
             saveData();
         } else if (v.getId() == R.id.editText_time) {
-            customDateTime.pickTime(et_time);
+            customDateTime.pickTime(etTime);
         } else if (v.getId() == R.id.editText_date) {
-            customDateTime.pickDate(et_date);
+            customDateTime.pickDate(etDate);
         }
     }
 
 
     //Set expense category, date, time, note on create
-    private void setViewsForNew() {
-        tv_category.setText(getIntent().getStringExtra("category"));
-        et_date.setText(new SimpleDateFormat("dd MMM yyyy",
+    private void setViewsNew() {
+        tvCategory.setText(getIntent().getStringExtra("category"));
+        etDate.setText(new SimpleDateFormat("dd MMM yyyy",
                 Locale.getDefault()).format(new Date()));
-        et_time.setText(new SimpleDateFormat("hh:mm a",
+        etTime.setText(new SimpleDateFormat("hh:mm a",
                 Locale.getDefault()).format(new Date()));
     }
 
 
     //Set expense category, amount, date, time, note on create to update data
-    private void setViewsForUpdate() {
-        tv_category.setText(getIntent().getStringExtra("category"));
-        et_amount.setText(getIntent().getStringExtra("amount"));
-        et_date.setText(getIntent().getStringExtra("date"));
-        et_time.setText(getIntent().getStringExtra("time"));
-        et_note.setText(getIntent().getStringExtra("note"));
+    private void setViewsUpdate() {
+        tvCategory.setText(getIntent().getStringExtra("category"));
+        etAmount.setText(getIntent().getStringExtra("amount"));
+        etDate.setText(getIntent().getStringExtra("date"));
+        etTime.setText(getIntent().getStringExtra("time"));
+        etNote.setText(getIntent().getStringExtra("note"));
     }
 
 
@@ -105,12 +105,12 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-        if (!et_amount.getText().toString().isEmpty() && Float.parseFloat(et_amount.getText().toString()) > 0) {
-            float amount = Float.parseFloat(et_amount.getText().toString());
-            String category = tv_category.getText().toString();
-            String date = et_date.getText().toString();
-            String time = et_time.getText().toString();
-            String note = et_note.getText().toString();
+        if (!etAmount.getText().toString().isEmpty() && Float.parseFloat(etAmount.getText().toString()) > 0) {
+            float amount = Float.parseFloat(etAmount.getText().toString());
+            String category = tvCategory.getText().toString();
+            String date = etDate.getText().toString();
+            String time = etTime.getText().toString();
+            String note = etNote.getText().toString();
             Long timestamp = customDateTime.getTimestamp(date, time);
 
             if (note.trim().isEmpty())

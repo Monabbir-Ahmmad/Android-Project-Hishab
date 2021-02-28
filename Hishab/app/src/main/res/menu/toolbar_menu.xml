@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/darkMode"
+        android:id="@+id/menu_darkMode"
         android:checkable="true"
         android:iconTint="?attr/colorPrimary"
         android:title="Dark mode"
         app:showAsAction="never" />
     <item
-        android:id="@+id/feedback"
+        android:id="@+id/menu_feedback"
         android:title="Feedback"
         app:showAsAction="never" />
     <item
-        android:id="@+id/about"
+        android:id="@+id/menu_about"
         android:title="About"
         app:showAsAction="never" />
     <item
-        android:id="@+id/clearData"
+        android:id="@+id/menu_clearData"
         android:title="Clear all data"
         app:showAsAction="never" />
 

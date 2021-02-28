@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        chipNavigationBar = findViewById(R.id.chip_nav_menu);
+        chipNavigationBar = findViewById(R.id.bottomNav);
         //This sets the default fragment and bottom nav button on startup
-        chipNavigationBar.setItemSelected(R.id.overview, true);
+        chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new OverviewFragment()).commit();
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.findItem(R.id.darkMode).setChecked(isDarkModeOn);
+        menu.findItem(R.id.menu_darkMode).setChecked(isDarkModeOn);
         return true;
     }
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.darkMode) {
+        if (item.getItemId() == R.id.menu_darkMode) {
 
             if (item.isChecked()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -74,16 +74,16 @@ public class MainActivity extends AppCompatActivity {
             }
             item.setChecked(isDarkModeOn);
             sharedPrefsEdit.apply();
-            chipNavigationBar.setItemSelected(R.id.overview, true);
+            chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
 
-        } else if (item.getItemId() == R.id.feedback) {
+        } else if (item.getItemId() == R.id.menu_feedback) {
             sendFeedback();
 
-        } else if (item.getItemId() == R.id.about) {
+        } else if (item.getItemId() == R.id.menu_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
 
-        } else if (item.getItemId() == R.id.clearData) {
+        } else if (item.getItemId() == R.id.menu_clearData) {
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
             databaseHelper.deleteTable();
         }
@@ -114,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
         chipNavigationBar.setOnItemSelectedListener(id -> {
             Fragment selectedFragment = null;
 
-            if (id == R.id.overview) {
+            if (id == R.id.bottomNav_overview) {
                 selectedFragment = new OverviewFragment();
-            } else if (id == R.id.expense) {
+            } else if (id == R.id.bottomNav_expense) {
                 selectedFragment = new ExpenseFragment();
-            } else if (id == R.id.statistics) {
+            } else if (id == R.id.bottomNav_statistics) {
                 selectedFragment = new StatisticsFragment();
             }
 

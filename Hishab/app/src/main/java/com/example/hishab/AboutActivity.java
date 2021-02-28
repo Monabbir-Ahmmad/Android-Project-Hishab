@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 public class AboutActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextView tv_appVersion;
+    private TextView tvAppVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class AboutActivity extends AppCompatActivity {
         //Toolbar back arrow
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        tv_appVersion = findViewById(R.id.textView_appVersion);
-        tv_appVersion.setText(String.format("Version %s", BuildConfig.VERSION_NAME));
+        tvAppVersion = findViewById(R.id.textView_appVersion);
+        tvAppVersion.setText(String.format("Version %s", BuildConfig.VERSION_NAME));
     }
 }

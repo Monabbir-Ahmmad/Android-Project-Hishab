@@ -21,9 +21,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private final DataItem dataItem;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private TextView tv_category, tv_amount, tv_date, tv_time, tv_note;
-    private Button btn_edit;
-    private ImageButton btn_close;
+    private TextView tvCategory, tvAmount, tvDate, tvTime, tvNote;
+    private Button btnEdit;
+    private ImageButton btnClose;
     private CustomDateTime cDateTime;
 
 
@@ -38,28 +38,30 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
         cDateTime = new CustomDateTime(getActivity());
 
-        tv_category = view.findViewById(R.id.bsheet_category);
-        tv_category.setText(dataItem.getCategory());
+        tvCategory = view.findViewById(R.id.bottomSheet_category);
+        tvCategory.setText(dataItem.getCategory());
 
-        tv_amount = view.findViewById(R.id.bsheet_amount);
-        tv_amount.setText(String.format("Amount: %s BDT", decimalFormat.format(dataItem.getAmount())));
+        tvAmount = view.findViewById(R.id.bottomSheet_amount);
+        tvAmount.setText(String.format("%s BDT", decimalFormat.format(dataItem.getAmount())));
 
-        tv_date = view.findViewById(R.id.bsheet_date);
-        tv_date.setText(String.format("Date: %s", cDateTime.getDate(dataItem.getTimestamp())));
+        tvDate = view.findViewById(R.id.bottomSheet_date);
+        tvDate.setText(cDateTime.getDate(dataItem.getTimestamp()));
 
-        tv_time = view.findViewById(R.id.bsheet_time);
-        tv_time.setText(String.format("Time: %s", cDateTime.getTime(dataItem.getTimestamp())));
+        tvTime = view.findViewById(R.id.bottomSheet_time);
+        tvTime.setText(cDateTime.getTime(dataItem.getTimestamp()));
 
-        tv_note = view.findViewById(R.id.bsheet_note);
+        tvNote = view.findViewById(R.id.bottomSheet_note);
         if (dataItem.getNote() != null) {
-            tv_note.setText(String.format("Note: %s", dataItem.getNote()));
+            tvNote.setText(dataItem.getNote());
+        } else {
+            tvNote.setText("");
         }
 
-        btn_close = view.findViewById(R.id.bsheet_close);
-        btn_close.setOnClickListener(v -> dismiss());
+        btnClose = view.findViewById(R.id.bottomSheet_close);
+        btnClose.setOnClickListener(v -> dismiss());
 
-        btn_edit = view.findViewById(R.id.bsheet_edit);
-        btn_edit.setOnClickListener(v -> {
+        btnEdit = view.findViewById(R.id.bottomSheet_edit);
+        btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), DataInputActivity.class);
             intent.putExtra("update", true);
             intent.putExtra("id", dataItem.getId());

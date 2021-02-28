@@ -3,7 +3,7 @@
     <style name="Theme.Hishab" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/light_black</item>
+        <item name="colorPrimaryVariant">@color/gray_900</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
@@ -17,10 +17,10 @@
         <!-- Customize your theme here. -->
         <!-- my custom colors. -->
         <item name="colorBlackWhite">@color/white</item>
-        <item name="bgColor">@color/coal_black</item>
-        <item name="toolbarColor">@color/light_black</item>
+        <item name="bgColor">@color/dark_gray</item>
+        <item name="toolbarColor">@color/gray_900</item>
         <item name="colorWhiteBlack">@color/black</item>
-        <item name="colorWhiteLightBlack">@color/light_black</item>
+        <item name="surfaceColor">@color/gray_900</item>
         <item name="filterButton">@color/purple_200</item>
         <item name="filterText">@color/white</item>
 

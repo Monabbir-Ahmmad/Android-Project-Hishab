@@ -9,7 +9,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/purple_700</item>
         <item name="colorSecondaryVariant">@color/purple_700</item>
-        <item name="colorOnSecondary">@color/purple_700</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/toolbarColor</item>
@@ -20,7 +20,7 @@
         <item name="bgColor">@color/white</item>
         <item name="toolbarColor">@color/purple_700</item>
         <item name="colorWhiteBlack">@color/white</item>
-        <item name="colorWhiteLightBlack">@color/white</item>
+        <item name="surfaceColor">@color/white</item>
         <item name="filterButton">@color/white</item>
         <item name="filterText">@color/purple_700</item>
 

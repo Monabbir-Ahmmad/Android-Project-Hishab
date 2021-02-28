@@ -48,14 +48,14 @@ public class ExpenseFragment extends Fragment {
     //This creates the category grid buttons
     private void createGridButtons() {
         category = getResources().getStringArray(R.array.categoryArray);
-        ArrayList<DataItem> btn_array = new ArrayList<>();
+        ArrayList<DataItem> btnArray = new ArrayList<>();
         for (String s : category) {
             DataItem dataItem = new DataItem(getActivity());
             dataItem.setCategory(s);
-            btn_array.add(dataItem);
+            btnArray.add(dataItem);
         }
 
-        GridAdapter gridAdapter = new GridAdapter(getActivity(), btn_array);
+        GridAdapter gridAdapter = new GridAdapter(getActivity(), btnArray);
         gridView.setAdapter(gridAdapter);
     }
 

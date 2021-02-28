@@ -55,7 +55,7 @@ public class StatisticsFragment extends Fragment {
     private PieChart pieChart;
     private LineChart lineChart;
     private TabLayout tabLayout;
-    private TextView tv_total, tv_avg, tv_count, tv_min, tv_max;
+    private TextView tvTotalExpense, tvAvgExpense, tvExpenseCount, tvMinExpense, tvMaxExpense;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite;
@@ -97,11 +97,11 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        tv_total = view.findViewById(R.id.textView_totalExpense);
-        tv_avg = view.findViewById(R.id.textView_avgExpense);
-        tv_count = view.findViewById(R.id.textView_expenseCount);
-        tv_min = view.findViewById(R.id.textView_minimum);
-        tv_max = view.findViewById(R.id.textView_maximum);
+        tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
+        tvAvgExpense = view.findViewById(R.id.textView_avgExpense);
+        tvExpenseCount = view.findViewById(R.id.textView_expenseCount);
+        tvMinExpense = view.findViewById(R.id.textView_minExpense);
+        tvMaxExpense = view.findViewById(R.id.textView_maxExpense);
         pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
 
@@ -175,11 +175,11 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        tv_total.setText(String.format("%s BDT", decimalFormat.format(sum)));
-        tv_avg.setText(String.format("%s BDT", decimalFormat.format(avg)));
-        tv_count.setText(String.valueOf(dataSet.size()));
-        tv_min.setText(String.format("%s BDT", decimalFormat.format(min)));
-        tv_max.setText(String.format("%s BDT", decimalFormat.format(max)));
+        tvTotalExpense.setText(String.format("%s BDT", decimalFormat.format(sum)));
+        tvAvgExpense.setText(String.format("%s BDT", decimalFormat.format(avg)));
+        tvExpenseCount.setText(String.valueOf(dataSet.size()));
+        tvMinExpense.setText(String.format("%s BDT", decimalFormat.format(min)));
+        tvMaxExpense.setText(String.format("%s BDT", decimalFormat.format(max)));
 
     }
 

@@ -18,8 +18,8 @@ import java.util.Locale;
 
 public class CustomMarkerView extends MarkerView {
 
-    private final TextView tv_amount;
-    private final TextView tv_dateTime;
+    private final TextView tvAmount;
+    private final TextView tvDateTime;
     private final long startTimestamp;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy\nhh:mm a", Locale.getDefault());
@@ -28,15 +28,15 @@ public class CustomMarkerView extends MarkerView {
     public CustomMarkerView(Context context, long startTimestamp) {
         super(context, R.layout.custom_marker_view);
         this.startTimestamp = startTimestamp;
-        tv_amount = findViewById(R.id.markerView_amount);
-        tv_dateTime = findViewById(R.id.markerView_dateTime);
+        tvAmount = findViewById(R.id.markerView_amount);
+        tvDateTime = findViewById(R.id.markerView_dateTime);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tv_amount.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
-        tv_dateTime.setText(dateFormat.format((startTimestamp + (long) e.getX()) * 1000L));
+        tvAmount.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
+        tvDateTime.setText(dateFormat.format((startTimestamp + (long) e.getX()) * 1000L));
         super.refreshContent(e, highlight);
     }
 

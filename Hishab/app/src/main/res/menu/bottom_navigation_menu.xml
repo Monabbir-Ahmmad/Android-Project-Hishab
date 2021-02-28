@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/expense"
+        android:id="@+id/bottomNav_expense"
         android:icon="@drawable/ic_expense"
         android:title="Expense"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
     <item
-        android:id="@+id/overview"
+        android:id="@+id/bottomNav_overview"
         android:icon="@drawable/ic_overview"
         android:title="Overview"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
     <item
-        android:id="@+id/statistics"
+        android:id="@+id/bottomNav_statistics"
         android:icon="@drawable/ic_statistics"
         android:title="Statistics"
         app:cnb_backgroundColor="?attr/colorPrimary"

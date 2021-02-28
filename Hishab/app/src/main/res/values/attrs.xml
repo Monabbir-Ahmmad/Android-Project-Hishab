@@ -4,7 +4,7 @@
     <attr name="bgColor" format="color" />
     <attr name="toolbarColor" format="color" />
     <attr name="colorWhiteBlack" format="color" />
-    <attr name="colorWhiteLightBlack" format="color" />
+    <attr name="surfaceColor" format="color" />
     <attr name="filterButton" format="color" />
     <attr name="filterText" format="color" />
 </resources>
