@@ -83,5 +83,22 @@ public class CustomDateTime {
         return timeFormat.format(timestamp * 1000L);
     }
 
+    //Get time ago from timestamp
+    public String getTimeAgo(long timestamp) {
+        long day = 86400L;
+        long today = getTimestamp(dateFormat.format(new Date()), START_OF_DAY);
+
+        if (timestamp >= today && timestamp < today + day)
+            return "Today " + timeFormat.format(timestamp * 1000L);
+
+        else if (timestamp >= today + day && timestamp < today + (day * 2))
+            return "Tomorrow " + timeFormat.format(timestamp * 1000L);
+
+        else if (timestamp >= today - day && timestamp < today)
+            return "Yesterday " + timeFormat.format(timestamp * 1000L);
+
+        else
+            return dateFormat.format(timestamp * 1000L);
+    }
 
 }

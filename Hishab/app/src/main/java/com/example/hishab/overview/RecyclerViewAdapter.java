@@ -9,20 +9,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hishab.CustomDateTime;
 import com.example.hishab.DataItem;
 import com.example.hishab.R;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
+    private CustomDateTime cDateTime;
     private final Context context;
     private final ArrayList<DataItem> dataSet;
     private onItemClickListener listener;
@@ -44,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
+        cDateTime = new CustomDateTime(context);
 
         return recyclerViewHolder;
     }
@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.recIcon.setImageResource(dataSet.get(position).getIcon());
         holder.recCategory.setText(dataSet.get(position).getCategory());
         holder.recAmount.setText(String.format("%s BDT", decimalFormat.format(dataSet.get(position).getAmount())));
-        holder.recDateTime.setText(simpleDateFormat.format(dataSet.get(position).getTimestamp() * 1000L));
+        holder.recDateTime.setText(cDateTime.getTimeAgo(dataSet.get(position).getTimestamp()));
         if (dataSet.get(position).getNote() != null) {
             holder.recNote.setText(String.format("Note: %s", dataSet.get(position).getNote()));
         }

@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Details"
         android:textColor="?attr/colorBlackWhite"
@@ -37,7 +37,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:alpha="0.5"
         android:background="@color/gray_500"
         app:layout_constraintEnd_toEndOf="parent"
@@ -164,7 +164,6 @@
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_note" />
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
