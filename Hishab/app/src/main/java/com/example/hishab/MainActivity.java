@@ -83,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
 
-        } else if (item.getItemId() == R.id.menu_clearData) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-            databaseHelper.deleteTable();
         }
 
         return super.onOptionsItemSelected(item);

@@ -106,6 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
         }
     }
 
