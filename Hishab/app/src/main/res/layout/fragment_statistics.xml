@@ -92,7 +92,6 @@
                         android:layout_height="wrap_content"
                         android:text="0 BDT"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="@id/textView5"
                         app:layout_constraintTop_toBottomOf="@id/textView5" />
 
@@ -113,7 +112,6 @@
                         android:layout_height="wrap_content"
                         android:text="0 BDT"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="@id/textView4"
                         app:layout_constraintTop_toBottomOf="@id/textView4" />
 
@@ -270,7 +268,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="?attr/surfaceColor"

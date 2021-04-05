@@ -1,7 +1,9 @@
-package com.example.hishab;
+package com.example.hishab.data;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+
+import com.example.hishab.R;
 
 import java.util.Arrays;
 

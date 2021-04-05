@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.CustomDateTime;
-import com.example.hishab.DataItem;
 import com.example.hishab.R;
+import com.example.hishab.data.DataItem;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hishab.DataItem;
-import com.example.hishab.DatabaseHelper;
 import com.example.hishab.R;
+import com.example.hishab.data.DataItem;
+import com.example.hishab.database.DatabaseHelper;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

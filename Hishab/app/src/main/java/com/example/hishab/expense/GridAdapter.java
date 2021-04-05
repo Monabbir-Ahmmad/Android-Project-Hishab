@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.hishab.DataItem;
 import com.example.hishab.R;
+import com.example.hishab.data.DataItem;
 
 import java.util.ArrayList;
 

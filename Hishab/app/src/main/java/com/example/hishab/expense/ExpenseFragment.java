@@ -10,8 +10,8 @@ import android.widget.GridView;
 import androidx.fragment.app.Fragment;
 
 import com.example.hishab.DataInputActivity;
-import com.example.hishab.DataItem;
 import com.example.hishab.R;
+import com.example.hishab.data.DataItem;
 
 import java.util.ArrayList;
 
