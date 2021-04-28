@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     private Button btnSaveData;
     private TextView tvCategory;
     private TextInputEditText etAmount, etDate, etTime, etNote;
+    private ImageView ivIcon;
     private CustomDateTime customDateTime;
     private boolean isUpdate;
 
@@ -47,6 +49,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         customDateTime = new CustomDateTime(this);
 
         tvCategory = findViewById(R.id.textView_category);
+        ivIcon=findViewById(R.id.imageView_icon);
         etAmount = findViewById(R.id.editText_amount);
         etNote = findViewById(R.id.editText_note);
 
@@ -84,6 +87,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     //Set expense category, date, time, note on create
     private void setViewsNew() {
         tvCategory.setText(getIntent().getStringExtra("category"));
+        ivIcon.setImageResource(getIntent().getIntExtra("icon",-1));
         etDate.setText(new SimpleDateFormat("dd MMM yyyy",
                 Locale.getDefault()).format(new Date()));
         etTime.setText(new SimpleDateFormat("hh:mm a",
@@ -94,6 +98,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     //Set expense category, amount, date, time, note on create to update data
     private void setViewsUpdate() {
         tvCategory.setText(getIntent().getStringExtra("category"));
+        ivIcon.setImageResource(getIntent().getIntExtra("icon",-1));
         etAmount.setText(getIntent().getStringExtra("amount"));
         etDate.setText(getIntent().getStringExtra("date"));
         etTime.setText(getIntent().getStringExtra("time"));

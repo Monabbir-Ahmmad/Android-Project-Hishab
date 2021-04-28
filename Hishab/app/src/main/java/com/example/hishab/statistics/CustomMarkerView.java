@@ -22,7 +22,7 @@ public class CustomMarkerView extends MarkerView {
     private final TextView tvDateTime;
     private final long startTimestamp;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy\nhh:mm a", Locale.getDefault());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault());
 
     //Constructor
     public CustomMarkerView(Context context, long startTimestamp) {
@@ -47,7 +47,7 @@ public class CustomMarkerView extends MarkerView {
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
-        canvas.drawCircle(posX, posY, 10f, paint);
+        canvas.drawCircle(posX, posY, 13f, paint);
 
         if (posY > getChartView().getHeight() / 2) { //When value in above chart center
             posY = posY - getHeight();

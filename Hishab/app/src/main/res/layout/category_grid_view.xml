@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="6dp"
     android:backgroundTint="?attr/surfaceColor"
+    android:elevation="6dp"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,9 +18,9 @@
             android:id="@+id/grid_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="6dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:padding="6dp"
             android:src="@drawable/ic_misc"
             app:tint="?attr/colorPrimary" />
 

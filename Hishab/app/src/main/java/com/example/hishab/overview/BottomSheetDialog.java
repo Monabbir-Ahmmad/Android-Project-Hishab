@@ -66,6 +66,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             intent.putExtra("update", true);
             intent.putExtra("id", dataItem.getId());
             intent.putExtra("category", dataItem.getCategory());
+            intent.putExtra("icon", dataItem.getIcon());
             intent.putExtra("amount", String.valueOf(dataItem.getAmount()));
             intent.putExtra("date", cDateTime.getDate(dataItem.getTimestamp()));
             intent.putExtra("time", cDateTime.getTime(dataItem.getTimestamp()));

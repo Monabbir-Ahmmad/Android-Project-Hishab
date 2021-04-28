@@ -34,7 +34,8 @@
             android:id="@+id/textView_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="Category"
             android:textColor="@color/white"
@@ -45,6 +46,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/shape_oval"
+        android:backgroundTint="?attr/toolbarColor"
+        android:padding="12dp"
+        android:src="@drawable/ic_misc"
+        android:translationZ="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:tint="@color/white" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TextInputLayout"
@@ -58,7 +74,7 @@
         app:helperTextEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_icon"
         app:startIconDrawable="@drawable/ic_amount">
 
         <com.google.android.material.textfield.TextInputEditText

@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private CustomDateTime cDateTime;
     private final Context context;
     private final ArrayList<DataItem> dataSet;
+    private CustomDateTime cDateTime;
     private onItemClickListener listener;
 
 

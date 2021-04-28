@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class ExpenseFragment extends Fragment {
 
     private GridView gridView;
-    private String[] category;
-
+    private ArrayList<DataItem> dataSet = new ArrayList<>();
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -38,7 +37,8 @@ public class ExpenseFragment extends Fragment {
 
         gridView.setOnItemClickListener((parent, view1, position, id) -> {
             Intent intent = new Intent(getActivity(), DataInputActivity.class);
-            intent.putExtra("category", category[position]);
+            intent.putExtra("category", dataSet.get(position).getCategory());
+            intent.putExtra("icon", dataSet.get(position).getIcon());
             startActivity(intent);
         });
 
@@ -47,15 +47,14 @@ public class ExpenseFragment extends Fragment {
 
     //This creates the category grid buttons
     private void createGridButtons() {
-        category = getResources().getStringArray(R.array.categoryArray);
-        ArrayList<DataItem> btnArray = new ArrayList<>();
+        String[] category = getResources().getStringArray(R.array.categoryArray);
         for (String s : category) {
             DataItem dataItem = new DataItem(getActivity());
             dataItem.setCategory(s);
-            btnArray.add(dataItem);
+            dataSet.add(dataItem);
         }
 
-        GridAdapter gridAdapter = new GridAdapter(getActivity(), btnArray);
+        GridAdapter gridAdapter = new GridAdapter(getActivity(), dataSet);
         gridView.setAdapter(gridAdapter);
     }
 
