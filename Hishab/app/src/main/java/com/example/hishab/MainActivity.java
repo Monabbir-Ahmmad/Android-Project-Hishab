@@ -31,12 +31,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Find views
         toolbar = findViewById(R.id.toolbar_main);
+        chipNavigationBar = findViewById(R.id.bottomNav);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        chipNavigationBar = findViewById(R.id.bottomNav);
         //This sets the default fragment and bottom nav button on startup
         chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"monabbir.ahmmad@yahoo.com"});
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: Hishab App " + BuildConfig.VERSION_NAME);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: Hishab App ");
             startActivity(Intent.createChooser(intent, "Send email using"));
 
         } catch (android.content.ActivityNotFoundException ex) {

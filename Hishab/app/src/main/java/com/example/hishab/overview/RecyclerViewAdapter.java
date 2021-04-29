@@ -80,6 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
+            //Find views
             recIcon = itemView.findViewById(R.id.recView_icon);
             recCategory = itemView.findViewById(R.id.recView_category);
             recAmount = itemView.findViewById(R.id.recView_amount);

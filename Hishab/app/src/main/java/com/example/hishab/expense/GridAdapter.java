@@ -45,6 +45,7 @@ public class GridAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.category_grid_view, parent, false);
 
+        //Find views
         TextView gridLabel = view.findViewById(R.id.grid_label);
         ImageView gridIcon = view.findViewById(R.id.grid_icon);
 

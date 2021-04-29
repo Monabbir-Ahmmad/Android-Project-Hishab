@@ -31,7 +31,9 @@ public class ExpenseFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
 
+        //Find views
         gridView = view.findViewById(R.id.gridView);
+
         createGridButtons();
 
 

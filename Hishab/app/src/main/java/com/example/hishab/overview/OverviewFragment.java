@@ -47,23 +47,23 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
+        //Find views
+        tvExpense = view.findViewById(R.id.textView_expense);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        btnFilter = view.findViewById(R.id.button_filter);
+
         databaseHelper = new DatabaseHelper(getActivity());
         dataSet = databaseHelper.getAllData();
-
-        tvExpense = view.findViewById(R.id.textView_expense);
 
         //This calculates the top panel values on startup
         topPanelCalculation();
 
-        btnFilter = view.findViewById(R.id.button_filter);
         btnFilter.setOnClickListener(v -> {
             //This opens the filter dialog
             FilterDialog filterDialog = new FilterDialog();
             filterDialog.setTargetFragment(OverviewFragment.this, 1);
             filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
         });
-
-        recyclerView = view.findViewById(R.id.recyclerView);
 
         //This creates the RecyclerView
         createRecyclerView();

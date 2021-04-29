@@ -141,7 +141,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<DataItem> getAllData() {
         ArrayList<DataItem> allData = new ArrayList<>();
         database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + DELETED + " = 0" + " ORDER BY " + ID + " DESC", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
+                + DELETED + " = 0" + " ORDER BY " + ID + " DESC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -181,7 +182,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY
                     + " LIKE '" + category + "%' AND " + TIMESTAMP + " BETWEEN " + startTimestamp
-                    + " AND " + endTimestamp + " AND " + DELETED + " = 0" + " ORDER BY " + order + " " + orderBy, null);
+                    + " AND " + endTimestamp + " AND " + DELETED + " = 0" + " ORDER BY " + order
+                    + " " + orderBy, null);
 
             if (cursor.moveToFirst()) {
                 do {

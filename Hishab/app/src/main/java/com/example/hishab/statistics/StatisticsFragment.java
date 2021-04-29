@@ -74,6 +74,15 @@ public class StatisticsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
+        //Find views
+        tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
+        tvAvgExpense = view.findViewById(R.id.textView_avgExpense);
+        tvExpenseCount = view.findViewById(R.id.textView_expenseCount);
+        tvMinExpense = view.findViewById(R.id.textView_minExpense);
+        tvMaxExpense = view.findViewById(R.id.textView_maxExpense);
+        pieChart = view.findViewById(R.id.pieChart);
+        lineChart = view.findViewById(R.id.lineChart);
+
         databaseHelper = new DatabaseHelper(getActivity());
         cDateTime = new CustomDateTime(getActivity());
 
@@ -96,14 +105,6 @@ public class StatisticsFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-        tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
-        tvAvgExpense = view.findViewById(R.id.textView_avgExpense);
-        tvExpenseCount = view.findViewById(R.id.textView_expenseCount);
-        tvMinExpense = view.findViewById(R.id.textView_minExpense);
-        tvMaxExpense = view.findViewById(R.id.textView_maxExpense);
-        pieChart = view.findViewById(R.id.pieChart);
-        lineChart = view.findViewById(R.id.lineChart);
 
         statisticsFilter(0);
 

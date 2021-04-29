@@ -16,16 +16,17 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        //This is the toolbar
+        //Find views
         toolbar = findViewById(R.id.toolbar_about);
+        tvAppVersion = findViewById(R.id.textView_appVersion);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //Toolbar back arrow
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        tvAppVersion = findViewById(R.id.textView_appVersion);
-        tvAppVersion.setText(String.format("Version %s", BuildConfig.VERSION_NAME));
+        //Show app version
+        tvAppVersion.setText("Version 1.1");
     }
 }

@@ -36,31 +36,31 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
+
+        //Find views
+        tvCategory = view.findViewById(R.id.bottomSheet_category);
+        tvAmount = view.findViewById(R.id.bottomSheet_amount);
+        tvDate = view.findViewById(R.id.bottomSheet_date);
+        tvTime = view.findViewById(R.id.bottomSheet_time);
+        tvNote = view.findViewById(R.id.bottomSheet_note);
+        btnClose = view.findViewById(R.id.bottomSheet_close);
+        btnEdit = view.findViewById(R.id.bottomSheet_edit);
+
         cDateTime = new CustomDateTime(getActivity());
 
-        tvCategory = view.findViewById(R.id.bottomSheet_category);
         tvCategory.setText(dataItem.getCategory());
-
-        tvAmount = view.findViewById(R.id.bottomSheet_amount);
         tvAmount.setText(String.format("%s BDT", decimalFormat.format(dataItem.getAmount())));
-
-        tvDate = view.findViewById(R.id.bottomSheet_date);
         tvDate.setText(cDateTime.getDate(dataItem.getTimestamp()));
-
-        tvTime = view.findViewById(R.id.bottomSheet_time);
         tvTime.setText(cDateTime.getTime(dataItem.getTimestamp()));
 
-        tvNote = view.findViewById(R.id.bottomSheet_note);
         if (dataItem.getNote() != null) {
             tvNote.setText(dataItem.getNote());
         } else {
             tvNote.setText("");
         }
 
-        btnClose = view.findViewById(R.id.bottomSheet_close);
         btnClose.setOnClickListener(v -> dismiss());
 
-        btnEdit = view.findViewById(R.id.bottomSheet_edit);
         btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), DataInputActivity.class);
             intent.putExtra("update", true);
@@ -77,6 +77,5 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         return view;
     }
-
 
 }

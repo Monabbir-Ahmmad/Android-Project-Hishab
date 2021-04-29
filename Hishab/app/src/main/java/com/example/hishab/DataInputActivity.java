@@ -37,31 +37,30 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         //Check if the call is for adding new date or update existing data
         isUpdate = getIntent().getBooleanExtra("update", false);
 
-        //This is the toolbar
+        //Find views
         toolbar = findViewById(R.id.toolbar_dataInput);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //Toolbar back arrow
-        toolbar.setNavigationOnClickListener(v -> finish());
-
-        customDateTime = new CustomDateTime(this);
-
         tvCategory = findViewById(R.id.textView_category);
         ivIcon=findViewById(R.id.imageView_icon);
         etAmount = findViewById(R.id.editText_amount);
         etNote = findViewById(R.id.editText_note);
-
         etDate = findViewById(R.id.editText_date);
-        etDate.setOnClickListener(this);
-
         etTime = findViewById(R.id.editText_time);
-        etTime.setOnClickListener(this);
-
         btnSaveData = findViewById(R.id.button_saveData);
+
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+        toolbar.setNavigationOnClickListener(v -> finish());
+        customDateTime = new CustomDateTime(this);
+        etDate.setOnClickListener(this);
+        etTime.setOnClickListener(this);
         btnSaveData.setOnClickListener(this);
 
+
+        //Set toolbar title
         if (!isUpdate) {
             setTitle("Add new");
             setViewsNew();

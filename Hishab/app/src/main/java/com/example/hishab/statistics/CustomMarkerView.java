@@ -28,6 +28,8 @@ public class CustomMarkerView extends MarkerView {
     public CustomMarkerView(Context context, long startTimestamp) {
         super(context, R.layout.custom_marker_view);
         this.startTimestamp = startTimestamp;
+
+        //Find views
         tvAmount = findViewById(R.id.markerView_amount);
         tvDateTime = findViewById(R.id.markerView_dateTime);
     }

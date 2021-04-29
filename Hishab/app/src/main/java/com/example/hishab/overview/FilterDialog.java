@@ -37,14 +37,19 @@ public class FilterDialog extends AppCompatDialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.filter_dialog, null);
         builder.setView(view);
 
+        //Find views
+        filterStartDate = view.findViewById(R.id.filter_startDate);
+        filterEndDate = view.findViewById(R.id.filter_endDate);
+        filterApply = view.findViewById(R.id.filter_apply);
+        filterCategory = view.findViewById(R.id.filter_category);
+        filterSortBy = view.findViewById(R.id.filter_sortBy);
+
         customDateTime = new CustomDateTime(getActivity());
 
         //This is the start date edit text on filter dialog
-        filterStartDate = view.findViewById(R.id.filter_startDate);
         filterStartDate.setOnClickListener(v -> customDateTime.pickDate(filterStartDate));
 
         //This is the end date edit text on filter dialog
-        filterEndDate = view.findViewById(R.id.filter_endDate);
         filterEndDate.setOnClickListener(v -> customDateTime.pickDate(filterEndDate));
 
         //This is the cancel button on filter dialog
@@ -52,7 +57,6 @@ public class FilterDialog extends AppCompatDialogFragment {
         filterCancel.setOnClickListener(v -> dismiss());
 
         //This is the apply button on filter dialog
-        filterApply = view.findViewById(R.id.filter_apply);
         filterApply.setOnClickListener(v -> onFilterApplyClick());
 
 
@@ -61,14 +65,12 @@ public class FilterDialog extends AppCompatDialogFragment {
         category.add("All");
         category.addAll(Arrays.asList(getResources().getStringArray(R.array.categoryArray)));
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
-        filterCategory = view.findViewById(R.id.filter_category);
         filterCategory.setText(categoryAdapter.getItem(0), false);
         filterCategory.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
         String[] sortBy = getResources().getStringArray(R.array.sortByArray);
         ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
-        filterSortBy = view.findViewById(R.id.filter_sortBy);
         filterSortBy.setText(sortByAdapter.getItem(0), false);
         filterSortBy.setAdapter(sortByAdapter);
 
