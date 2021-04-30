@@ -81,11 +81,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             //Find views
-            recIcon = itemView.findViewById(R.id.recView_icon);
-            recCategory = itemView.findViewById(R.id.recView_category);
-            recAmount = itemView.findViewById(R.id.recView_amount);
-            recDateTime = itemView.findViewById(R.id.recView_dateTime);
-            recNote = itemView.findViewById(R.id.recView_note);
+            recIcon = itemView.findViewById(R.id.recycleView_icon);
+            recCategory = itemView.findViewById(R.id.recycleView_category);
+            recAmount = itemView.findViewById(R.id.recycleView_amount);
+            recDateTime = itemView.findViewById(R.id.recycleView_dateTime);
+            recNote = itemView.findViewById(R.id.recycleView_note);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {

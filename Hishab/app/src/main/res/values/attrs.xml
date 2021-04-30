@@ -7,4 +7,5 @@
     <attr name="surfaceColor" format="color" />
     <attr name="filterButton" format="color" />
     <attr name="filterText" format="color" />
+    <attr name="dividerColor" format="color" />
 </resources>

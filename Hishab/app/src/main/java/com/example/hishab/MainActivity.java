@@ -4,24 +4,32 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.hishab.expense.ExpenseFragment;
 import com.example.hishab.overview.OverviewFragment;
 import com.example.hishab.statistics.StatisticsFragment;
+import com.google.android.material.navigation.NavigationView;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ChipNavigationBar chipNavigationBar;
     private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEdit;
     private boolean isDarkModeOn;
@@ -34,9 +42,16 @@ public class MainActivity extends AppCompatActivity {
         //Find views
         toolbar = findViewById(R.id.toolbar_main);
         chipNavigationBar = findViewById(R.id.bottomNav);
+        drawer = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nav_view);
+
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         //This sets the default fragment and bottom nav button on startup
@@ -49,45 +64,65 @@ public class MainActivity extends AppCompatActivity {
         //This calls the method that saves app instance
         darkModeInstance();
 
-    }
 
-
-    //This is the toolbar option menu inflater
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.findItem(R.id.menu_darkMode).setChecked(isDarkModeOn);
-        return true;
-    }
-
-
-    //This is the toolbar menus selection
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_darkMode) {
-
-            if (item.isChecked()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                sharedPrefsEdit.putBoolean("DarkMode", false);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                sharedPrefsEdit.putBoolean("DarkMode", true);
+        //Side drawer switch to change theme
+        SwitchCompat switchCompat = navigationView.getMenu().findItem(R.id.nav_dark_mode)
+                .getActionView().findViewById(R.id.drawer_switch);
+        switchCompat.setChecked(isDarkModeOn);
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sharedPrefsEdit.putBoolean("DarkMode", true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    sharedPrefsEdit.putBoolean("DarkMode", false);
+                }
+                sharedPrefsEdit.apply();
+                chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
             }
-            item.setChecked(isDarkModeOn);
-            sharedPrefsEdit.apply();
-            chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
+        });
 
-        } else if (item.getItemId() == R.id.menu_feedback) {
-            sendFeedback();
+    }
 
-        } else if (item.getItemId() == R.id.menu_about) {
+
+    //Close side drawer on back press
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    //This is the side drawer
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.nav_dark_mode) {
+
+
+        } else if (item.getItemId() == R.id.nav_trash) {
+
+
+        } else if (item.getItemId() == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
 
+        } else if (item.getItemId() == R.id.nav_help) {
+
+
+        } else if (item.getItemId() == R.id.nav_feedback) {
+            sendFeedback();
+
         }
 
-        return super.onOptionsItemSelected(item);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 
 

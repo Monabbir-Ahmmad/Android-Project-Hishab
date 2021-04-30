@@ -23,6 +23,7 @@
         <item name="surfaceColor">@color/white</item>
         <item name="filterButton">@color/white</item>
         <item name="filterText">@color/purple_700</item>
+        <item name="dividerColor">@color/gray_500</item>
 
         <!-- Bottom sheet style. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
@@ -34,6 +35,13 @@
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/dividerColor</item>
+        <item name="android:alpha">0.5</item>
     </style>
 
 </resources>

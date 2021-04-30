@@ -16,7 +16,7 @@
         android:paddingVertical="12dp">
 
         <ImageView
-            android:id="@+id/recView_icon"
+            android:id="@+id/recycleView_icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_misc"
@@ -26,28 +26,28 @@
             app:tint="?attr/colorPrimary" />
 
         <TextView
-            android:id="@+id/recView_category"
+            android:id="@+id/recycleView_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Category"
             android:textColor="?attr/colorBlackWhite"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/recView_icon"
+            app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/recView_dateTime"
+            android:id="@+id/recycleView_dateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Date &amp; Time"
-            app:layout_constraintStart_toEndOf="@+id/recView_icon"
-            app:layout_constraintTop_toBottomOf="@+id/recView_category" />
+            app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
+            app:layout_constraintTop_toBottomOf="@+id/recycleView_category" />
 
         <TextView
-            android:id="@+id/recView_note"
+            android:id="@+id/recycleView_note"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -56,11 +56,11 @@
             android:maxLines="1"
             android:text="Note:"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recView_icon"
-            app:layout_constraintTop_toBottomOf="@+id/recView_dateTime" />
+            app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
+            app:layout_constraintTop_toBottomOf="@+id/recycleView_dateTime" />
 
         <TextView
-            android:id="@+id/recView_amount"
+            android:id="@+id/recycleView_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -70,7 +70,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recView_dateTime"
+            app:layout_constraintStart_toEndOf="@+id/recycleView_dateTime"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
