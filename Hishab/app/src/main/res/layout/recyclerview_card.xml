@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="6dp"
+    android:background="@drawable/shape_rounded_rectangle"
     android:backgroundTint="?attr/surfaceColor"
-    android:elevation="6dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
-
-        <ImageView
-            android:id="@+id/recycleView_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/ic_misc"
-            app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/recycleView_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_misc"
+        app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorPrimary" />
@@ -31,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Category"
-            android:textColor="?attr/colorBlackWhite"
+            android:textColor="?attr/textColorDark"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -73,6 +68,4 @@
             app:layout_constraintStart_toEndOf="@+id/recycleView_dateTime"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filter"
-        android:textColor="?attr/colorBlackWhite"
+        android:textColor="?attr/textColorDark"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Date"
-        android:textColor="?attr/colorBlackWhite"
+        android:textColor="?attr/textColorDark"
         android:textSize="16sp" />
 
     <LinearLayout

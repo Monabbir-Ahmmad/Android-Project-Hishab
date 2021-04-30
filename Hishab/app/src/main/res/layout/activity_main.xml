@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:elevation="16dp"
             android:padding="8dp"
+            android:background="?attr/surfaceColor"
             app:cnb_menuResource="@menu/bottom_navigation_menu"
             app:cnb_radius="30dp"
             app:cnb_unselectedColor="?attr/colorPrimary"

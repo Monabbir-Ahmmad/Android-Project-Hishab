@@ -90,7 +90,7 @@ public class StatisticsFragment extends Fragment {
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
+        getContext().getTheme().resolveAttribute(R.attr.textColorDark, colorBlackWhite, true);
 
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
