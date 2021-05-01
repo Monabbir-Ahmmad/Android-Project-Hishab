@@ -2,7 +2,5 @@
 <resources>
     <attr name="textColorDark" format="color" />
     <attr name="bgColor" format="color" />
-    <attr name="toolbarColor" format="color" />
     <attr name="surfaceColor" format="color" />
-    <attr name="dividerColor" format="color" />
 </resources>

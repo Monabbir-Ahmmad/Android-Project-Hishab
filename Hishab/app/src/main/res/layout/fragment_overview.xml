@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bottom_rounded_rectangle"
-        android:backgroundTint="?attr/toolbarColor"
+        android:backgroundTint="?attr/colorPrimary"
         android:elevation="6dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"

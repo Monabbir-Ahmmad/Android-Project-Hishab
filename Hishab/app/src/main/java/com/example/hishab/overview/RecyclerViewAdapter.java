@@ -41,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recyclerview, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
         cDateTime = new CustomDateTime(context);
 

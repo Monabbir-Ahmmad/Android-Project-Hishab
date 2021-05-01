@@ -43,7 +43,7 @@ public class GridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.grid_category, parent, false);
+        View view = inflater.inflate(R.layout.layout_gridview_category, parent, false);
 
         //Find views
         TextView gridLabel = view.findViewById(R.id.grid_label);
