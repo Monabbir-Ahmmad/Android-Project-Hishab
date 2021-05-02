@@ -1,43 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/shape_border_rectangle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/white"
-    android:elevation="6dp"
-    app:cardCornerRadius="4dp">
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/markerView_dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="Jan 1"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="13dp" />
 
-        <TextView
-            android:id="@+id/markerView_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="4dp"
-            android:text="0 BDT"
-            android:textAlignment="center"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=":"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="13dp"
+        android:textStyle="bold" />
 
-        <View
-            style="@style/Divider" />
+    <TextView
+        android:id="@+id/markerView_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="0 BDT"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/markerView_dateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="4dp"
-            android:text="01 Jan 2000 12:00 am"
-            android:textAlignment="center"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="13dp" />
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

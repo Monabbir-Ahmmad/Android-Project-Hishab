@@ -9,7 +9,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -55,13 +54,11 @@ public class StatisticsFragment extends Fragment {
     private PieChart pieChart;
     private LineChart lineChart;
     private TabLayout tabLayout;
-    private TextView tvTotalExpense, tvAvgExpense, tvExpenseCount, tvMinExpense, tvMaxExpense;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
-    private TypedValue colorBlackWhite;
+    private TypedValue colorBlackWhite, colorPrimary;
     private CustomDateTime cDateTime;
     private long startTimestamp, endTimestamp;
-    private long lineStartPosX, lineEndPosX;
 
 
     public StatisticsFragment() {
@@ -77,11 +74,6 @@ public class StatisticsFragment extends Fragment {
 
 
         //Find views
-        tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
-        tvAvgExpense = view.findViewById(R.id.textView_avgExpense);
-        tvExpenseCount = view.findViewById(R.id.textView_expenseCount);
-        tvMinExpense = view.findViewById(R.id.textView_minExpense);
-        tvMaxExpense = view.findViewById(R.id.textView_maxExpense);
         pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
 
@@ -91,6 +83,9 @@ public class StatisticsFragment extends Fragment {
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.textColorDark, colorBlackWhite, true);
+        colorPrimary = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+
 
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -151,39 +146,8 @@ public class StatisticsFragment extends Fragment {
         endTimestamp = cDateTime.getTimestamp(endDate, cDateTime.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
-        setStatisticsSummary();
         setLineData();
         setPieData();
-    }
-
-
-    //This calculates the total, average, minimum, maximum and number of expense
-    private void setStatisticsSummary() {
-        double sum = 0, avg = 0, min = 0, max = 0;
-
-        if (dataSet.size() > 0) { //If there is any data
-            min = 100000000;
-            //Calculate the sum of expenses
-            for (int i = 0; i < dataSet.size(); i++) {
-                sum += dataSet.get(i).getAmount();
-
-                if (dataSet.get(i).getAmount() < min) { //Find new minimum
-                    min = dataSet.get(i).getAmount();
-                }
-                if (dataSet.get(i).getAmount() > max) { //Find new maximum
-                    max = dataSet.get(i).getAmount();
-                }
-            }
-            avg = sum / dataSet.size(); //Calculate the average expense
-
-        }
-
-        tvTotalExpense.setText(String.format("%s BDT", decimalFormat.format(sum)));
-        tvAvgExpense.setText(String.format("%s BDT", decimalFormat.format(avg)));
-        tvExpenseCount.setText(String.valueOf(dataSet.size()));
-        tvMinExpense.setText(String.format("%s BDT", decimalFormat.format(min)));
-        tvMaxExpense.setText(String.format("%s BDT", decimalFormat.format(max)));
-
     }
 
 
@@ -233,25 +197,35 @@ public class StatisticsFragment extends Fragment {
         lineChart.clear();
 
         if (dataSet.size() > 0) { //If there is any data
-            lineStartPosX = cDateTime.getTimestamp(cDateTime.getDate(dataSet.get(0).getTimestamp())
-                    , cDateTime.START_OF_DAY);
-            lineEndPosX = cDateTime.getTimestamp(cDateTime.getDate(dataSet.get(dataSet.size() - 1).getTimestamp())
-                    , cDateTime.START_OF_DAY) + 86400L;
-            float index = 0;
-
             ArrayList<Entry> lineEntryArray = new ArrayList<>();
-            //This adds the values into the LineEntry
-            for (int i = 0; i < dataSet.size(); i++) {
-                //If current data's timestamp equals previous timestamp, increase index value by 1sec to avoid error
-                if (index >= (dataSet.get(i).getTimestamp() - lineStartPosX)) {
-                    index += 1;
-                }
-                //Else set new index value
-                else {
-                    index = dataSet.get(i).getTimestamp() - lineStartPosX;
-                }
 
-                lineEntryArray.add(new Entry(index, dataSet.get(i).getAmount()));
+            long lineStartPosX = cDateTime.getTimestamp(
+                    cDateTime.getDate(dataSet.get(0).getTimestamp()), cDateTime.START_OF_DAY);
+
+            long day = lineStartPosX;
+            float index = 0;
+            float dailyExpense = 0;
+
+            //Calculate total amount for each day
+            for (int i = 0; i < dataSet.size(); i++) {
+                if (dataSet.get(i).getTimestamp() >= day
+                        && dataSet.get(i).getTimestamp() < day + 86400L) {
+                    dailyExpense += dataSet.get(i).getAmount();
+
+                } else {
+                    lineEntryArray.add(new Entry(index, dailyExpense));
+                    dailyExpense = dataSet.get(i).getAmount();
+
+                    //Calculate index to skip based on date
+                    while (!(dataSet.get(i).getTimestamp() >= day
+                            && dataSet.get(i).getTimestamp() < day + 86400L)) {
+                        index += 1;
+                        day += 86400L;
+                    }
+                }
+                if (i == dataSet.size() - 1) {
+                    lineEntryArray.add(new Entry(index, dailyExpense));
+                }
             }
 
             //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
@@ -259,11 +233,11 @@ public class StatisticsFragment extends Fragment {
             LineData lineData = new LineData(lineDataSet);
 
             lineChart.setData(lineData);
-            createLineChart(lineDataSet);
+            createLineChart(lineDataSet, lineStartPosX);
         }
 
         lineChart.setNoDataText("No data to display!");
-        lineChart.setNoDataTextColor(Color.WHITE);
+        lineChart.setNoDataTextColor(colorBlackWhite.data);
         lineChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
@@ -367,7 +341,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     //This creates the line chart
-    private void createLineChart(LineDataSet lineDataSet) {
+    private void createLineChart(LineDataSet lineDataSet, long lineStartPosX) {
         //Marker view
         CustomMarkerView markerView = new CustomMarkerView(getActivity(), lineStartPosX);
         markerView.setChartView(lineChart);
@@ -376,28 +350,26 @@ public class StatisticsFragment extends Fragment {
         //Touch attribute
         lineChart.setDrawGridBackground(false);
         lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
-        lineChart.setPinchZoom(true);
+        lineChart.setDragEnabled(false);
+        lineChart.setPinchZoom(false);
         lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setScaleEnabled(true);
+        lineChart.setScaleEnabled(false);
         lineChart.setDrawBorders(false);
 
         //Line attribute
         lineDataSet.setLineWidth(3f);
-        lineDataSet.setColor(Color.WHITE);
+        lineDataSet.setColor(colorPrimary.data);
         lineDataSet.setDrawCircles(true);
         lineDataSet.setCircleRadius(1.5f);
-        lineDataSet.setCircleColor(Color.WHITE);
+        lineDataSet.setCircleColor(colorPrimary.data);
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setHighlightEnabled(true);
         lineDataSet.setDrawValues(false);
-        lineDataSet.setDrawFilled(true);
-        lineDataSet.setFillColor(Color.WHITE);
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
 
         //Highlight
         lineDataSet.setHighlightEnabled(true);
-        lineDataSet.setHighLightColor(Color.WHITE);
+        lineDataSet.setHighLightColor(colorPrimary.data);
         lineDataSet.setHighlightLineWidth(1f);
 
         //Description of the chart
@@ -410,79 +382,59 @@ public class StatisticsFragment extends Fragment {
 
         //Y axis left
         YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setEnabled(false);
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setGranularity(10);
+        yAxisLeft.setLabelCount(5);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setTextColor(colorBlackWhite.data);
+        yAxisLeft.enableGridDashedLine(10f, 10f, 0f);
+        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if (value >= 1000) {
+                    yAxisLeft.setGranularity(1000);
+                    return String.valueOf(Math.round(value / 1000)) + "k";
+                }
+                return decimalFormat.format(value);
+            }
+        });
+
+        //X axis
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setGranularity(1);
+        xAxis.setLabelCount(5);
+        xAxis.setSpaceMin(0.5f);
+        xAxis.setSpaceMax(0.5f);
+        xAxis.setTextColor(colorBlackWhite.data);
+        xAxis.enableGridDashedLine(30f, 10000f, 10f);
+        xAxis.setGridLineWidth(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return dateFormat.format((lineStartPosX + (long) value * 86400L) * 1000L);
+            }
+        });
 
         //Y axis left
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setEnabled(false);
 
-        //X axis
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setEnabled(false);
-
         //Animation
         lineChart.animateY(1000);
 
         //View port offset
-        lineChart.setViewPortOffsets(0, 0, 0, 0);
+        lineChart.setExtraOffsets(0, 0, 20f, 10f);
 
         //Refresh chart
         lineChart.notifyDataSetChanged();
         lineChart.fitScreen();
         lineChart.invalidate();
     }
-
-    //This sets, scales and formats line chart x axis
-    private void scaleXAxis(XAxis xAxis) {
-        boolean axisEnable = false;
-        float maxDiff = dataSet.get(dataSet.size() - 1).getTimestamp() - dataSet.get(0).getTimestamp();
-        int DAY = 86400;
-        int labelCount = 3;
-        boolean labelForce = true;
-        String dateFormatPattern = "dd MMM hh:mma";
-
-        if (dataSet.size() > 1) {
-            axisEnable = true;
-            xAxis.resetAxisMinimum();
-            xAxis.resetAxisMaximum();
-
-            if (maxDiff <= DAY) {
-                dateFormatPattern = "hh:mma";
-
-                if (maxDiff <= 60)
-                    labelCount = 2;
-                else if (maxDiff / 60 == 2 || (maxDiff / 2) % 60 == 0)
-                    labelCount = 3;
-                else if (maxDiff / 60 == 3)
-                    labelCount = 4;
-                else
-                    labelForce = false;
-
-            } else {
-                xAxis.setAxisMinimum(0);
-                xAxis.setAxisMaximum(lineEndPosX - lineStartPosX);
-                labelCount = 3;
-            }
-        }
-
-        xAxis.setEnabled(axisEnable);
-        xAxis.setLabelCount(labelCount, labelForce);
-        xAxis.setGranularity(60);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat(dateFormatPattern, Locale.getDefault());
-
-        xAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                if (value % DAY == 0)
-                    return dateFormat.format((lineStartPosX + (long) value) * 1000L);
-                else
-                    return dateFormat2.format((lineStartPosX + (long) value) * 1000L);
-            }
-        });
-
-    }
-
 
 }
 

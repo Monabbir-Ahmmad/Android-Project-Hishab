@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ExpenseFragment extends Fragment {
 
     private GridView gridView;
-    private ArrayList<DataItem> dataSet = new ArrayList<>();
+    private final ArrayList<DataItem> dataSet = new ArrayList<>();
 
     public ExpenseFragment() {
         // Required empty public constructor
