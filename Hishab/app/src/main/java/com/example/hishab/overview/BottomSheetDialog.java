@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.hishab.CustomDateTime;
 import com.example.hishab.DataInputActivity;
+import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -24,7 +24,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private TextView tvCategory, tvAmount, tvDate, tvTime, tvNote;
     private Button btnEdit;
     private ImageButton btnClose;
-    private CustomDateTime cDateTime;
+    private DateTimeUtil dateTimeUtil;
 
 
     //Constructor
@@ -46,12 +46,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         btnClose = view.findViewById(R.id.bottomSheet_close);
         btnEdit = view.findViewById(R.id.bottomSheet_edit);
 
-        cDateTime = new CustomDateTime(getActivity());
+        dateTimeUtil = new DateTimeUtil(getActivity());
 
         tvCategory.setText(dataItem.getCategory());
         tvAmount.setText(String.format("%s BDT", decimalFormat.format(dataItem.getAmount())));
-        tvDate.setText(cDateTime.getDate(dataItem.getTimestamp()));
-        tvTime.setText(cDateTime.getTime(dataItem.getTimestamp()));
+        tvDate.setText(dateTimeUtil.getDate(dataItem.getTimestamp()));
+        tvTime.setText(dateTimeUtil.getTime(dataItem.getTimestamp()));
 
         if (dataItem.getNote() != null) {
             tvNote.setText(dataItem.getNote());
@@ -68,8 +68,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             intent.putExtra("category", dataItem.getCategory());
             intent.putExtra("icon", dataItem.getIcon());
             intent.putExtra("amount", String.valueOf(dataItem.getAmount()));
-            intent.putExtra("date", cDateTime.getDate(dataItem.getTimestamp()));
-            intent.putExtra("time", cDateTime.getTime(dataItem.getTimestamp()));
+            intent.putExtra("date", dateTimeUtil.getDate(dataItem.getTimestamp()));
+            intent.putExtra("time", dateTimeUtil.getTime(dataItem.getTimestamp()));
             intent.putExtra("note", dataItem.getNote());
             startActivity(intent);
             dismiss();

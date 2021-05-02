@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hishab.CustomDateTime;
+import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
 
@@ -23,7 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private final Context context;
     private final ArrayList<DataItem> dataSet;
-    private CustomDateTime cDateTime;
+    private DateTimeUtil dateTimeUtil;
     private onItemClickListener listener;
 
 
@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recyclerview, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
-        cDateTime = new CustomDateTime(context);
+        dateTimeUtil = new DateTimeUtil(context);
 
         return recyclerViewHolder;
     }
@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.recIcon.setImageResource(dataSet.get(position).getIcon());
         holder.recCategory.setText(dataSet.get(position).getCategory());
         holder.recAmount.setText(String.format("%s BDT", decimalFormat.format(dataSet.get(position).getAmount())));
-        holder.recDateTime.setText(cDateTime.getTimeAgo(dataSet.get(position).getTimestamp()));
+        holder.recDateTime.setText(dateTimeUtil.getTimeAgo(dataSet.get(position).getTimestamp()));
         if (dataSet.get(position).getNote() != null) {
             holder.recNote.setText(String.format("Note: %s", dataSet.get(position).getNote()));
         }

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.hishab.CustomDateTime;
+import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
@@ -57,7 +57,7 @@ public class StatisticsFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite, colorPrimary;
-    private CustomDateTime cDateTime;
+    private DateTimeUtil dateTimeUtil;
     private long startTimestamp, endTimestamp;
 
 
@@ -78,7 +78,7 @@ public class StatisticsFragment extends Fragment {
         lineChart = view.findViewById(R.id.lineChart);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        cDateTime = new CustomDateTime(getActivity());
+        dateTimeUtil = new DateTimeUtil(getActivity());
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -142,8 +142,8 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        startTimestamp = cDateTime.getTimestamp(startDate, cDateTime.START_OF_DAY);
-        endTimestamp = cDateTime.getTimestamp(endDate, cDateTime.END_OF_DAY);
+        startTimestamp = dateTimeUtil.getTimestamp(startDate, dateTimeUtil.START_OF_DAY);
+        endTimestamp = dateTimeUtil.getTimestamp(endDate, dateTimeUtil.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
         setLineData();
@@ -199,8 +199,8 @@ public class StatisticsFragment extends Fragment {
         if (dataSet.size() > 0) { //If there is any data
             ArrayList<Entry> lineEntryArray = new ArrayList<>();
 
-            long lineStartPosX = cDateTime.getTimestamp(
-                    cDateTime.getDate(dataSet.get(0).getTimestamp()), cDateTime.START_OF_DAY);
+            long lineStartPosX = dateTimeUtil.getTimestamp(
+                    dateTimeUtil.getDate(dataSet.get(0).getTimestamp()), dateTimeUtil.START_OF_DAY);
 
             long day = lineStartPosX;
             float index = 0;
@@ -267,7 +267,7 @@ public class StatisticsFragment extends Fragment {
 
             @Override
             public void onNothingSelected() { //Reset center text
-                pieChart.setCenterText("Expense by\nCategory");
+                pieChart.setCenterText("");
             }
         });
 
@@ -323,7 +323,7 @@ public class StatisticsFragment extends Fragment {
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText("Expense by\nCategory");
+        pieChart.setCenterText("");
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 
@@ -428,13 +428,14 @@ public class StatisticsFragment extends Fragment {
         lineChart.animateY(1000);
 
         //View port offset
-        lineChart.setExtraOffsets(0, 0, 20f, 10f);
+        lineChart.setExtraOffsets(0, 0, 10f, 10f);
 
         //Refresh chart
         lineChart.notifyDataSetChanged();
         lineChart.fitScreen();
         lineChart.invalidate();
     }
+
 
 }
 

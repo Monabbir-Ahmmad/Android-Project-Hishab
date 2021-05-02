@@ -25,7 +25,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     private TextView tvCategory;
     private TextInputEditText etAmount, etDate, etTime, etNote;
     private ImageView ivIcon;
-    private CustomDateTime customDateTime;
+    private DateTimeUtil dateTimeUtil;
     private boolean isUpdate;
 
 
@@ -54,7 +54,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
 
         toolbar.setNavigationOnClickListener(v -> finish());
-        customDateTime = new CustomDateTime(this);
+        dateTimeUtil = new DateTimeUtil(this);
         etDate.setOnClickListener(this);
         etTime.setOnClickListener(this);
         btnSaveData.setOnClickListener(this);
@@ -75,10 +75,13 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.button_saveData) {
             saveData();
+
         } else if (v.getId() == R.id.editText_time) {
-            customDateTime.pickTime(etTime);
+            dateTimeUtil.showTimePicker(getSupportFragmentManager(), etTime);
+
         } else if (v.getId() == R.id.editText_date) {
-            customDateTime.pickDate(etDate);
+            dateTimeUtil.showDatePicker(getSupportFragmentManager(), etDate);
+
         }
     }
 
@@ -116,7 +119,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
             String date = etDate.getText().toString();
             String time = etTime.getText().toString();
             String note = etNote.getText().toString();
-            Long timestamp = customDateTime.getTimestamp(date, time);
+            Long timestamp = dateTimeUtil.getTimestamp(date, time);
 
             if (note.trim().isEmpty())
                 note = null;

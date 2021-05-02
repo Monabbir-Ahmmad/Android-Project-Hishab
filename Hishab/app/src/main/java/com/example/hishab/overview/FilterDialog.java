@@ -7,27 +7,30 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.util.Pair;
 
-import com.example.hishab.CustomDateTime;
 import com.example.hishab.R;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class FilterDialog extends AppCompatDialogFragment {
 
-    private EditText filterStartDate, filterEndDate;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
     private AutoCompleteTextView filterCategory, filterSortBy;
-    private Button filterCancel, filterApply;
+    private Button filterCancel, filterApply, filterDateRange;
     private FilterDialogListener listener;
-    private CustomDateTime customDateTime;
+    private long startTimestamp = 1L;
+    private long endTimestamp = 4200000000L;
 
     @NotNull
     @Override
@@ -38,26 +41,30 @@ public class FilterDialog extends AppCompatDialogFragment {
         builder.setView(view);
 
         //Find views
-        filterStartDate = view.findViewById(R.id.filter_startDate);
-        filterEndDate = view.findViewById(R.id.filter_endDate);
         filterApply = view.findViewById(R.id.filter_apply);
+        filterCancel = view.findViewById(R.id.filter_cancel);
+        filterDateRange = view.findViewById(R.id.filter_dateRange);
         filterCategory = view.findViewById(R.id.filter_category);
         filterSortBy = view.findViewById(R.id.filter_sortBy);
 
-        customDateTime = new CustomDateTime(getActivity());
 
         //This is the start date edit text on filter dialog
-        filterStartDate.setOnClickListener(v -> customDateTime.pickDate(filterStartDate));
+        filterDateRange.setOnClickListener(v -> {
+            MaterialDatePicker<Pair<Long, Long>> dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                    .setTitleText("Select date")
+                    .build();
 
-        //This is the end date edit text on filter dialog
-        filterEndDate.setOnClickListener(v -> customDateTime.pickDate(filterEndDate));
+            dateRangePicker.show(getActivity().getSupportFragmentManager(), "Date picker");
 
-        //This is the cancel button on filter dialog
-        filterCancel = view.findViewById(R.id.filter_cancel);
-        filterCancel.setOnClickListener(v -> dismiss());
-
-        //This is the apply button on filter dialog
-        filterApply.setOnClickListener(v -> onFilterApplyClick());
+            dateRangePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+                @Override
+                public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                    filterDateRange.setText(String.format("%s - %s", dateFormat.format(selection.first), dateFormat.format(selection.second)));
+                    startTimestamp = selection.first / 1000;
+                    endTimestamp = selection.second / 1000;
+                }
+            });
+        });
 
 
         //This is the category dropdown
@@ -74,6 +81,15 @@ public class FilterDialog extends AppCompatDialogFragment {
         filterSortBy.setText(sortByAdapter.getItem(0), false);
         filterSortBy.setAdapter(sortByAdapter);
 
+        //This is the cancel button on filter dialog
+        filterCancel.setOnClickListener(v -> dismiss());
+
+        //This is the apply button on filter dialog
+        filterApply.setOnClickListener(v -> {
+            listener.applyFilter(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
+            dismiss();
+        });
+
         return builder.create();
     }
 
@@ -86,26 +102,6 @@ public class FilterDialog extends AppCompatDialogFragment {
             listener = (FilterDialogListener) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement FilterDialogListener");
-        }
-    }
-
-    //When apply button is pressed check conditions for date interval and apply filter
-    private void onFilterApplyClick() {
-        long startTimestamp = 1L;
-        long endTimestamp = 4200000000L;
-
-        if (!filterStartDate.getText().toString().isEmpty()) {
-            startTimestamp = customDateTime.getTimestamp(filterStartDate.getText().toString(), customDateTime.START_OF_DAY);
-        }
-        if (!filterEndDate.getText().toString().isEmpty()) {
-            endTimestamp = customDateTime.getTimestamp(filterEndDate.getText().toString(), customDateTime.END_OF_DAY);
-        }
-
-        if (startTimestamp <= endTimestamp) {
-            listener.applyFilter(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
-            dismiss();
-        } else {
-            Toast.makeText(getActivity(), "Invalid date interval", Toast.LENGTH_SHORT).show();
         }
     }
 
