@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recyclerview, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
-        dateTimeUtil = new DateTimeUtil(context);
+        dateTimeUtil = new DateTimeUtil();
 
         return recyclerViewHolder;
     }

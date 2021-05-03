@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
@@ -43,7 +44,7 @@ public class CustomMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tvAmount.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
-        tvDateTime.setText(dateFormat.format((startTimestamp + (long) e.getX() * 86400L) * 1000L));
+        tvDateTime.setText(dateFormat.format(startTimestamp + (long) e.getX() * DateTimeUtil.DAY_IN_MS));
         super.refreshContent(e, highlight);
     }
 

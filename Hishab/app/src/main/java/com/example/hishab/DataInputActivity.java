@@ -47,18 +47,17 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         etTime = findViewById(R.id.editText_time);
         btnSaveData = findViewById(R.id.button_saveData);
 
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         toolbar.setNavigationOnClickListener(v -> finish());
-        dateTimeUtil = new DateTimeUtil(this);
+
+        dateTimeUtil = new DateTimeUtil();
+
         etDate.setOnClickListener(this);
         etTime.setOnClickListener(this);
         btnSaveData.setOnClickListener(this);
-
 
         //Set toolbar title
         if (!isUpdate) {

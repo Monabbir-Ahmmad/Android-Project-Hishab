@@ -46,7 +46,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         btnClose = view.findViewById(R.id.bottomSheet_close);
         btnEdit = view.findViewById(R.id.bottomSheet_edit);
 
-        dateTimeUtil = new DateTimeUtil(getActivity());
+        dateTimeUtil = new DateTimeUtil();
 
         tvCategory.setText(dataItem.getCategory());
         tvAmount.setText(String.format("%s BDT", decimalFormat.format(dataItem.getAmount())));

@@ -45,14 +45,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
 
-
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
 
         //This sets the default fragment and bottom nav button on startup
         chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
@@ -63,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationBar();
         //This calls the method that saves app instance
         darkModeInstance();
-
 
         //Side drawer switch to change theme
         SwitchCompat switchCompat = navigationView.getMenu().findItem(R.id.nav_dark_mode)

@@ -58,7 +58,6 @@ public class StatisticsFragment extends Fragment {
     private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite, colorPrimary;
     private DateTimeUtil dateTimeUtil;
-    private long startTimestamp, endTimestamp;
 
 
     public StatisticsFragment() {
@@ -78,7 +77,7 @@ public class StatisticsFragment extends Fragment {
         lineChart = view.findViewById(R.id.lineChart);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        dateTimeUtil = new DateTimeUtil(getActivity());
+        dateTimeUtil = new DateTimeUtil();
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -113,6 +112,8 @@ public class StatisticsFragment extends Fragment {
     private void statisticsFilter(int tab) {
         Calendar calendar = Calendar.getInstance();
         String startDate = null, endDate = null;
+        long startTimestamp = 1L;
+        long endTimestamp = 4200000000000L;
 
         if (tab == 0) {
             startDate = simpleDateFormat.format(new Date());
@@ -142,8 +143,8 @@ public class StatisticsFragment extends Fragment {
 
         }
 
-        startTimestamp = dateTimeUtil.getTimestamp(startDate, dateTimeUtil.START_OF_DAY);
-        endTimestamp = dateTimeUtil.getTimestamp(endDate, dateTimeUtil.END_OF_DAY);
+        startTimestamp = dateTimeUtil.getTimestamp(startDate, DateTimeUtil.START_OF_DAY);
+        endTimestamp = dateTimeUtil.getTimestamp(endDate, DateTimeUtil.END_OF_DAY);
         dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
 
         setLineData();
@@ -209,7 +210,7 @@ public class StatisticsFragment extends Fragment {
             //Calculate total amount for each day
             for (int i = 0; i < dataSet.size(); i++) {
                 if (dataSet.get(i).getTimestamp() >= day
-                        && dataSet.get(i).getTimestamp() < day + 86400L) {
+                        && dataSet.get(i).getTimestamp() < day + DateTimeUtil.DAY_IN_MS) {
                     dailyExpense += dataSet.get(i).getAmount();
 
                 } else {
@@ -218,9 +219,9 @@ public class StatisticsFragment extends Fragment {
 
                     //Calculate index to skip based on date
                     while (!(dataSet.get(i).getTimestamp() >= day
-                            && dataSet.get(i).getTimestamp() < day + 86400L)) {
+                            && dataSet.get(i).getTimestamp() < day + DateTimeUtil.DAY_IN_MS)) {
                         index += 1;
-                        day += 86400L;
+                        day += DateTimeUtil.DAY_IN_MS;
                     }
                 }
                 if (i == dataSet.size() - 1) {
@@ -416,7 +417,7 @@ public class StatisticsFragment extends Fragment {
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                return dateFormat.format((lineStartPosX + (long) value * 86400L) * 1000L);
+                return dateFormat.format(lineStartPosX + (long) value * DateTimeUtil.DAY_IN_MS);
             }
         });
 

@@ -63,7 +63,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         btnFilter.setOnClickListener(v -> {
             //This opens the filter dialog
             FilterDialog filterDialog = new FilterDialog();
-            filterDialog.setTargetFragment(OverviewFragment.this, 1);
+            filterDialog.setTargetFragment(this, 1);
             filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
         });
 
@@ -128,7 +128,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
         recyclerViewAdapter.setOnItemClickListener(position -> {
             //This opens a bottom sheet with details from recyclerView item
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
-            bottomSheetDialog.setTargetFragment(OverviewFragment.this, 2);
+            bottomSheetDialog.setTargetFragment(this, 2);
             bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
         });
 

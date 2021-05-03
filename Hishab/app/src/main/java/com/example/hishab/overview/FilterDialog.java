@@ -12,9 +12,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.util.Pair;
 
+import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class FilterDialog extends AppCompatDialogFragment {
 
@@ -30,7 +31,7 @@ public class FilterDialog extends AppCompatDialogFragment {
     private Button filterCancel, filterApply, filterDateRange;
     private FilterDialogListener listener;
     private long startTimestamp = 1L;
-    private long endTimestamp = 4200000000L;
+    private long endTimestamp = 4200000000000L;
 
     @NotNull
     @Override
@@ -47,8 +48,9 @@ public class FilterDialog extends AppCompatDialogFragment {
         filterCategory = view.findViewById(R.id.filter_category);
         filterSortBy = view.findViewById(R.id.filter_sortBy);
 
+        long timeOffSet = TimeZone.getDefault().getRawOffset();
 
-        //This is the start date edit text on filter dialog
+        //This is the date range picker
         filterDateRange.setOnClickListener(v -> {
             MaterialDatePicker<Pair<Long, Long>> dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
                     .setTitleText("Select date")
@@ -56,13 +58,11 @@ public class FilterDialog extends AppCompatDialogFragment {
 
             dateRangePicker.show(getActivity().getSupportFragmentManager(), "Date picker");
 
-            dateRangePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-                @Override
-                public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                    filterDateRange.setText(String.format("%s - %s", dateFormat.format(selection.first), dateFormat.format(selection.second)));
-                    startTimestamp = selection.first / 1000;
-                    endTimestamp = selection.second / 1000;
-                }
+            dateRangePicker.addOnPositiveButtonClickListener(selection -> {
+                startTimestamp = selection.first - timeOffSet;
+                endTimestamp = selection.second - timeOffSet + DateTimeUtil.DAY_IN_MS - 1000L;
+
+                filterDateRange.setText(String.format("%s - %s", dateFormat.format(startTimestamp), dateFormat.format(endTimestamp)));
             });
         });
 
@@ -110,6 +110,5 @@ public class FilterDialog extends AppCompatDialogFragment {
         //This applies the filter
         void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp);
     }
-
 
 }
