@@ -47,6 +47,16 @@
         <item>Amount: DESC</item>
     </string-array>
 
+    <!--Array for the time filters-->
+    <string-array name="timeFilterArray">
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
+    </string-array>
+
+
+
     <!--Array for category icons-->
     <integer-array name="iconArray">
         <item>@drawable/ic_automobile</item>

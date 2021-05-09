@@ -10,13 +10,13 @@ import java.util.Arrays;
 public class DataItem {
 
     private final Context context;
+    private final String[] categoryArray;
+    private final TypedArray iconArray;
     private int id;
     private String category;
     private float amount;
     private String note;
-    private final String[] categoryArray;
     private int icon;
-    private final TypedArray iconArray;
     private long timestamp;
 
     //Constructor

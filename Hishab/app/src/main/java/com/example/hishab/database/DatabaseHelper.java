@@ -199,7 +199,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 } while (cursor.moveToNext());
             }
-            database.close();
             cursor.close();
 
         } catch (Exception e) {
@@ -207,4 +206,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return allData;
     }
+
+    //This queries filtered sum from table
+    public float getFilteredSum(String category, long startTimestamp, long endTimestamp) {
+        if (category.contains("All"))
+            category = "";
+
+        float sum = 0;
+        database = this.getReadableDatabase();
+        try {
+            Cursor cursor = database.rawQuery("SELECT SUM(" + AMOUNT + ") FROM " + TABLE_NAME + " WHERE " + CATEGORY
+                    + " LIKE '" + category + "%' AND " + TIMESTAMP + " BETWEEN " + startTimestamp
+                    + " AND " + endTimestamp + " AND " + DELETED + " = 0", null);
+
+            if (cursor.moveToFirst()) {
+                sum = cursor.getFloat(0);
+            } else {
+                sum = 0;
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
+        }
+
+
+        return sum;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.hishab.statistics;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -9,13 +10,14 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
-import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -24,6 +26,9 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -36,28 +41,25 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
-import com.google.android.material.tabs.TabLayout;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StatisticsFragment extends Fragment {
+public class StatisticsFragment extends Fragment implements View.OnClickListener {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    private final SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
     private PieChart pieChart;
     private LineChart lineChart;
-    private TabLayout tabLayout;
+    private BarChart barChart;
+    private Button btnLineSort, btnPieSort, btnBarSort;
     private DatabaseHelper databaseHelper;
-    private ArrayList<DataItem> dataSet;
     private TypedValue colorBlackWhite, colorPrimary;
-    private DateTimeUtil dateTimeUtil;
 
 
     public StatisticsFragment() {
@@ -75,9 +77,13 @@ public class StatisticsFragment extends Fragment {
         //Find views
         pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
+        barChart = view.findViewById(R.id.barChart);
+        btnLineSort = view.findViewById(R.id.button_lineChart_sort);
+        btnPieSort = view.findViewById(R.id.button_pieChart_sort);
+        btnBarSort = view.findViewById(R.id.button_barChart_sort);
+
 
         databaseHelper = new DatabaseHelper(getActivity());
-        dateTimeUtil = new DateTimeUtil();
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
@@ -86,98 +92,121 @@ public class StatisticsFragment extends Fragment {
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
 
 
-        tabLayout = view.findViewById(R.id.tabLayout);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                statisticsFilter(tab.getPosition());
-            }
+        btnLineSort.setOnClickListener(this);
+        btnPieSort.setOnClickListener(this);
+        btnBarSort.setOnClickListener(this);
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+        Calendar calendar = Calendar.getInstance();
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+        btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
+        setLineData(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
-        statisticsFilter(0);
+        btnPieSort.setText("Today");
+        setPieData(0);
+
+        btnBarSort.setText(String.valueOf(calendar.get(Calendar.YEAR)));
+        setBarData(calendar.get(Calendar.YEAR));
 
         return view;
     }
 
 
-    //This is the top filter for statistics
-    private void statisticsFilter(int tab) {
+    @Override
+    public void onClick(View v) {
         Calendar calendar = Calendar.getInstance();
-        String startDate = null, endDate = null;
-        long startTimestamp = 1L;
-        long endTimestamp = 4200000000000L;
 
-        if (tab == 0) {
-            startDate = simpleDateFormat.format(new Date());
-            endDate = startDate;
+        if (v.getId() == R.id.button_lineChart_sort) { //Open Month and Year picker
 
-        } else if (tab == 1) {
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-            startDate = simpleDateFormat.format(calendar.getTime());
-            calendar.add(Calendar.DAY_OF_WEEK, 6);
-            endDate = simpleDateFormat.format(calendar.getTime());
+            MonthPickerDialog.Builder monthPickerDialog = new MonthPickerDialog.Builder(getActivity(),
+                    (selectedMonth, selectedYear) -> {
+                        calendar.set(Calendar.YEAR, selectedYear);
+                        calendar.set(Calendar.MONTH, selectedMonth);
+                        btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
+                        setLineData(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
-        } else if (tab == 2) {
-            calendar.set(Calendar.DAY_OF_MONTH, 1);
-            startDate = simpleDateFormat.format(calendar.getTime());
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-            endDate = simpleDateFormat.format(calendar.getTime());
+                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
 
-        } else if (tab == 3) {
-            calendar.set(Calendar.DAY_OF_YEAR, 1);
-            startDate = simpleDateFormat.format(calendar.getTime());
-            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
-            endDate = simpleDateFormat.format(calendar.getTime());
+            monthPickerDialog.setMaxYear(2100).build().show();
 
-        } else if (tab == 4) {
-            startDate = "01 Jan 1970";
-            endDate = "31 Dec 2100";
+        } else if (v.getId() == R.id.button_pieChart_sort) { //Open filter options
 
+            final String[] timeFilters = getResources().getStringArray(R.array.timeFilterArray);
+
+            AlertDialog.Builder timeFilterPicker = new AlertDialog.Builder(getActivity());
+            timeFilterPicker.setSingleChoiceItems(timeFilters, 0, (dialog, which) -> {
+                btnPieSort.setText(timeFilters[which]);
+                setPieData(which);
+                dialog.dismiss();
+            });
+
+            timeFilterPicker.setTitle("Choose option").setNeutralButton("CANCEL",
+                    (dialog, which) -> dialog.dismiss());
+
+            timeFilterPicker.show();
+
+        } else if (v.getId() == R.id.button_barChart_sort) { //Open Year picker
+
+            MonthPickerDialog.Builder yearPickerDialog = new MonthPickerDialog.Builder(getActivity(),
+                    (selectedMonth, selectedYear) -> {
+                        btnBarSort.setText(String.valueOf(selectedYear));
+                        setBarData(selectedYear);
+                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+
+            yearPickerDialog.showYearOnly().setMaxYear(2100).build().show();
         }
 
-        startTimestamp = dateTimeUtil.getTimestamp(startDate, DateTimeUtil.START_OF_DAY);
-        endTimestamp = dateTimeUtil.getTimestamp(endDate, DateTimeUtil.END_OF_DAY);
-        dataSet = databaseHelper.getFilteredData("All", "Date: Oldest", startTimestamp, endTimestamp);
-
-        setLineData();
-        setPieData();
     }
 
 
     //This sets the data into the pie chart
-    private void setPieData() {
+    private void setPieData(int choice) {
         //Clear chart before updating data
         pieChart.clear();
 
-        if (dataSet.size() > 0) { //If there is any data
-            String[] category = getResources().getStringArray(R.array.categoryArray);
-            float[] amount = new float[category.length];
-            Arrays.fill(amount, 0);
-            int index;
+        ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
 
-            ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
-            //This calculates sum of each category for pie chart
-            for (int i = 0; i < dataSet.size(); i++) {
-                index = Arrays.asList(category).indexOf(dataSet.get(i).getCategory());
-                amount[index] += dataSet.get(i).getAmount();
-            }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
 
-            //This adds the values of each category into the PieEntry
-            for (int i = 0; i < category.length; i++) {
-                if (amount[i] > 0) {
-                    pieEntryArray.add(new PieEntry(amount[i], category[i]));
-                }
-            }
+        long startTime = 0, endTime = 0;
+        float categorySum;
+        String[] category = getResources().getStringArray(R.array.categoryArray);
 
-            //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
+        if (choice == 0) {
+            startTime = calendar.getTimeInMillis();
+            endTime = startTime + DateTimeUtil.DAY_IN_MS - 1000L;
+
+        } else if (choice == 1) {
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+            startTime = calendar.getTimeInMillis();
+            calendar.add(Calendar.DAY_OF_WEEK, 6);
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+        } else if (choice == 2) {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            startTime = calendar.getTimeInMillis();
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+        } else if (choice == 3) {
+            calendar.set(Calendar.DAY_OF_YEAR, 1);
+            startTime = calendar.getTimeInMillis();
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+        }
+
+        //This adds the values of each category into the PieEntry
+        for (String label : category) {
+            categorySum = databaseHelper.getFilteredSum(label, startTime, endTime);
+            if (categorySum > 0)
+                pieEntryArray.add(new PieEntry(categorySum, label));
+
+        }
+
+        if (pieEntryArray.size() > 0) { //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
             PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
             PieData pieData = new PieData(pieDataSet);
 
@@ -186,50 +215,46 @@ public class StatisticsFragment extends Fragment {
         }
 
         //No data text
-        pieChart.setNoDataText("No data to display!");
+        pieChart.setNoDataText("No data found!");
         pieChart.setNoDataTextColor(colorBlackWhite.data);
         pieChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
 
     //This sets the data into the line chart
-    private void setLineData() {
+    private void setLineData(int selectedMonth, int selectedYear) {
         //Clear chart before updating data
         lineChart.clear();
 
-        if (dataSet.size() > 0) { //If there is any data
-            ArrayList<Entry> lineEntryArray = new ArrayList<>();
+        ArrayList<Entry> lineEntryArray = new ArrayList<>();
 
-            long lineStartPosX = dateTimeUtil.getTimestamp(
-                    dateTimeUtil.getDate(dataSet.get(0).getTimestamp()), dateTimeUtil.START_OF_DAY);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
 
-            long day = lineStartPosX;
-            float index = 0;
-            float dailyExpense = 0;
+        int numOfDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        long dayStart, dayEnd;
+        float dailySum;
+        long lineStartPosX = calendar.getTimeInMillis();
 
-            //Calculate total amount for each day
-            for (int i = 0; i < dataSet.size(); i++) {
-                if (dataSet.get(i).getTimestamp() >= day
-                        && dataSet.get(i).getTimestamp() < day + DateTimeUtil.DAY_IN_MS) {
-                    dailyExpense += dataSet.get(i).getAmount();
+        for (int i = 1; i <= numOfDays; i++) {
+            calendar.set(Calendar.DAY_OF_MONTH, i);
 
-                } else {
-                    lineEntryArray.add(new Entry(index, dailyExpense));
-                    dailyExpense = dataSet.get(i).getAmount();
+            dayStart = calendar.getTimeInMillis();
+            dayEnd = dayStart + DateTimeUtil.DAY_IN_MS - 1000L;
 
-                    //Calculate index to skip based on date
-                    while (!(dataSet.get(i).getTimestamp() >= day
-                            && dataSet.get(i).getTimestamp() < day + DateTimeUtil.DAY_IN_MS)) {
-                        index += 1;
-                        day += DateTimeUtil.DAY_IN_MS;
-                    }
-                }
-                if (i == dataSet.size() - 1) {
-                    lineEntryArray.add(new Entry(index, dailyExpense));
-                }
-            }
+            dailySum = databaseHelper.getFilteredSum("All", dayStart, dayEnd);
 
-            //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
+            if (dailySum > 0)
+                lineEntryArray.add(new Entry(i - 1, dailySum));
+        }
+
+        if (lineEntryArray.size() > 0) { //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
             LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
             LineData lineData = new LineData(lineDataSet);
 
@@ -237,9 +262,62 @@ public class StatisticsFragment extends Fragment {
             createLineChart(lineDataSet, lineStartPosX);
         }
 
-        lineChart.setNoDataText("No data to display!");
+        //No data text
+        lineChart.setNoDataText("No data found!");
         lineChart.setNoDataTextColor(colorBlackWhite.data);
         lineChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
+
+    }
+
+
+    //This sets the data into the bar chart
+    private void setBarData(int selectedYear) {
+        //Clear chart before updating data
+        barChart.clear();
+
+        ArrayList<BarEntry> barEntryArray = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
+        long monthStart, monthEnd;
+        float monthlySum;
+        boolean dataFound = false;
+
+        for (int i = 0; i < 12; i++) {
+            calendar.set(Calendar.MONTH, i);
+
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            monthStart = calendar.getTimeInMillis();
+
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            monthEnd = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+            monthlySum = databaseHelper.getFilteredSum("All", monthStart, monthEnd);
+
+            barEntryArray.add(new BarEntry(i, monthlySum));
+
+            if (monthlySum > 0 && !dataFound)
+                dataFound = true;
+
+        }
+
+        if (dataFound) { //Insert BarEntries into BarDataSet and create BarData from BarDataSet
+            BarDataSet barDataSet = new BarDataSet(barEntryArray, null);
+            BarData barData = new BarData(barDataSet);
+
+            barChart.setData(barData);
+            createBarChart(barDataSet, barData);
+        }
+
+        //No data text
+        barChart.setNoDataText("No data found!");
+        barChart.setNoDataTextColor(colorBlackWhite.data);
+        barChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
 
@@ -344,9 +422,9 @@ public class StatisticsFragment extends Fragment {
     //This creates the line chart
     private void createLineChart(LineDataSet lineDataSet, long lineStartPosX) {
         //Marker view
-        CustomMarkerView markerView = new CustomMarkerView(getActivity(), lineStartPosX);
-        markerView.setChartView(lineChart);
-        lineChart.setMarker(markerView);
+        LineChartMarker lineChartMarker = new LineChartMarker(getActivity(), lineStartPosX);
+        lineChartMarker.setChartView(lineChart);
+        lineChart.setMarker(lineChartMarker);
 
         //Touch attribute
         lineChart.setDrawGridBackground(false);
@@ -395,7 +473,7 @@ public class StatisticsFragment extends Fragment {
             public String getAxisLabel(float value, AxisBase axis) {
                 if (value >= 1000) {
                     yAxisLeft.setGranularity(1000);
-                    return String.valueOf(Math.round(value / 1000)) + "k";
+                    return Math.round(value / 1000) + "k";
                 }
                 return decimalFormat.format(value);
             }
@@ -437,6 +515,91 @@ public class StatisticsFragment extends Fragment {
         lineChart.invalidate();
     }
 
+    //This creates the bar chart
+    private void createBarChart(BarDataSet barDataSet, BarData barData) {
+        //Marker view
+        BarChartMarker barChartMarker = new BarChartMarker(getActivity());
+        barChartMarker.setChartView(barChart);
+        barChart.setMarker(barChartMarker);
+
+        //Bar attributes
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawBarShadow(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setScaleEnabled(false);
+        barChart.setFitBars(true);
+
+
+        barData.setBarWidth(0.3f);
+
+        barDataSet.setColor(colorPrimary.data);
+        barDataSet.setHighLightAlpha(50);
+        barDataSet.setDrawValues(false);
+
+
+        //Description of the chart
+        Description description = barChart.getDescription();
+        description.setEnabled(false);
+
+        //Legends of the chart
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
+
+        //Y axis left
+        YAxis yAxisLeft = barChart.getAxisLeft();
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setGranularity(10);
+        yAxisLeft.setLabelCount(5);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setTextColor(colorBlackWhite.data);
+        yAxisLeft.enableGridDashedLine(10f, 10f, 0f);
+        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if (value >= 1000) {
+                    yAxisLeft.setGranularity(1000);
+                    return Math.round(value / 1000) + "k";
+                }
+                return decimalFormat.format(value);
+            }
+        });
+
+        //X axis
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1);
+        xAxis.setLabelCount(12);
+        xAxis.setTextColor(colorBlackWhite.data);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        String[] xAxisLabels = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return xAxisLabels[(int) value];
+            }
+        });
+
+
+        //Y axis left
+        YAxis yAxisRight = barChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        //Animation
+        barChart.animateY(1000);
+
+        //View port offset
+        barChart.setExtraOffsets(0, 0, 10f, 10f);
+
+        //Refresh chart
+        barDataSet.notifyDataSetChanged();
+        barChart.fitScreen();
+        barChart.invalidate();
+
+    }
 
 }
 
