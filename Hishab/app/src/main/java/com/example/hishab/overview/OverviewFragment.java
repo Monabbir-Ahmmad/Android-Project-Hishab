@@ -77,7 +77,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
     //Applies the filters
     @Override
-    public void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp) {
+    public void onFilterApply(String category, String sortBy, long startTimestamp, long endTimestamp) {
         dataSet = databaseHelper.getFilteredData(category, sortBy, startTimestamp, endTimestamp);
         createRecyclerView();
         topPanelCalculation();

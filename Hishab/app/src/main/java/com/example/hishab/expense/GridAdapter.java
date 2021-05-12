@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class GridAdapter extends BaseAdapter {
 
-    Context context;
-    ArrayList<DataItem> dataSet;
+    final Context context;
+    final ArrayList<DataItem> dataSet;
 
     GridAdapter(Context context, ArrayList<DataItem> dataSet) {
 

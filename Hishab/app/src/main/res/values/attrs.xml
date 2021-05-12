@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="textColorDark" format="color" />
+    <attr name="textColorDarkLight" format="color" />
     <attr name="bgColor" format="color" />
     <attr name="surfaceColor" format="color" />
 </resources>

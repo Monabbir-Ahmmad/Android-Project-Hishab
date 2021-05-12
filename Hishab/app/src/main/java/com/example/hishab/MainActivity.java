@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,19 +65,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SwitchCompat switchCompat = navigationView.getMenu().findItem(R.id.nav_dark_mode)
                 .getActionView().findViewById(R.id.drawer_switch);
         switchCompat.setChecked(isDarkModeOn);
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    sharedPrefsEdit.putBoolean("DarkMode", true);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    sharedPrefsEdit.putBoolean("DarkMode", false);
-                }
-                sharedPrefsEdit.apply();
-                chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                sharedPrefsEdit.putBoolean("DarkMode", true);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                sharedPrefsEdit.putBoolean("DarkMode", false);
             }
+            sharedPrefsEdit.apply();
+            chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
         });
 
     }
@@ -98,14 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //This is the side drawer
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.nav_dark_mode) {
-
-
-        } else if (item.getItemId() == R.id.nav_trash) {
-
-
-        } else if (item.getItemId() == R.id.nav_about) {
+        if (item.getItemId() == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
 
@@ -127,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void darkModeInstance() {
         sharedPrefs = getSharedPreferences("AppPrefs", 0);
         sharedPrefsEdit = sharedPrefs.edit();
+        sharedPrefsEdit.apply();
         isDarkModeOn = sharedPrefs.getBoolean("DarkMode", false);
 
         //This will check app theme and set it on startup based on the theme selected

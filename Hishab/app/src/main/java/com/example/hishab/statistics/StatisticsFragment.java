@@ -73,7 +73,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
         getActivity().setTitle("Statistics");
 
-
         //Find views
         pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
@@ -87,10 +86,9 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.textColorDark, colorBlackWhite, true);
+        getContext().getTheme().resolveAttribute(R.attr.textColorDarkLight, colorBlackWhite, true);
         colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
-
 
         btnLineSort.setOnClickListener(this);
         btnPieSort.setOnClickListener(this);
@@ -132,14 +130,14 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             final String[] timeFilters = getResources().getStringArray(R.array.timeFilterArray);
 
-            AlertDialog.Builder timeFilterPicker = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder timeFilterPicker = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
             timeFilterPicker.setSingleChoiceItems(timeFilters, 0, (dialog, which) -> {
                 btnPieSort.setText(timeFilters[which]);
                 setPieData(which);
                 dialog.dismiss();
             });
 
-            timeFilterPicker.setTitle("Choose option").setNeutralButton("CANCEL",
+            timeFilterPicker.setTitle("Choose option").setPositiveButton("CLOSE",
                     (dialog, which) -> dialog.dismiss());
 
             timeFilterPicker.show();
@@ -172,7 +170,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         calendar.clear(Calendar.MILLISECOND);
 
         long startTime = 0, endTime = 0;
-        float categorySum;
+        float categorySum, totalExpense = 0;
         String[] category = getResources().getStringArray(R.array.categoryArray);
 
         if (choice == 0) {
@@ -201,6 +199,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         //This adds the values of each category into the PieEntry
         for (String label : category) {
             categorySum = databaseHelper.getFilteredSum(label, startTime, endTime);
+            totalExpense += categorySum;
             if (categorySum > 0)
                 pieEntryArray.add(new PieEntry(categorySum, label));
 
@@ -211,7 +210,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
             PieData pieData = new PieData(pieDataSet);
 
             pieChart.setData(pieData);
-            createPieChart(pieDataSet);
+            createPieChart(pieDataSet, totalExpense);
         }
 
         //No data text
@@ -323,7 +322,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
 
     //This is the pie chart design
-    private void createPieChart(PieDataSet pieDataSet) {
+    private void createPieChart(PieDataSet pieDataSet, float totalExpense) {
         //This gets a color array
         int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
         List<Integer> colorList = new ArrayList<>(colorArray.length);
@@ -346,7 +345,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNothingSelected() { //Reset center text
-                pieChart.setCenterText("");
+                pieChart.setCenterText(String.format("Total\n%s BDT", decimalFormat.format(totalExpense)));
             }
         });
 
@@ -402,7 +401,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText("");
+        pieChart.setCenterText(String.format("Total\n%s BDT", decimalFormat.format(totalExpense)));
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 

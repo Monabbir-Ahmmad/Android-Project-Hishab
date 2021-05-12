@@ -19,8 +19,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String ID = "ID";
     private static final String CATEGORY = "Category";
     private static final String AMOUNT = "Amount";
-    private static final String DATE = "Date";
-    private static final String TIME = "Time";
     private static final String NOTE = "Note";
     private static final String TIMESTAMP = "Timestamp";
     private static final String DELETED = "Deleted";
@@ -43,8 +41,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CATEGORY + " TEXT, "
                 + AMOUNT + " INTEGER, "
-                + DATE + " TEXT, "
-                + TIME + " TEXT, "
                 + NOTE + " TEXT, "
                 + TIMESTAMP + " INTEGER, "
                 + DELETED + " INTEGER DEFAULT 0);";
@@ -74,14 +70,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This inserts data into table
-    public void insertData(String category, float amount, String date, String time, String note, Long timestamp) {
+    public void insertData(String category, float amount, String note, Long timestamp) {
         database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
         contentValues.put(AMOUNT, amount);
-        contentValues.put(DATE, date);
-        contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
         contentValues.put(TIMESTAMP, timestamp);
 
@@ -94,14 +88,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //This updates existing data
-    public void updateData(int id, String category, float amount, String date, String time, String note, Long timestamp) {
+    public void updateData(int id, String category, float amount, String note, Long timestamp) {
         database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(CATEGORY, category);
         contentValues.put(AMOUNT, amount);
-        contentValues.put(DATE, date);
-        contentValues.put(TIME, time);
         contentValues.put(NOTE, note);
         contentValues.put(TIMESTAMP, timestamp);
         long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
@@ -229,7 +221,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
-
 
         return sum;
     }

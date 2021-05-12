@@ -42,9 +42,7 @@ public class DateTimeUtil {
 
         datePicker.addOnPositiveButtonClickListener(
                 (MaterialPickerOnPositiveButtonClickListener<Long>) selection ->
-                {
-                    editText.setText(dateFormat.format(selection));
-                });
+                        editText.setText(dateFormat.format(selection)));
     }
 
 

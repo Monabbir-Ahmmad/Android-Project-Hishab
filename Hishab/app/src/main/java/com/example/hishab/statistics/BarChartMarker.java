@@ -37,7 +37,7 @@ public class BarChartMarker extends MarkerView {
 
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
-        posY = posY - getHeight()/4;
+        posY = posY - getHeight() / 4;
         super.draw(canvas, posX, posY);
         getOffsetForDrawingAtPoint(posX, posY);
     }

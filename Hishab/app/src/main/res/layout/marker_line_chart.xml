@@ -13,7 +13,7 @@
         android:layout_margin="8dp"
         android:text="Jan 1:"
         android:textColor="?attr/colorPrimary"
-        android:textSize="13dp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/marker_lineChart_amount"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginVertical="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:text="0 BDT"
         android:textColor="?attr/colorPrimary"
         android:textSize="13sp" />

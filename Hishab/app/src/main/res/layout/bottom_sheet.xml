@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Details"
-        android:textColor="?attr/textColorDark"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,14 +28,14 @@
         android:background="@android:color/transparent"
         android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_close"
-        android:tint="?attr/textColorDark"
+        android:tint="?attr/textColorDarkLight"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <View
         android:id="@+id/view"
-        style="@style/Divider"
+        style="@style/Divider.Horizontal"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Amount"
-        android:textColor="?attr/textColorDark"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_category" />
@@ -114,7 +114,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Date"
-        android:textColor="?attr/textColorDark"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_amount" />
@@ -126,7 +126,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Time"
-        android:textColor="?attr/textColorDark"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_date" />
@@ -139,7 +139,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Note"
-        android:textColor="?attr/textColorDark"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"

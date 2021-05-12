@@ -11,12 +11,16 @@
         <item name="colorSecondaryVariant">@color/blue_300</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <!--Activity background color-->
+        <item name="android:windowBackground">@color/light_gray_200</item>
+        <item name="android:colorBackground">@color/light_gray_200</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
 
         <!-- Customize your theme here. -->
         <!-- my custom colors. -->
-        <item name="textColorDark">@color/gray_700</item>
+        <item name="textColorDarkLight">@color/gray_700</item>
         <item name="bgColor">@color/light_gray_200</item>
         <item name="surfaceColor">@color/white</item>
 
@@ -32,20 +36,37 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <!--Custom single choice alert dialog-->
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <!-- Used for the title and text -->
+        <item name="android:textColor">@color/black</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/white</item>
+    </style>
 
     <!--Custom card style-->
-    <style name="cardStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="CustomCard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="cardCornerRadius">4dp</item>
         <item name="cardElevation">0dp</item>
-        <item name="cardBackgroundColor">?attr/surfaceColor</item>
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 
     <!--Custom divider style-->
     <style name="Divider" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/gray_500</item>
         <item name="android:alpha">0.5</item>
     </style>
+
+
+    <style name="Divider.Horizontal" parent="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+    <style name="Divider.Vertical" parent="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
 
 </resources>

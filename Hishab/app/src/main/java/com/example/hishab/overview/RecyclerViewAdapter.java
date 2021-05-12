@@ -73,8 +73,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //Inner view holder class
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView recIcon;
-        public TextView recCategory, recAmount, recDateTime, recNote;
+        public final ImageView recIcon;
+        public final TextView recCategory;
+        public final TextView recAmount;
+        public final TextView recDateTime;
+        public final TextView recNote;
 
         //Inner classConstructor
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {

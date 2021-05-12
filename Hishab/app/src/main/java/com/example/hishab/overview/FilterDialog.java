@@ -28,7 +28,7 @@ public class FilterDialog extends AppCompatDialogFragment {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
     private AutoCompleteTextView filterCategory, filterSortBy;
-    private Button filterCancel, filterApply, filterDateRange;
+    private Button filterDateRange;
     private FilterDialogListener listener;
     private long startTimestamp = 1L;
     private long endTimestamp = 4200000000000L;
@@ -37,13 +37,17 @@ public class FilterDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Inflate the layout for this dialog fragment
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
         View view = getActivity().getLayoutInflater().inflate(R.layout.filter_dialog, null);
-        builder.setView(view);
+        builder.setView(view)
+                .setTitle("Filter")
+                .setNegativeButton("CANCEL", (dialog, which) -> dismiss())
+                .setPositiveButton("APPLY", (dialog, which) -> {
+                    listener.onFilterApply(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
+                    dismiss();
+                });
 
         //Find views
-        filterApply = view.findViewById(R.id.filter_apply);
-        filterCancel = view.findViewById(R.id.filter_cancel);
         filterDateRange = view.findViewById(R.id.filter_dateRange);
         filterCategory = view.findViewById(R.id.filter_category);
         filterSortBy = view.findViewById(R.id.filter_sortBy);
@@ -53,7 +57,7 @@ public class FilterDialog extends AppCompatDialogFragment {
         //This is the date range picker
         filterDateRange.setOnClickListener(v -> {
             MaterialDatePicker<Pair<Long, Long>> dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
-                    .setTitleText("Select date")
+                    .setTitleText("Select date range")
                     .build();
 
             dateRangePicker.show(getActivity().getSupportFragmentManager(), "Date picker");
@@ -71,24 +75,15 @@ public class FilterDialog extends AppCompatDialogFragment {
         ArrayList<String> category = new ArrayList<>();
         category.add("All");
         category.addAll(Arrays.asList(getResources().getStringArray(R.array.categoryArray)));
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, category);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), R.layout.layout_dropdown_filter, category);
         filterCategory.setText(categoryAdapter.getItem(0), false);
         filterCategory.setAdapter(categoryAdapter);
 
         //This is the sort by dropdown
         String[] sortBy = getResources().getStringArray(R.array.sortByArray);
-        ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_filter, sortBy);
+        ArrayAdapter<String> sortByAdapter = new ArrayAdapter<>(getActivity(), R.layout.layout_dropdown_filter, sortBy);
         filterSortBy.setText(sortByAdapter.getItem(0), false);
         filterSortBy.setAdapter(sortByAdapter);
-
-        //This is the cancel button on filter dialog
-        filterCancel.setOnClickListener(v -> dismiss());
-
-        //This is the apply button on filter dialog
-        filterApply.setOnClickListener(v -> {
-            listener.applyFilter(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
-            dismiss();
-        });
 
         return builder.create();
     }
@@ -108,7 +103,7 @@ public class FilterDialog extends AppCompatDialogFragment {
     //Interface for FilterDialogListener
     public interface FilterDialogListener {
         //This applies the filter
-        void applyFilter(String category, String sortBy, long startTimestamp, long endTimestamp);
+        void onFilterApply(String category, String sortBy, long startTimestamp, long endTimestamp);
     }
 
 }

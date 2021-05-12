@@ -40,7 +40,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         //Find views
         toolbar = findViewById(R.id.toolbar_dataInput);
         tvCategory = findViewById(R.id.textView_category);
-        ivIcon=findViewById(R.id.imageView_icon);
+        ivIcon = findViewById(R.id.imageView_icon);
         etAmount = findViewById(R.id.editText_amount);
         etNote = findViewById(R.id.editText_note);
         etDate = findViewById(R.id.editText_date);
@@ -88,7 +88,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     //Set expense category, date, time, note on create
     private void setViewsNew() {
         tvCategory.setText(getIntent().getStringExtra("category"));
-        ivIcon.setImageResource(getIntent().getIntExtra("icon",-1));
+        ivIcon.setImageResource(getIntent().getIntExtra("icon", -1));
         etDate.setText(new SimpleDateFormat("dd MMM yyyy",
                 Locale.getDefault()).format(new Date()));
         etTime.setText(new SimpleDateFormat("hh:mm a",
@@ -99,7 +99,7 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     //Set expense category, amount, date, time, note on create to update data
     private void setViewsUpdate() {
         tvCategory.setText(getIntent().getStringExtra("category"));
-        ivIcon.setImageResource(getIntent().getIntExtra("icon",-1));
+        ivIcon.setImageResource(getIntent().getIntExtra("icon", -1));
         etAmount.setText(getIntent().getStringExtra("amount"));
         etDate.setText(getIntent().getStringExtra("date"));
         etTime.setText(getIntent().getStringExtra("time"));
@@ -115,22 +115,20 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         if (!etAmount.getText().toString().isEmpty() && Float.parseFloat(etAmount.getText().toString()) > 0) {
             float amount = Float.parseFloat(etAmount.getText().toString());
             String category = tvCategory.getText().toString();
-            String date = etDate.getText().toString();
-            String time = etTime.getText().toString();
             String note = etNote.getText().toString();
-            Long timestamp = dateTimeUtil.getTimestamp(date, time);
+            Long timestamp = dateTimeUtil.getTimestamp(etDate.getText().toString(), etTime.getText().toString());
 
             if (note.trim().isEmpty())
                 note = null;
 
             //If not update data, insert new data
             if (!isUpdate) {
-                databaseHelper.insertData(category, amount, date, time, note, timestamp);
+                databaseHelper.insertData(category, amount, note, timestamp);
             }
             //If update, update existing data
             else {
                 int id = getIntent().getIntExtra("id", -1);
-                databaseHelper.updateData(id, category, amount, date, time, note, timestamp);
+                databaseHelper.updateData(id, category, amount, note, timestamp);
             }
             startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
