@@ -36,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Version"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="?attr/textColorDarkLight"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

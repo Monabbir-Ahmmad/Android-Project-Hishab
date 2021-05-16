@@ -10,8 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="12dp">
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/recycleView_icon"
@@ -29,8 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Category"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="?attr/textColorDarkLight"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:text="Date &amp; Time"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toBottomOf="@+id/recycleView_category" />
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Note:"
@@ -59,16 +59,15 @@
 
         <TextView
             android:id="@+id/recycleView_amount"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:gravity="end"
             android:text="Amount"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="?attr/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recycleView_dateTime"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

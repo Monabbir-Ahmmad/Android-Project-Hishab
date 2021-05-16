@@ -37,6 +37,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="Category"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/white"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -158,12 +159,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:id="@+id/button_saveData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Done"
-            app:cornerRadius="50dp" />
+            android:text="Done" />
 
     </LinearLayout>
 

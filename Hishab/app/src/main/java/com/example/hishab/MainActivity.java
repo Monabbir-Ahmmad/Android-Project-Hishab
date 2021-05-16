@@ -23,12 +23,13 @@ import com.example.hishab.statistics.StatisticsFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, ChipNavigationBar.OnItemSelectedListener {
 
-    private ChipNavigationBar chipNavigationBar;
+    private ChipNavigationBar bottomNavBar;
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private NavigationView navigationView;
+    private NavigationView sideNavView;
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEdit;
     private boolean isDarkModeOn;
@@ -40,29 +41,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Find views
         toolbar = findViewById(R.id.toolbar_main);
-        chipNavigationBar = findViewById(R.id.bottomNav);
+        bottomNavBar = findViewById(R.id.bottomNav);
         drawer = findViewById(R.id.drawer);
-        navigationView = findViewById(R.id.nav_view);
+        sideNavView = findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        sideNavView.setNavigationItemSelectedListener(this);
+        bottomNavBar.setOnItemSelectedListener(this);
 
         //This sets the default fragment and bottom nav button on startup
-        chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
+        bottomNavBar.setItemSelected(R.id.bottomNav_overview, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new OverviewFragment()).commit();
 
-        //This calls the method that controls the bottom navigation
-        bottomNavigationBar();
         //This calls the method that saves app instance
         darkModeInstance();
 
         //Side drawer switch to change theme
-        SwitchCompat switchCompat = navigationView.getMenu().findItem(R.id.nav_dark_mode)
+        SwitchCompat switchCompat = sideNavView.getMenu().findItem(R.id.nav_dark_mode)
                 .getActionView().findViewById(R.id.drawer_switch);
         switchCompat.setChecked(isDarkModeOn);
         switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 sharedPrefsEdit.putBoolean("DarkMode", false);
             }
             sharedPrefsEdit.apply();
-            chipNavigationBar.setItemSelected(R.id.bottomNav_overview, true);
+            bottomNavBar.setItemSelected(R.id.bottomNav_overview, true);
         });
 
     }
@@ -90,6 +91,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //This controls fragment transitions and bottom navigation
+    @Override
+    public void onItemSelected(int id) {
+        Fragment selectedFragment = null;
+
+        if (id == R.id.bottomNav_overview) {
+            selectedFragment = new OverviewFragment();
+        } else if (id == R.id.bottomNav_expense) {
+            selectedFragment = new ExpenseFragment();
+        } else if (id == R.id.bottomNav_statistics) {
+            selectedFragment = new StatisticsFragment();
+        }
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
+    }
 
     //This is the side drawer
     @Override
@@ -130,24 +147,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //This controls fragment transitions and bottom navigation
-    private void bottomNavigationBar() {
-        chipNavigationBar.setOnItemSelectedListener(id -> {
-            Fragment selectedFragment = null;
-
-            if (id == R.id.bottomNav_overview) {
-                selectedFragment = new OverviewFragment();
-            } else if (id == R.id.bottomNav_expense) {
-                selectedFragment = new ExpenseFragment();
-            } else if (id == R.id.bottomNav_statistics) {
-                selectedFragment = new StatisticsFragment();
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-        });
-    }
-
-
     //This will let users send feedback to the developers
     private void sendFeedback() {
         try {
@@ -158,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(Intent.createChooser(intent, "Send email using"));
 
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "There are no email client installed on your device.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "There are no email client installed on your device.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

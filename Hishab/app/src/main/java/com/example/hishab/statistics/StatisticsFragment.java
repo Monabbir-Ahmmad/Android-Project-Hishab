@@ -462,7 +462,13 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setEnabled(true);
         yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setGranularity(10);
+        if (lineDataSet.getYMax() >= 2000)
+            yAxisLeft.setGranularity(1000);
+        else if (lineDataSet.getYMax() >= 1000)
+            yAxisLeft.setGranularity(100);
+        else
+            yAxisLeft.setGranularity(10);
+
         yAxisLeft.setLabelCount(5);
         yAxisLeft.setAxisMinimum(0);
         yAxisLeft.setTextColor(colorBlackWhite.data);
@@ -470,8 +476,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         yAxisLeft.setValueFormatter(new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                if (value >= 1000) {
-                    yAxisLeft.setGranularity(1000);
+                if (value >= 1000 && lineDataSet.getYMax() >= 2000) {
                     return Math.round(value / 1000) + "k";
                 }
                 return decimalFormat.format(value);
@@ -529,9 +534,10 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         barChart.setScaleEnabled(false);
         barChart.setFitBars(true);
 
-
+        //Bar width
         barData.setBarWidth(0.3f);
 
+        //Bar color
         barDataSet.setColor(colorPrimary.data);
         barDataSet.setHighLightAlpha(50);
         barDataSet.setDrawValues(false);
@@ -549,7 +555,13 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         YAxis yAxisLeft = barChart.getAxisLeft();
         yAxisLeft.setEnabled(true);
         yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setGranularity(10);
+        if (barDataSet.getYMax() >= 2000)
+            yAxisLeft.setGranularity(1000);
+        else if (barDataSet.getYMax() >= 1000)
+            yAxisLeft.setGranularity(100);
+        else
+            yAxisLeft.setGranularity(10);
+
         yAxisLeft.setLabelCount(5);
         yAxisLeft.setAxisMinimum(0);
         yAxisLeft.setTextColor(colorBlackWhite.data);
@@ -557,8 +569,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         yAxisLeft.setValueFormatter(new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                if (value >= 1000) {
-                    yAxisLeft.setGranularity(1000);
+                if (value >= 1000 && barDataSet.getYMax() >= 2000) {
                     return Math.round(value / 1000) + "k";
                 }
                 return decimalFormat.format(value);

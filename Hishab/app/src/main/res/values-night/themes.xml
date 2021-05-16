@@ -11,23 +11,20 @@
         <item name="colorSecondaryVariant">@color/blue_300</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <!--Activity background color-->
         <item name="android:windowBackground">@color/dark_black</item>
         <item name="android:colorBackground">@color/dark_black</item>
-
-
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
 
-        <!-- Customize your theme here. -->
         <!-- my custom colors. -->
         <item name="textColorDarkLight">@color/white</item>
-        <item name="bgColor">@color/dark_black</item>
         <item name="surfaceColor">@color/coal_black</item>
-
 
         <!-- Bottom sheet style. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -46,6 +43,22 @@
         <item name="android:background">@color/coal_black</item>
     </style>
 
+    <!--Month year picker dialog-->
+    <style name="MonthPickerDialogStyle">
+        <item name="monthBgColor">@color/coal_black</item>
+        <item name="monthBgSelectedColor">@color/blue_300</item>
+        <item name="monthFontColorSelected">@color/white</item>
+        <item name="monthFontColorNormal">@color/white</item>
+        <item name="monthFontColorDisabled">@color/white</item>
+
+        <item name="headerBgColor">@color/blue_300</item>
+        <item name="headerFontColorSelected">@color/white</item>
+        <item name="headerFontColorNormal">#85FFFFFF</item>
+        <item name="headerTitleColor">@color/white</item>
+
+        <item name="dialogActionButtonColor">@color/blue_300</item>
+    </style>
+
     <!--Custom card style-->
     <style name="CustomCard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="cardCornerRadius">4dp</item>
@@ -55,10 +68,9 @@
 
     <!--Custom divider style-->
     <style name="Divider" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/gray_500</item>
-        <item name="android:alpha">0.5</item>
+        <item name="android:background">@color/light_gray_200</item>
+        <item name="android:alpha">0.8</item>
     </style>
-
 
     <style name="Divider.Horizontal" parent="Divider">
         <item name="android:layout_width">match_parent</item>
