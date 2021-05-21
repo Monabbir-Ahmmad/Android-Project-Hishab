@@ -345,7 +345,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNothingSelected() { //Reset center text
-                pieChart.setCenterText(String.format("Total\n%s BDT", decimalFormat.format(totalExpense)));
+                pieChart.setCenterText(String.format("%s BDT\nTotal", decimalFormat.format(totalExpense)));
             }
         });
 
@@ -401,7 +401,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText(String.format("Total\n%s BDT", decimalFormat.format(totalExpense)));
+        pieChart.setCenterText(String.format("%s BDT\nTotal", decimalFormat.format(totalExpense)));
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 

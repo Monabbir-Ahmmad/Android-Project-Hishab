@@ -14,21 +14,21 @@ import java.text.DecimalFormat;
 
 public class BarChartMarker extends MarkerView {
 
-    private final TextView tvAmount;
+    private final TextView textView;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
 
     //Constructor
     public BarChartMarker(Context context) {
-        super(context, R.layout.marker_bar_chart);
+        super(context, R.layout.marker_view);
 
         //Find views
-        tvAmount = findViewById(R.id.marker_barChart_amount);
+        textView = findViewById(R.id.textView_marker);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tvAmount.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
+        textView.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
         super.refreshContent(e, highlight);
     }
 

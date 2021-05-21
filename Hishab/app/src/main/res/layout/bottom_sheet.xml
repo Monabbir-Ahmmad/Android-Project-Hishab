@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Details"
-        android:textColor="?attr/textColorDarkLight"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,9 +89,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Category"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="?attr/colorPrimary"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -102,8 +101,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Amount"
-        android:textColor="?attr/textColorDarkLight"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_category" />
 
@@ -114,8 +112,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Date"
-        android:textColor="?attr/textColorDarkLight"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_amount" />
 
@@ -126,8 +123,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Time"
-        android:textColor="?attr/textColorDarkLight"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_date" />
 
@@ -139,8 +135,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Note"
-        android:textColor="?attr/textColorDarkLight"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheet_time" />
