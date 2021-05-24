@@ -1,4 +1,4 @@
-package com.example.hishab.statistics;
+package com.example.hishab.ui.statistics;
 
 import android.app.AlertDialog;
 import android.graphics.Color;

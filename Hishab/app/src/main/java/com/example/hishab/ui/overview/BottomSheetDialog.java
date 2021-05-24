@@ -1,4 +1,4 @@
-package com.example.hishab.overview;
+package com.example.hishab.ui.overview;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,8 +68,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             intent.putExtra("category", dataItem.getCategory());
             intent.putExtra("icon", dataItem.getIcon());
             intent.putExtra("amount", String.valueOf(dataItem.getAmount()));
-            intent.putExtra("date", dateTimeUtil.getDate(dataItem.getTimestamp()));
-            intent.putExtra("time", dateTimeUtil.getTime(dataItem.getTimestamp()));
+            intent.putExtra("timestamp", dataItem.getTimestamp());
             intent.putExtra("note", dataItem.getNote());
             startActivity(intent);
             dismiss();

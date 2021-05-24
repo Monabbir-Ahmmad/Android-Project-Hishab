@@ -1,4 +1,4 @@
-package com.example.hishab.overview;
+package com.example.hishab.ui.overview;
 
 import android.app.Dialog;
 import android.content.Context;

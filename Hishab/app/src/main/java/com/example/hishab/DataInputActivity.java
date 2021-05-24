@@ -3,6 +3,7 @@ package com.example.hishab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,16 +15,15 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.hishab.database.DatabaseHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private Button btnSaveData;
     private TextView tvCategory;
-    private TextInputEditText etAmount, etDate, etTime, etNote;
+    private TextInputEditText etAmount, etNote;
+    private AutoCompleteTextView etDate, etTime;
     private ImageView ivIcon;
     private DateTimeUtil dateTimeUtil;
     private boolean isUpdate;
@@ -89,20 +89,19 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
     private void setViewsNew() {
         tvCategory.setText(getIntent().getStringExtra("category"));
         ivIcon.setImageResource(getIntent().getIntExtra("icon", -1));
-        etDate.setText(new SimpleDateFormat("dd MMM yyyy",
-                Locale.getDefault()).format(new Date()));
-        etTime.setText(new SimpleDateFormat("hh:mm a",
-                Locale.getDefault()).format(new Date()));
+        etDate.setText(dateTimeUtil.getDate(new Date().getTime()));
+        etTime.setText(dateTimeUtil.getTime(new Date().getTime()));
     }
 
 
     //Set expense category, amount, date, time, note on create to update data
     private void setViewsUpdate() {
+        long timestamp = getIntent().getLongExtra("timestamp", 0);
         tvCategory.setText(getIntent().getStringExtra("category"));
         ivIcon.setImageResource(getIntent().getIntExtra("icon", -1));
         etAmount.setText(getIntent().getStringExtra("amount"));
-        etDate.setText(getIntent().getStringExtra("date"));
-        etTime.setText(getIntent().getStringExtra("time"));
+        etDate.setText(dateTimeUtil.getDate(timestamp));
+        etTime.setText(dateTimeUtil.getTime(timestamp));
         etNote.setText(getIntent().getStringExtra("note"));
     }
 

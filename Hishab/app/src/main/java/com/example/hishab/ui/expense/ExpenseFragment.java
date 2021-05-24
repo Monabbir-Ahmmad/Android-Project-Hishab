@@ -1,4 +1,4 @@
-package com.example.hishab.expense;
+package com.example.hishab.ui.expense;
 
 import android.content.Intent;
 import android.os.Bundle;

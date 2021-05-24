@@ -1,4 +1,4 @@
-package com.example.hishab.expense;
+package com.example.hishab.ui.expense;
 
 import android.content.Context;
 import android.view.LayoutInflater;
