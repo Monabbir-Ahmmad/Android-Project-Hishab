@@ -10,8 +10,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose category"
         android:layout_margin="16dp"
+        android:text="Choose category"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
     <GridView
@@ -23,9 +23,9 @@
         android:horizontalSpacing="16dp"
         android:listSelector="@android:color/transparent"
         android:numColumns="auto_fit"
-        android:scrollbars="none"
         android:paddingHorizontal="16dp"
         android:paddingBottom="16dp"
+        android:scrollbars="none"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:verticalSpacing="16dp" />

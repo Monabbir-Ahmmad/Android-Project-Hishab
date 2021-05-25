@@ -39,8 +39,6 @@
         <item>This Year</item>
     </string-array>
 
-
-
     <!--Array for category icons-->
     <integer-array name="iconArray">
         <item>@drawable/ic_automobile</item>

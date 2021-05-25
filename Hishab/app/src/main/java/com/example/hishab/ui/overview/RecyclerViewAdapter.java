@@ -25,7 +25,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final ArrayList<DataItem> dataSet;
     private DateTimeUtil dateTimeUtil;
     private onItemClickListener listener;
-
+    private String currency;
 
     //Constructor
     public RecyclerViewAdapter(ArrayList<DataItem> dataSet, Context context) {
@@ -44,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recyclerview, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
         dateTimeUtil = new DateTimeUtil();
+        currency = context.getResources().getString(R.string.currency);
 
         return recyclerViewHolder;
     }
@@ -52,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.recIcon.setImageResource(dataSet.get(position).getIcon());
         holder.recCategory.setText(dataSet.get(position).getCategory());
-        holder.recAmount.setText(String.format("%s BDT", decimalFormat.format(dataSet.get(position).getAmount())));
+        holder.recAmount.setText(String.format("%s%s", currency, decimalFormat.format(dataSet.get(position).getAmount())));
         holder.recDateTime.setText(dateTimeUtil.getTimeAgo(dataSet.get(position).getTimestamp()));
         if (dataSet.get(position).getNote() != null) {
             holder.recNote.setText(String.format("Note: %s", dataSet.get(position).getNote()));

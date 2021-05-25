@@ -19,8 +19,6 @@ import java.util.Date;
 
 public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Toolbar toolbar;
-    private Button btnSaveData;
     private TextView tvCategory;
     private TextInputEditText etAmount, etNote;
     private AutoCompleteTextView etDate, etTime;
@@ -38,14 +36,15 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         isUpdate = getIntent().getBooleanExtra("update", false);
 
         //Find views
-        toolbar = findViewById(R.id.toolbar_dataInput);
+        Toolbar toolbar = findViewById(R.id.toolbar_dataInput);
+        Button btnSaveData = findViewById(R.id.button_saveData);
         tvCategory = findViewById(R.id.textView_category);
         ivIcon = findViewById(R.id.imageView_icon);
         etAmount = findViewById(R.id.editText_amount);
         etNote = findViewById(R.id.editText_note);
         etDate = findViewById(R.id.editText_date);
         etTime = findViewById(R.id.editText_time);
-        btnSaveData = findViewById(R.id.button_saveData);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

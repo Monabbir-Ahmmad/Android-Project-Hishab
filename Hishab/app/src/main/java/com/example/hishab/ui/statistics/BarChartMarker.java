@@ -16,19 +16,21 @@ public class BarChartMarker extends MarkerView {
 
     private final TextView textView;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-
+    private final String currency;
     //Constructor
     public BarChartMarker(Context context) {
         super(context, R.layout.marker_view);
 
         //Find views
         textView = findViewById(R.id.textView_marker);
+
+        currency = getResources().getString(R.string.currency);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        textView.setText(String.format("%s BDT", decimalFormat.format(e.getY())));
+        textView.setText(String.format("%s%s", currency, decimalFormat.format(e.getY())));
         super.refreshContent(e, highlight);
     }
 

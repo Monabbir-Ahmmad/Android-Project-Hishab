@@ -19,7 +19,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
 
         <!-- Custom colors. -->
-        <item name="textColorDarkLight">@color/dark_gray</item>
+        <item name="textColorDarkLight">@color/black</item>
         <item name="surfaceColor">@color/white</item>
 
         <!-- Bottom sheet style. -->

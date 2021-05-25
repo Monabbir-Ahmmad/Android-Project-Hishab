@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/surfaceColor"
     tools:context=".AboutActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -12,16 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="8dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_app_logo"
         android:layout_marginTop="16dp"
+        android:src="@drawable/ic_app_logo"
         app:tint="?attr/colorPrimary" />
 
     <TextView
@@ -29,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Version"
         android:layout_marginTop="16dp"
+        android:text="Version"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
 </LinearLayout>

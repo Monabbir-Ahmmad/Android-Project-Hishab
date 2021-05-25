@@ -21,10 +21,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private final DataItem dataItem;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-    private TextView tvCategory, tvAmount, tvDate, tvTime, tvNote;
-    private Button btnEdit;
-    private ImageButton btnClose;
-    private DateTimeUtil dateTimeUtil;
 
 
     //Constructor
@@ -38,18 +34,19 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
 
         //Find views
-        tvCategory = view.findViewById(R.id.bottomSheet_category);
-        tvAmount = view.findViewById(R.id.bottomSheet_amount);
-        tvDate = view.findViewById(R.id.bottomSheet_date);
-        tvTime = view.findViewById(R.id.bottomSheet_time);
-        tvNote = view.findViewById(R.id.bottomSheet_note);
-        btnClose = view.findViewById(R.id.bottomSheet_close);
-        btnEdit = view.findViewById(R.id.bottomSheet_edit);
+        TextView tvCategory = view.findViewById(R.id.bottomSheet_category);
+        TextView tvAmount = view.findViewById(R.id.bottomSheet_amount);
+        TextView tvDate = view.findViewById(R.id.bottomSheet_date);
+        TextView tvTime = view.findViewById(R.id.bottomSheet_time);
+        TextView tvNote = view.findViewById(R.id.bottomSheet_note);
+        ImageButton btnClose = view.findViewById(R.id.bottomSheet_close);
+        Button btnEdit = view.findViewById(R.id.bottomSheet_edit);
 
-        dateTimeUtil = new DateTimeUtil();
+        DateTimeUtil dateTimeUtil = new DateTimeUtil();
+        String currency = getResources().getString(R.string.currency);
 
         tvCategory.setText(dataItem.getCategory());
-        tvAmount.setText(String.format("%s BDT", decimalFormat.format(dataItem.getAmount())));
+        tvAmount.setText(String.format("%s%s", currency, decimalFormat.format(dataItem.getAmount())));
         tvDate.setText(dateTimeUtil.getDate(dataItem.getTimestamp()));
         tvTime.setText(dateTimeUtil.getTime(dataItem.getTimestamp()));
 

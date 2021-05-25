@@ -24,19 +24,22 @@ public class LineChartMarker extends MarkerView {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private final TypedValue colorPrimary, surfaceColor;
+    private final String currency;
+
 
     //Constructor
     public LineChartMarker(Context context, long startTimestamp) {
         super(context, R.layout.marker_view);
         this.startTimestamp = startTimestamp;
 
+        //Find views
+        textView = findViewById(R.id.textView_marker);
+
         colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
         surfaceColor = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.surfaceColor, surfaceColor, true);
-
-        //Find views
-        textView = findViewById(R.id.textView_marker);
+        currency = getResources().getString(R.string.currency);
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views
@@ -44,7 +47,7 @@ public class LineChartMarker extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
         String date = dateFormat.format(startTimestamp + (long) e.getX() * DateTimeUtil.DAY_IN_MS);
         String amount = decimalFormat.format(e.getY());
-        textView.setText(String.format("%s : %s BDT", date, amount));
+        textView.setText(String.format("%s : %s%s", date, currency, amount));
         super.refreshContent(e, highlight);
     }
 

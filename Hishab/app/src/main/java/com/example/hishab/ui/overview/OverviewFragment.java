@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.R;
@@ -62,8 +61,7 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
 
         btnFilter.setOnClickListener(v -> {
             //This opens the filter dialog
-            FilterDialog filterDialog = new FilterDialog();
-            filterDialog.setTargetFragment(this, 1);
+            FilterDialog filterDialog = new FilterDialog(this);
             filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
         });
 
@@ -106,29 +104,26 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private void topPanelCalculation() {
         double totalExpense = 0;
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+        String currency = getResources().getString(R.string.currency);
 
         for (int i = 0; i < dataSet.size(); i++) {
             totalExpense += dataSet.get(i).getAmount();
         }
 
         //This will set the current total expense
-        tvExpense.setText(String.format("%s BDT", decimalFormat.format(totalExpense)));
+        tvExpense.setText(String.format("%s%s", currency, decimalFormat.format(totalExpense)));
     }
 
 
     //This creates the RecyclerView
     private void createRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewAdapter = new RecyclerViewAdapter(dataSet, getActivity());
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         recyclerViewAdapter.setOnItemClickListener(position -> {
             //This opens a bottom sheet with details from recyclerView item
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
-            bottomSheetDialog.setTargetFragment(this, 2);
             bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");
         });
 

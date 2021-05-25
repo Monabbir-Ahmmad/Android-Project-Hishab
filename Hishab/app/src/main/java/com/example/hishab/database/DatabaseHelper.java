@@ -80,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TIMESTAMP, timestamp);
 
         long rowID = database.insert(TABLE_NAME, null, contentValues);
+        database.close();
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to insert", Toast.LENGTH_SHORT).show();
@@ -97,6 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(NOTE, note);
         contentValues.put(TIMESTAMP, timestamp);
         long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
+        database.close();
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
@@ -123,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(DELETED, isDeleted);
 
         long rowID = database.update(TABLE_NAME, contentValues, ID + "= ?", new String[]{String.valueOf(id)});
+        database.close();
 
         if (rowID == -1) {
             Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
@@ -150,8 +153,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
-        database.close();
         cursor.close();
+        database.close();
 
         return allData;
     }
@@ -192,6 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
             cursor.close();
+            database.close();
 
         } catch (Exception e) {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
@@ -217,6 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sum = 0;
             }
             cursor.close();
+            database.close();
 
         } catch (Exception e) {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();

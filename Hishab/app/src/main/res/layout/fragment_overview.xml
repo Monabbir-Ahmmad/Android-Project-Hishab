@@ -13,8 +13,8 @@
         android:background="@drawable/shape_bottom_rounded_rectangle"
         android:backgroundTint="?attr/colorPrimary"
         android:elevation="6dp"
-        android:padding="8dp"
         android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,11 +23,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:text="Total Expense"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
@@ -35,11 +35,11 @@
             android:id="@+id/textView_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:text="0 BDT"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+            android:layout_marginBottom="30dp"
+            android:text="0"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -70,6 +70,7 @@
         android:scrollbars="none"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

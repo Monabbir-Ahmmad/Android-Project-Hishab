@@ -1,7 +1,6 @@
 package com.example.hishab.ui.overview;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,11 +26,15 @@ import java.util.TimeZone;
 public class FilterDialog extends AppCompatDialogFragment {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    private final FilterDialogListener listener;
     private AutoCompleteTextView filterCategory, filterSortBy;
     private Button filterDateRange;
-    private FilterDialogListener listener;
     private long startTimestamp = 1L;
     private long endTimestamp = 4200000000000L;
+
+    public FilterDialog(FilterDialogListener listener) {
+        this.listener = listener;
+    }
 
     @NotNull
     @Override
@@ -86,18 +89,6 @@ public class FilterDialog extends AppCompatDialogFragment {
         filterSortBy.setAdapter(sortByAdapter);
 
         return builder.create();
-    }
-
-
-    @Override
-    public void onAttach(@NotNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (FilterDialogListener) getTargetFragment();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement FilterDialogListener");
-        }
     }
 
     //Interface for FilterDialogListener

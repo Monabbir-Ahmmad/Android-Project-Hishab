@@ -329,6 +329,8 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         for (int i : colorArray) {
             colorList.add(i);
         }
+        String currency = getResources().getString(R.string.currency);
+
 
         //Pie chart click event
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -336,7 +338,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
             public void onValueSelected(Entry e, Highlight h) {
                 //Change the center text to selected entry value and label with SpannableString styling
                 PieEntry entry = (PieEntry) e;
-                String amount = decimalFormat.format(e.getY()) + " BDT";
+                String amount = currency + decimalFormat.format(e.getY());
                 String label = entry.getLabel();
                 SpannableString centerText = new SpannableString(amount + "\n" + label);
                 centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -345,7 +347,11 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNothingSelected() { //Reset center text
-                pieChart.setCenterText(String.format("%s BDT\nTotal", decimalFormat.format(totalExpense)));
+                String amount = currency + decimalFormat.format(totalExpense);
+                String label = "Total";
+                SpannableString centerText = new SpannableString(amount + "\n" + label);
+                centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pieChart.setCenterText(centerText);
             }
         });
 
@@ -401,7 +407,11 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
-        pieChart.setCenterText(String.format("%s BDT\nTotal", decimalFormat.format(totalExpense)));
+        String amount = currency + decimalFormat.format(totalExpense);
+        String label = "Total";
+        SpannableString centerText = new SpannableString(amount + "\n" + label);
+        centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pieChart.setCenterText(centerText);
         pieChart.setCenterTextColor(colorBlackWhite.data);
         pieChart.setCenterTextSize(20f);
 

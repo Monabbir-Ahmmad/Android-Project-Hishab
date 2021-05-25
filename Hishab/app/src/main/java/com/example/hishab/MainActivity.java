@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, ChipNavigationBar.OnItemSelectedListener {
 
     private ChipNavigationBar bottomNavBar;
-    private Toolbar toolbar;
     private DrawerLayout drawer;
-    private NavigationView sideNavView;
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEdit;
     private boolean isDarkModeOn;
@@ -40,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         //Find views
-        toolbar = findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         bottomNavBar = findViewById(R.id.bottomNav);
         drawer = findViewById(R.id.drawer);
-        sideNavView = findViewById(R.id.nav_view);
+        NavigationView sideNavView = findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -120,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (item.getItemId() == R.id.nav_feedback) {
             sendFeedback();
+
+        } else if (item.getItemId() == R.id.nav_settings) {
 
         }
 

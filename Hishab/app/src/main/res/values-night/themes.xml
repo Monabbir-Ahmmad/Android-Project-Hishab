@@ -68,8 +68,8 @@
 
     <!--Custom divider style-->
     <style name="Divider" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/light_gray_200</item>
-        <item name="android:alpha">0.8</item>
+        <item name="android:background">@color/gray_500</item>
+        <item name="android:alpha">0.5</item>
     </style>
 
     <style name="Divider.Horizontal" parent="Divider">
