@@ -5,21 +5,21 @@
     <item
         android:id="@+id/bottomNav_expense"
         android:icon="@drawable/ic_expense"
-        android:title="Expense"
+        android:title="@string/expense"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
     <item
         android:id="@+id/bottomNav_overview"
         android:icon="@drawable/ic_overview"
-        android:title="Overview"
+        android:title="@string/overview"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
     <item
         android:id="@+id/bottomNav_statistics"
         android:icon="@drawable/ic_statistics"
-        android:title="Statistics"
+        android:title="@string/statistics"
         app:cnb_backgroundColor="?attr/colorPrimary"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />

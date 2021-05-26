@@ -37,7 +37,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             android:gravity="center"
-            android:text="Category"
+            android:text="@string/category"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/white"
             android:textSize="26sp"
@@ -81,7 +81,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Amount"
+                android:hint="@string/amount"
                 app:endIconMode="clear_text"
                 app:helperText="(Required)"
                 app:helperTextEnabled="true"
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Date"
+                android:hint="@string/date"
                 app:startIconDrawable="@drawable/ic_calendar">
 
                 <AutoCompleteTextView
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Time"
+                android:hint="@string/time"
                 app:startIconDrawable="@drawable/ic_time">
 
                 <AutoCompleteTextView
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Note"
+                android:hint="@string/note"
                 app:endIconMode="clear_text"
                 app:helperText="Add detailed note"
                 app:helperTextEnabled="true"
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Done" />
+                android:text="@string/done" />
 
         </LinearLayout>
 

@@ -11,11 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.example.hishab.ui.expense.ExpenseFragment;
 import com.example.hishab.ui.overview.OverviewFragment;
@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private ChipNavigationBar bottomNavBar;
     private DrawerLayout drawer;
-    private SharedPreferences sharedPrefs;
-    private SharedPreferences.Editor sharedPrefsEdit;
-    private boolean isDarkModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,29 +49,14 @@ public class MainActivity extends AppCompatActivity implements
         sideNavView.setNavigationItemSelectedListener(this);
         bottomNavBar.setOnItemSelectedListener(this);
 
-        //This sets the default fragment and bottom nav button on startup
-        bottomNavBar.setItemSelected(R.id.bottomNav_overview, true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new OverviewFragment()).commit();
-
-        //This calls the method that saves app instance
-        darkModeInstance();
-
-        //Side drawer switch to change theme
-        SwitchCompat switchCompat = sideNavView.getMenu().findItem(R.id.nav_dark_mode)
-                .getActionView().findViewById(R.id.drawer_switch);
-        switchCompat.setChecked(isDarkModeOn);
-        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                sharedPrefsEdit.putBoolean("DarkMode", true);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                sharedPrefsEdit.putBoolean("DarkMode", false);
-            }
-            sharedPrefsEdit.apply();
+        if (savedInstanceState == null) {
+            //This sets the default fragment and bottom nav button on startup
             bottomNavBar.setItemSelected(R.id.bottomNav_overview, true);
-        });
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new OverviewFragment()).commit();
+        }
+
+        useDarkMode();
 
     }
 
@@ -109,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements
     //This is the side drawer
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_about) {
-            Intent intent = new Intent(this, AboutActivity.class);
+        if (item.getItemId() == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
 
         } else if (item.getItemId() == R.id.nav_help) {
@@ -118,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (item.getItemId() == R.id.nav_feedback) {
             sendFeedback();
-
-        } else if (item.getItemId() == R.id.nav_settings) {
 
         }
 
@@ -129,20 +109,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    //This method saves app instance
-    private void darkModeInstance() {
-        sharedPrefs = getSharedPreferences("AppPrefs", 0);
-        sharedPrefsEdit = sharedPrefs.edit();
-        sharedPrefsEdit.apply();
-        isDarkModeOn = sharedPrefs.getBoolean("DarkMode", false);
-
-        //This will check app theme and set it on startup based on the theme selected
-        if (isDarkModeOn) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        } else {
+    //This method uses dark mode based on settings
+    private void useDarkMode() {
+        SharedPreferences themePref = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = themePref.getString("theme", "System default");
+        if (theme.equals("System default")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        } else if (theme.equals("Light")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        } else if (theme.equals("Dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
 

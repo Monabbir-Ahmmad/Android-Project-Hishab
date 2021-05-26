@@ -99,7 +99,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
         setLineData(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
-        btnPieSort.setText("Today");
+        btnPieSort.setText("This Week");
         setPieData(0);
 
         btnBarSort.setText(String.valueOf(calendar.get(Calendar.YEAR)));
@@ -174,22 +174,18 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         String[] category = getResources().getStringArray(R.array.categoryArray);
 
         if (choice == 0) {
-            startTime = calendar.getTimeInMillis();
-            endTime = startTime + DateTimeUtil.DAY_IN_MS - 1000L;
-
-        } else if (choice == 1) {
             calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
             startTime = calendar.getTimeInMillis();
             calendar.add(Calendar.DAY_OF_WEEK, 6);
             endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
 
-        } else if (choice == 2) {
+        } else if (choice == 1) {
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             startTime = calendar.getTimeInMillis();
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
 
-        } else if (choice == 3) {
+        } else if (choice == 2) {
             calendar.set(Calendar.DAY_OF_YEAR, 1);
             startTime = calendar.getTimeInMillis();
             calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));

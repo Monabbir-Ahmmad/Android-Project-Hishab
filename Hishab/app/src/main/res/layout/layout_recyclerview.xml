@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Category"
+            android:text="@string/category"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Date &amp; Time"
+            android:text="@string/date"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toBottomOf="@+id/recycleView_category" />
 
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Note:"
+            android:text="@string/note"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recycleView_icon"
             app:layout_constraintTop_toBottomOf="@+id/recycleView_dateTime" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?attr/colorPrimary"
             android:textSize="16sp"

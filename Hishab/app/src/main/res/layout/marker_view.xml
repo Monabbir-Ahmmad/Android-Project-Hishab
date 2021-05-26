@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:text="Amount"
+        android:text="@string/amount"
         android:textColor="?attr/colorPrimary"
         android:textSize="13sp" />
 

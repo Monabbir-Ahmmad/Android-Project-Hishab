@@ -27,7 +27,7 @@ public class LocalBackupDB {
         db = new DatabaseHelper(context);
     }
 
-    public void importCSV() {
+    public void restoreData() {
         //Backup folder name
         String filePathAndName = Environment.getExternalStorageDirectory() + "/HishabBackup/" + csvFileName;
 
@@ -58,7 +58,7 @@ public class LocalBackupDB {
         }
     }
 
-    public void exportCSV() {
+    public void backupData() {
         //Backup folder name
         File folder = new File(Environment.getExternalStorageDirectory() + "/HishabBackup");
         boolean isFolderCreated = false;

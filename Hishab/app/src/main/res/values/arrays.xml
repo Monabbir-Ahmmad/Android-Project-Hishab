@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--Array for category names-->
+    <!-- Array for category names -->
     <string-array name="categoryArray">
         <item>Auto &amp; Vehicle</item>
         <item>Bill &amp; Utility</item>
@@ -22,7 +22,7 @@
         <item>Transport</item>
     </string-array>
 
-    <!--Array for sort by-->
+    <!-- Array for sort by -->
     <string-array name="sortByArray">
         <item>Default</item>
         <item>Date: Newest</item>
@@ -31,15 +31,14 @@
         <item>Amount: DESC</item>
     </string-array>
 
-    <!--Array for the time filters-->
+    <!-- Array for the time filters -->
     <string-array name="timeFilterArray">
-        <item>Today</item>
         <item>This Week</item>
         <item>This Month</item>
         <item>This Year</item>
     </string-array>
 
-    <!--Array for category icons-->
+    <!-- Array for category icons -->
     <integer-array name="iconArray">
         <item>@drawable/ic_automobile</item>
         <item>@drawable/ic_bill</item>
@@ -59,5 +58,37 @@
         <item>@drawable/ic_tax</item>
         <item>@drawable/ic_transport</item>
     </integer-array>
+
+    <!-- Theme preference entries -->
+    <string-array name="theme_entries">
+        <item>System default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <!-- Theme preference values -->
+    <string-array name="theme_values">
+        <item>System default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <!-- Currency preference entries -->
+    <string-array name="currency_entries">
+        <item>Dollar</item>
+        <item>Euro</item>
+        <item>Pound</item>
+        <item>Rupee</item>
+        <item>Taka</item>
+        <item>Yen</item>
+    </string-array>
+    <!-- Currency preference values -->
+    <string-array name="currency_values">
+        <item>$</item>
+        <item>€</item>
+        <item>£</item>
+        <item>₹</item>
+        <item>৳</item>
+        <item>¥</item>
+    </string-array>
 
 </resources>

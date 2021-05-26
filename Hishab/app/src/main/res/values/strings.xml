@@ -2,7 +2,33 @@
     <string name="app_name">Hishab</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="currency_BDT">\u09F3</string>
     <string name="currency">$</string>
+
+    <string name="category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="note">Note</string>
+    <string name="details">Details</string>
+    <string name="filter">Filter</string>
+    <string name="edit">Edit</string>
+    <string name="done">Done</string>
+    <string name="sort_by">Sort by</string>
+    <string name="date_range">Date range</string>
+    <string name="total_expense">Total Expense</string>
+    <string name="daily_expense">Daily Expense</string>
+    <string name="category_expense">Expense By Category</string>
+    <string name="daily_average">Daily Average</string>
+    <string name="monthly_total">Monthly Total</string>
+    <string name="monthly_expense">Monthly Expense</string>
+    <string name="monthly_average">Monthly Average</string>
+    <string name="yearly_total">Yearly Total</string>
+    <string name="feedback">Feedback</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+    <string name="expense">Expense</string>
+    <string name="overview">Overview</string>
+    <string name="statistics">Statistics</string>
+
 
 </resources>
