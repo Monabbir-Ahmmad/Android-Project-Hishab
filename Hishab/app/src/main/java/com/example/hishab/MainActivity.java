@@ -14,20 +14,19 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.example.hishab.ui.expense.ExpenseFragment;
 import com.example.hishab.ui.overview.OverviewFragment;
 import com.example.hishab.ui.statistics.StatisticsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class MainActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, ChipNavigationBar.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ChipNavigationBar bottomNavBar;
+    private BottomNavigationView bottomNavBar;
     private DrawerLayout drawer;
+    private FloatingActionButton fabAddRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +35,10 @@ public class MainActivity extends AppCompatActivity implements
 
         //Find views
         Toolbar toolbar = findViewById(R.id.toolbar_main);
+        NavigationView sideNavView = findViewById(R.id.nav_view);
         bottomNavBar = findViewById(R.id.bottomNav);
         drawer = findViewById(R.id.drawer);
-        NavigationView sideNavView = findViewById(R.id.nav_view);
+        fabAddRecord = findViewById(R.id.bottomNav_addRecord);
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -47,11 +47,16 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
 
         sideNavView.setNavigationItemSelectedListener(this);
-        bottomNavBar.setOnItemSelectedListener(this);
+        bottomNavBar.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+        fabAddRecord.setOnClickListener(v -> {
+            startActivity(new Intent(this, DataInputActivity.class));
+
+        });
 
         if (savedInstanceState == null) {
             //This sets the default fragment and bottom nav button on startup
-            bottomNavBar.setItemSelected(R.id.bottomNav_overview, true);
+            bottomNavBar.setSelectedItemId(R.id.bottomNav_overview);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new OverviewFragment()).commit();
         }
@@ -71,39 +76,32 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    //This controls fragment transitions and bottom navigation
-    @Override
-    public void onItemSelected(int id) {
-        Fragment selectedFragment = null;
 
-        if (id == R.id.bottomNav_overview) {
-            selectedFragment = new OverviewFragment();
-        } else if (id == R.id.bottomNav_expense) {
-            selectedFragment = new ExpenseFragment();
-        } else if (id == R.id.bottomNav_statistics) {
-            selectedFragment = new StatisticsFragment();
-        }
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                selectedFragment).commit();
-    }
-
-    //This is the side drawer
+    //This is the side and bottom navigation selection
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_settings) {
+        if (item.getItemId() == R.id.bottomNav_overview) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new OverviewFragment()).commit();
+
+        } else if (item.getItemId() == R.id.bottomNav_statistics) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new StatisticsFragment()).commit();
+
+        } else if (item.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+            drawer.closeDrawer(GravityCompat.START);
 
         } else if (item.getItemId() == R.id.nav_help) {
-
+            drawer.closeDrawer(GravityCompat.START);
 
         } else if (item.getItemId() == R.id.nav_feedback) {
             sendFeedback();
+            drawer.closeDrawer(GravityCompat.START);
 
         }
 
-        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

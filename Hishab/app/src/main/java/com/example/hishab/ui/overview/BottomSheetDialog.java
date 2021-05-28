@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.preference.PreferenceManager;
+
 import com.example.hishab.DataInputActivity;
 import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
@@ -43,7 +45,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         Button btnEdit = view.findViewById(R.id.bottomSheet_edit);
 
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
-        String currency = getResources().getString(R.string.currency);
+        String currency = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString("currency", "$");
 
         tvCategory.setText(dataItem.getCategory());
         tvAmount.setText(String.format("%s%s", currency, decimalFormat.format(dataItem.getAmount())));

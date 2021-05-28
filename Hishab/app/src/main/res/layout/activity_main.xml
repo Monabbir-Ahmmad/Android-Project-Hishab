@@ -15,12 +15,11 @@
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu" />
 
         <FrameLayout
             android:id="@+id/fragment_container"
@@ -31,18 +30,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
 
-        <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/surfaceColor"
-            android:padding="8dp"
-            app:cnb_menuResource="@menu/bottom_nav_menu"
-            app:cnb_radius="30dp"
-            app:cnb_unselectedColor="?attr/colorPrimary"
+            app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bottomNav_addRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/bottomNav"
+            app:layout_constraintEnd_toEndOf="@id/bottomNav"
+            app:layout_constraintStart_toStartOf="@id/bottomNav"
+            app:maxImageSize="40dp"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
+        android:background="?attr/bgColor"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 

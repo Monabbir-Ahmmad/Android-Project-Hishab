@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.widget.TextView;
 
+import androidx.preference.PreferenceManager;
+
 import com.example.hishab.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
@@ -24,7 +26,8 @@ public class BarChartMarker extends MarkerView {
         //Find views
         textView = findViewById(R.id.textView_marker);
 
-        currency = getResources().getString(R.string.currency);
+        currency = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("currency", "$");
     }
 
     //Callbacks every time the MarkerView is redrawn, can be used to update the views

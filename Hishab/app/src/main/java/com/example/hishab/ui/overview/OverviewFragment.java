@@ -5,20 +5,25 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,12 +31,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
-public class OverviewFragment extends Fragment implements FilterDialog.FilterDialogListener {
+public class OverviewFragment extends Fragment {
 
-    private TextView tvExpense;
-    private ExtendedFloatingActionButton btnFilter;
+    private TextView tvTotalExpense;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private ExpenseRecyclerAdapter recyclerAdapter;
     private DatabaseHelper databaseHelper;
     private ArrayList<DataItem> dataSet;
 
@@ -45,25 +49,19 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        setHasOptionsMenu(true);
         getActivity().setTitle("Overview");
 
 
         //Find views
-        tvExpense = view.findViewById(R.id.textView_expense);
+        tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
         recyclerView = view.findViewById(R.id.recyclerView);
-        btnFilter = view.findViewById(R.id.button_filter);
 
         databaseHelper = new DatabaseHelper(getActivity());
         dataSet = databaseHelper.getAllData();
 
         //This calculates the top panel values on startup
         topPanelCalculation();
-
-        btnFilter.setOnClickListener(v -> {
-            //This opens the filter dialog
-            FilterDialog filterDialog = new FilterDialog(this);
-            filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
-        });
 
         //This creates the RecyclerView
         createRecyclerView();
@@ -73,12 +71,27 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     }
 
 
-    //Applies the filters
+    //Inflate the option menu
     @Override
-    public void onFilterApply(String category, String sortBy, long startTimestamp, long endTimestamp) {
-        dataSet = databaseHelper.getFilteredData(category, sortBy, startTimestamp, endTimestamp);
-        createRecyclerView();
-        topPanelCalculation();
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_filter) { //Open filter dialog
+            FilterDialog filterDialog = new FilterDialog();
+            filterDialog.setOnFilterApplyListener((category, sortBy, startTimestamp, endTimestamp) -> {
+                dataSet = databaseHelper.getFilteredData(category, sortBy, startTimestamp, endTimestamp);
+                createRecyclerView();
+                topPanelCalculation();
+            });
+            filterDialog.show(getActivity().getSupportFragmentManager(), "FilterDialog");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -86,14 +99,14 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private void deleteItem(int position) {
         DataItem dataItem = dataSet.get(position);
         dataSet.remove(position);
-        recyclerViewAdapter.notifyItemRemoved(position);
+        recyclerAdapter.notifyItemRemoved(position);
         topPanelCalculation();
         databaseHelper.deleteData(dataItem.getId(), 1);
 
         //SnackBar for Undoing item delete
         Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", view -> {
             dataSet.add(position, dataItem);
-            recyclerViewAdapter.notifyItemInserted(position);
+            recyclerAdapter.notifyItemInserted(position);
             topPanelCalculation();
             databaseHelper.deleteData(dataItem.getId(), 0);
         }).show();
@@ -104,24 +117,25 @@ public class OverviewFragment extends Fragment implements FilterDialog.FilterDia
     private void topPanelCalculation() {
         double totalExpense = 0;
         DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-        String currency = getResources().getString(R.string.currency);
+        String currency = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString("currency", "$");
 
         for (int i = 0; i < dataSet.size(); i++) {
             totalExpense += dataSet.get(i).getAmount();
         }
 
         //This will set the current total expense
-        tvExpense.setText(String.format("%s%s", currency, decimalFormat.format(totalExpense)));
+        tvTotalExpense.setText(String.format("%s%s", currency, decimalFormat.format(totalExpense)));
     }
 
 
     //This creates the RecyclerView
     private void createRecyclerView() {
-        recyclerViewAdapter = new RecyclerViewAdapter(dataSet, getActivity());
+        recyclerAdapter = new ExpenseRecyclerAdapter(dataSet, getActivity());
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(recyclerAdapter);
 
-        recyclerViewAdapter.setOnItemClickListener(position -> {
+        recyclerAdapter.setOnItemClickListener(position -> {
             //This opens a bottom sheet with details from recyclerView item
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(dataSet.get(position));
             bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "BottomDialog");

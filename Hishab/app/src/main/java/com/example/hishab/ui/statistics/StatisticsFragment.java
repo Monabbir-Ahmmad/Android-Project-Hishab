@@ -1,6 +1,5 @@
 package com.example.hishab.ui.statistics;
 
-import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
@@ -41,6 +41,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.DecimalFormat;
@@ -57,10 +58,11 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
     private PieChart pieChart;
     private LineChart lineChart;
     private BarChart barChart;
-    private Button btnLineSort, btnPieSort, btnBarSort;
+    private Button btnLineSort, btnBarSort;
+    private MaterialButtonToggleGroup btnPieSort;
     private DatabaseHelper databaseHelper;
     private TypedValue colorBlackWhite, colorPrimary;
-
+   private String currency;
 
     public StatisticsFragment() {
         // Required empty public constructor
@@ -81,25 +83,35 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         btnPieSort = view.findViewById(R.id.button_pieChart_sort);
         btnBarSort = view.findViewById(R.id.button_barChart_sort);
 
-
         databaseHelper = new DatabaseHelper(getActivity());
+        currency = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString("currency", "$");
 
         //This gets a color according to theme
         colorBlackWhite = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.textColorDarkLight, colorBlackWhite, true);
+        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
         colorPrimary = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
 
         btnLineSort.setOnClickListener(this);
-        btnPieSort.setOnClickListener(this);
         btnBarSort.setOnClickListener(this);
+        btnPieSort.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.btn_week) {
+                    setPieData(0);
+                } else if (checkedId == R.id.btn_month) {
+                    setPieData(1);
+                } else if (checkedId == R.id.btn_year) {
+                    setPieData(2);
+                }
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
 
         btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
         setLineData(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
-        btnPieSort.setText("This Week");
         setPieData(0);
 
         btnBarSort.setText(String.valueOf(calendar.get(Calendar.YEAR)));
@@ -125,22 +137,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                     }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
 
             monthPickerDialog.setMaxYear(2100).build().show();
-
-        } else if (v.getId() == R.id.button_pieChart_sort) { //Open filter options
-
-            final String[] timeFilters = getResources().getStringArray(R.array.timeFilterArray);
-
-            AlertDialog.Builder timeFilterPicker = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
-            timeFilterPicker.setSingleChoiceItems(timeFilters, 0, (dialog, which) -> {
-                btnPieSort.setText(timeFilters[which]);
-                setPieData(which);
-                dialog.dismiss();
-            });
-
-            timeFilterPicker.setTitle("Choose option").setPositiveButton("CLOSE",
-                    (dialog, which) -> dialog.dismiss());
-
-            timeFilterPicker.show();
 
         } else if (v.getId() == R.id.button_barChart_sort) { //Open Year picker
 
@@ -325,7 +321,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         for (int i : colorArray) {
             colorList.add(i);
         }
-        String currency = getResources().getString(R.string.currency);
 
 
         //Pie chart click event

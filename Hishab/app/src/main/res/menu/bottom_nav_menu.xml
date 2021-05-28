@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/bottomNav_expense"
-        android:icon="@drawable/ic_expense"
-        android:title="@string/expense"
-        app:cnb_backgroundColor="?attr/colorPrimary"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white" />
     <item
         android:id="@+id/bottomNav_overview"
         android:icon="@drawable/ic_overview"
-        android:title="@string/overview"
-        app:cnb_backgroundColor="?attr/colorPrimary"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white" />
+        android:title="@string/overview" />
+
+    <item
+        android:id="@+id/bottomNav_placeholder"
+        android:checkable="false"
+        android:title="" />
+
     <item
         android:id="@+id/bottomNav_statistics"
         android:icon="@drawable/ic_statistics"
-        android:title="@string/statistics"
-        app:cnb_backgroundColor="?attr/colorPrimary"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white" />
+        android:title="@string/statistics" />
 
 </menu>

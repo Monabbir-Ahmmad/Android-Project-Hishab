@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.DateTimeUtil;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecyclerAdapter.RecyclerViewHolder> {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private final Context context;
@@ -28,9 +29,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private String currency;
 
     //Constructor
-    public RecyclerViewAdapter(ArrayList<DataItem> dataSet, Context context) {
+    public ExpenseRecyclerAdapter(ArrayList<DataItem> dataSet, Context context) {
         this.dataSet = dataSet;
         this.context = context;
+        dateTimeUtil = new DateTimeUtil();
+        currency = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("currency", "$");
+
     }
 
     public void setOnItemClickListener(onItemClickListener listener) {
@@ -41,22 +46,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recyclerview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_expense_list, parent, false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
-        dateTimeUtil = new DateTimeUtil();
-        currency = context.getResources().getString(R.string.currency);
 
         return recyclerViewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.recIcon.setImageResource(dataSet.get(position).getIcon());
-        holder.recCategory.setText(dataSet.get(position).getCategory());
-        holder.recAmount.setText(String.format("%s%s", currency, decimalFormat.format(dataSet.get(position).getAmount())));
-        holder.recDateTime.setText(dateTimeUtil.getTimeAgo(dataSet.get(position).getTimestamp()));
+        holder.imageViewIcon.setImageResource(dataSet.get(position).getIcon());
+        holder.textViewCategory.setText(dataSet.get(position).getCategory());
+        holder.textViewAmount.setText(String.format("%s%s", currency, decimalFormat.format(dataSet.get(position).getAmount())));
+        holder.textViewDateTime.setText(dateTimeUtil.getTimeAgo(dataSet.get(position).getTimestamp()));
         if (dataSet.get(position).getNote() != null) {
-            holder.recNote.setText(String.format("Note: %s", dataSet.get(position).getNote()));
+            holder.textViewNote.setVisibility(View.VISIBLE);
+            holder.textViewNote.setText(String.format("%s", dataSet.get(position).getNote()));
+        } else {
+            holder.textViewNote.setVisibility(View.GONE);
         }
 
     }
@@ -74,22 +80,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //Inner view holder class
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public final ImageView recIcon;
-        public final TextView recCategory;
-        public final TextView recAmount;
-        public final TextView recDateTime;
-        public final TextView recNote;
+        public final ImageView imageViewIcon;
+        public final TextView textViewCategory;
+        public final TextView textViewAmount;
+        public final TextView textViewDateTime;
+        public final TextView textViewNote;
 
         //Inner classConstructor
         public RecyclerViewHolder(View itemView, onItemClickListener listener) {
             super(itemView);
 
             //Find views
-            recIcon = itemView.findViewById(R.id.recycleView_icon);
-            recCategory = itemView.findViewById(R.id.recycleView_category);
-            recAmount = itemView.findViewById(R.id.recycleView_amount);
-            recDateTime = itemView.findViewById(R.id.recycleView_dateTime);
-            recNote = itemView.findViewById(R.id.recycleView_note);
+            imageViewIcon = itemView.findViewById(R.id.recycleView_icon);
+            textViewCategory = itemView.findViewById(R.id.recycleView_category);
+            textViewAmount = itemView.findViewById(R.id.recycleView_amount);
+            textViewDateTime = itemView.findViewById(R.id.recycleView_dateTime);
+            textViewNote = itemView.findViewById(R.id.recycleView_note);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {

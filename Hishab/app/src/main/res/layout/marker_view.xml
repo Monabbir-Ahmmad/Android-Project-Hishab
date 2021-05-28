@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_border_rectangle"
-    android:orientation="horizontal">
+    app:cardBackgroundColor="?attr/colorPrimary">
 
     <TextView
         android:id="@+id/textView_marker"
@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:text="@string/amount"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="13sp" />
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

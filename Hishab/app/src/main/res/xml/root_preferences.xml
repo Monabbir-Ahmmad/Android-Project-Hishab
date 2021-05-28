@@ -48,4 +48,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="About">
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="1.0"
+            app:title="Version" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
