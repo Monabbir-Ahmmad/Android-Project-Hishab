@@ -24,16 +24,13 @@ import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
 import com.google.android.material.snackbar.Snackbar;
 
-
-import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
 public class OverviewFragment extends Fragment {
 
-    private TextView tvTotalExpense;
+    private TextView tvTotalExpense, tvRecordsFound;
     private RecyclerView recyclerView;
     private ExpenseRecyclerAdapter recyclerAdapter;
     private DatabaseHelper databaseHelper;
@@ -55,6 +52,7 @@ public class OverviewFragment extends Fragment {
 
         //Find views
         tvTotalExpense = view.findViewById(R.id.textView_totalExpense);
+        tvRecordsFound = view.findViewById(R.id.textView_recordsFound);
         recyclerView = view.findViewById(R.id.recyclerView);
 
         databaseHelper = new DatabaseHelper(getActivity());
@@ -71,16 +69,17 @@ public class OverviewFragment extends Fragment {
     }
 
 
-    //Inflate the option menu
+    //Inflate the toolbar menus
     @Override
-    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
+        menu.findItem(R.id.menu_save).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
+    //Toolbar menu item click
     @Override
-    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_filter) { //Open filter dialog
             FilterDialog filterDialog = new FilterDialog();
             filterDialog.setOnFilterApplyListener((category, sortBy, startTimestamp, endTimestamp) -> {
@@ -103,7 +102,7 @@ public class OverviewFragment extends Fragment {
         topPanelCalculation();
         databaseHelper.deleteData(dataItem.getId(), 1);
 
-        //SnackBar for Undoing item delete
+        //SnackBar for undoing item delete
         Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", view -> {
             dataSet.add(position, dataItem);
             recyclerAdapter.notifyItemInserted(position);
@@ -126,6 +125,7 @@ public class OverviewFragment extends Fragment {
 
         //This will set the current total expense
         tvTotalExpense.setText(String.format("%s%s", currency, decimalFormat.format(totalExpense)));
+        tvRecordsFound.setText(String.valueOf(dataSet.size()));
     }
 
 
@@ -147,21 +147,28 @@ public class OverviewFragment extends Fragment {
     ////RecyclerView swipe gesture
     private void createRecyclerViewSwipe() {
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             //Swipe gesture listener
             @Override
-            public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 deleteItem(viewHolder.getAdapterPosition());
             }
 
             //Draw background with icon for recyclerView swipe gesture
             @Override
-            public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState,
+                                    boolean isCurrentlyActive) {
+
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 View itemView = viewHolder.itemView;
 

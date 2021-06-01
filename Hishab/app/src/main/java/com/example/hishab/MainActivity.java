@@ -24,9 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private BottomNavigationView bottomNavBar;
     private DrawerLayout drawer;
-    private FloatingActionButton fabAddRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +34,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Find views
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         NavigationView sideNavView = findViewById(R.id.nav_view);
-        bottomNavBar = findViewById(R.id.bottomNav);
+        BottomNavigationView bottomNavBar = findViewById(R.id.bottomNav);
+        FloatingActionButton fabAddRecord = findViewById(R.id.bottomNav_addRecord);
         drawer = findViewById(R.id.drawer);
-        fabAddRecord = findViewById(R.id.bottomNav_addRecord);
 
         setSupportActionBar(toolbar);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sideNavView.setNavigationItemSelectedListener(this);
         bottomNavBar.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
-
-        fabAddRecord.setOnClickListener(v -> {
-            startActivity(new Intent(this, DataInputActivity.class));
-
+        bottomNavBar.setOnNavigationItemReselectedListener(item -> { //DO nothing
         });
+
+        fabAddRecord.setOnClickListener(v -> startActivity(new Intent(this,
+                DataInputActivity.class)));
 
         if (savedInstanceState == null) {
             //This sets the default fragment and bottom nav button on startup
@@ -102,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-
         return true;
     }
 
@@ -111,12 +109,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void useDarkMode() {
         SharedPreferences themePref = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = themePref.getString("theme", "System default");
-        if (theme.equals("System default")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        } else if (theme.equals("Light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (theme.equals("Dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        switch (theme) {
+            case "System default":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "Light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "Dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
         }
     }
 

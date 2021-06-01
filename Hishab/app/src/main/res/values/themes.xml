@@ -18,7 +18,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/bgColor</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor" tools:targetApi="O_MR1">?attr/bgColor</item>
 
         <!-- Custom colors. -->
         <item name="bgColor">@color/white</item>

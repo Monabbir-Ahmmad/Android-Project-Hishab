@@ -5,8 +5,13 @@
     <item
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter"
-        android:title="@string/filter"
+        android:title="Filter"
         app:iconTint="?attr/colorBlackWhite"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_save"
+        android:title="  Save  "
+        app:showAsAction="withText|always" />
 
 </menu>

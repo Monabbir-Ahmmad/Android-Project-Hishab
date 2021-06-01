@@ -10,40 +10,4 @@
     <color name="dark_black">#111111</color>
 
 
-    <array name="colorArray">
-        <item>#9E9E9E</item>
-        <item>#607D8B</item>
-        <item>#795548</item>
-        <item>#FF9800</item>
-        <item>#FFEB3B</item>
-        <item>#CDDC39</item>
-        <item>#8BC34A</item>
-        <item>#4CAF50</item>
-        <item>#009688</item>
-        <item>#00BCD4</item>
-        <item>#2196F3</item>
-        <item>#005AB5</item>
-        <item>#5E35B1</item>
-        <item>#7C4DFF</item>
-        <item>#9C27B0</item>
-        <item>#EC407A</item>
-        <item>#F44336</item>
-        <item>#9575CD</item>
-        <item>#7C4DFF</item>
-        <item>#5E35B1</item>
-        <item>#68B3FF</item>
-        <item>#0F7EEF</item>
-        <item>#005AB5</item>
-        <item>#A5D6A7</item>
-        <item>#5ED882</item>
-        <item>#4CAF50</item>
-        <item>#C0CA33</item>
-        <item>#FDD835</item>
-        <item>#FF8400</item>
-        <item>#FF7676</item>
-        <item>#D32F2F</item>
-        <item>#EB3693</item>
-        <item>#BDBDBD</item>
-        <item>#858585</item>
-    </array>
 </resources>

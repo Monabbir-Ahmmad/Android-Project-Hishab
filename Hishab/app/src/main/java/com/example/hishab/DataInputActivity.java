@@ -3,11 +3,12 @@ package com.example.hishab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
+public class DataInputActivity extends AppCompatActivity {
 
     private final ArrayList<DataItem> dataSet = new ArrayList<>();
     private TextInputEditText etAmount, etNote;
@@ -44,7 +45,6 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         //Find views
         Toolbar toolbar = findViewById(R.id.toolbar_dataInput);
-        Button btnSaveData = findViewById(R.id.button_saveData);
         etAmount = findViewById(R.id.editText_amount);
         etNote = findViewById(R.id.editText_note);
         etDate = findViewById(R.id.editText_date);
@@ -62,20 +62,39 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
 
         createRecyclerView();
 
-        etDate.setOnClickListener(this);
-        etTime.setOnClickListener(this);
-        btnSaveData.setOnClickListener(this);
+        //When date picker view is clicked
+        etTime.setOnClickListener(v -> dateTimeUtil.showTimePicker(getSupportFragmentManager(), etDate));
 
-        //Set toolbar title and check if it's for record update
-        if (!isUpdate) {
+        //When time picker view is clicked
+        etDate.setOnClickListener(v -> dateTimeUtil.showTimePicker(getSupportFragmentManager(), etTime));
+
+        //Set toolbar title and check if it's for record update or not
+        if (!isUpdate) { //Add new record
             setTitle("Add record");
             setViewsNew();
-        } else {
+
+        } else { //Edit existing record
             setTitle("Edit record");
             setViewsUpdate();
         }
     }
 
+    // Toolbar menu inflate
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.findItem(R.id.menu_filter).setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Toolbar menu item select
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_save) {
+            saveData();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     //This creates the RecyclerView
     private void createRecyclerView() {
@@ -88,25 +107,9 @@ public class DataInputActivity extends AppCompatActivity implements View.OnClick
         recyclerAdapter = new CategoryRecyclerAdapter(dataSet, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.setOnItemClickListener(position -> {
-            category = dataSet.get(position).getCategory();
-        });
+        recyclerAdapter.setOnItemClickListener(position ->
+                category = dataSet.get(position).getCategory());
 
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.button_saveData) {
-            saveData();
-
-        } else if (v.getId() == R.id.editText_time) {
-            dateTimeUtil.showTimePicker(getSupportFragmentManager(), etTime);
-
-        } else if (v.getId() == R.id.editText_date) {
-            dateTimeUtil.showDatePicker(getSupportFragmentManager(), etDate);
-
-        }
     }
 
 

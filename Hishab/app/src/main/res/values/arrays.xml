@@ -32,13 +32,6 @@
         <item>Amount: DESC</item>
     </string-array>
 
-    <!-- Array for the time filters -->
-    <string-array name="timeFilterArray">
-        <item>This Week</item>
-        <item>This Month</item>
-        <item>This Year</item>
-    </string-array>
-
     <!-- Array for category icons -->
     <integer-array name="iconArray">
         <item>@drawable/ic_bill</item>
@@ -60,6 +53,28 @@
         <item>@drawable/ic_transport</item>
         <item>@drawable/ic_travel</item>
     </integer-array>
+
+    <!-- Color array for pie chart -->
+    <array name="colorArray">
+        <item>#005AB5</item>
+        <item>#2196F3</item>
+        <item>#00BCD4</item>
+        <item>#009688</item>
+        <item>#79DA96</item>
+        <item>#4CAF50</item>
+        <item>#8BC34A</item>
+        <item>#CDDC39</item>
+        <item>#FFEB3B</item>
+        <item>#FF9800</item>
+        <item>#F44336</item>
+        <item>#EC407A</item>
+        <item>#9C27B0</item>
+        <item>#7C4DFF</item>
+        <item>#5E35B1</item>
+        <item>#607D8B</item>
+        <item>#9E9E9E</item>
+        <item>#795548</item>
+    </array>
 
     <!-- Theme preference entries -->
     <string-array name="theme_entries">

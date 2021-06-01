@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
     private final Context context;
     private final ArrayList<DataItem> dataSet;
-    private DateTimeUtil dateTimeUtil;
+    private final DateTimeUtil dateTimeUtil;
+    private final String currency;
     private onItemClickListener listener;
-    private String currency;
 
     //Constructor
     public ExpenseRecyclerAdapter(ArrayList<DataItem> dataSet, Context context) {
@@ -38,18 +37,19 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
 
     }
 
+    // Set recycler item click listener
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
 
-    @NotNull
+
+    @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_expense_list, parent, false);
-        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, listener);
 
-        return recyclerViewHolder;
+        return new RecyclerViewHolder(view, listener);
     }
 
     @Override

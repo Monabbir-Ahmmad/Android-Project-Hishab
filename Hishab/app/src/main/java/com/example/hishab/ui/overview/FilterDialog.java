@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.util.Pair;
@@ -14,8 +15,6 @@ import androidx.core.util.Pair;
 import com.example.hishab.DateTimeUtil;
 import com.example.hishab.R;
 import com.google.android.material.datepicker.MaterialDatePicker;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class FilterDialog extends AppCompatDialogFragment {
     public FilterDialog() {
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Inflate the layout for this dialog fragment
@@ -90,6 +89,7 @@ public class FilterDialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
+    //Set filter apply listener
     public void setOnFilterApplyListener(FilterDialogListener listener) {
         this.listener = listener;
     }

@@ -79,8 +79,8 @@ public class DateTimeUtil {
         dateRangePicker.show(fragmentManager, "Date picker");
 
         dateRangePicker.addOnPositiveButtonClickListener(selection ->
-                editText.setText(dateFormat.format(selection.first) + " - "
-                        + dateFormat.format(selection.first)));
+                editText.setText(String.format("%s - %s", dateFormat.format(selection.first),
+                        dateFormat.format(selection.first))));
 
 
     }

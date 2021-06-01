@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.R;
 import com.example.hishab.data.DataItem;
 import com.google.android.material.card.MaterialCardView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -38,11 +37,12 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
         context.getTheme().resolveAttribute(R.attr.bgColor, bgColor, true);
     }
 
+    // Set recycler item click listener
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the layout
@@ -55,6 +55,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.imageViewIcon.setImageResource(dataSet.get(position).getIcon());
         holder.textViewLabel.setText(dataSet.get(position).getCategory());
+
+        // Clear highlighted items
         holder.cardContainer.setCardBackgroundColor(bgColor.data);
         holder.imageViewIcon.setColorFilter(colorPrimary.data);
         holder.textViewLabel.setTextColor(colorPrimary.data);
@@ -91,6 +93,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
                 if (listener != null) {
                     int position = getAdapterPosition();
 
+                    // On item click highlight that item
                     cardContainer.setCardBackgroundColor(colorPrimary.data);
                     imageViewIcon.setColorFilter(Color.WHITE);
                     textViewLabel.setTextColor(Color.WHITE);
