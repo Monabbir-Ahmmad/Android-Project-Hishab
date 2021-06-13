@@ -23,15 +23,6 @@
         <item>Travel</item>
     </string-array>
 
-    <!-- Array for sort by -->
-    <string-array name="sortByArray">
-        <item>Default</item>
-        <item>Date: Newest</item>
-        <item>Date: Oldest</item>
-        <item>Amount: ASC</item>
-        <item>Amount: DESC</item>
-    </string-array>
-
     <!-- Array for category icons -->
     <integer-array name="iconArray">
         <item>@drawable/ic_bill</item>
@@ -54,23 +45,48 @@
         <item>@drawable/ic_travel</item>
     </integer-array>
 
+    <!-- Array for sort by -->
+    <string-array name="sortByArray">
+        <item>Default</item>
+        <item>Date: Newest</item>
+        <item>Date: Oldest</item>
+        <item>Amount: ASC</item>
+        <item>Amount: DESC</item>
+    </string-array>
+
+    <!-- Array for sort by -->
+    <string-array name="monthsArray">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
     <!-- Color array for pie chart -->
     <array name="colorArray">
-        <item>#005AB5</item>
-        <item>#2196F3</item>
-        <item>#00BCD4</item>
-        <item>#009688</item>
-        <item>#79DA96</item>
-        <item>#4CAF50</item>
-        <item>#8BC34A</item>
-        <item>#CDDC39</item>
-        <item>#FFEB3B</item>
-        <item>#FF9800</item>
-        <item>#F44336</item>
-        <item>#EC407A</item>
-        <item>#9C27B0</item>
-        <item>#7C4DFF</item>
-        <item>#5E35B1</item>
+        <item>#005EBD</item>
+        <item>#1488FF</item>
+        <item>#1CC1D6</item>
+        <item>#1B9186</item>
+        <item>#36AA3B</item>
+        <item>#00FF4C</item>
+        <item>#82C34A</item>
+        <item>#B9D636</item>
+        <item>#FFC800</item>
+        <item>#FF6F00</item>
+        <item>#ED3F33</item>
+        <item>#FD4583</item>
+        <item>#BA2AC5</item>
+        <item>#7847FF</item>
+        <item>#5A2CB8</item>
         <item>#607D8B</item>
         <item>#9E9E9E</item>
         <item>#795548</item>

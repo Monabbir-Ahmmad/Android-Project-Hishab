@@ -43,7 +43,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -133,27 +132,34 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         Calendar calendar = Calendar.getInstance();
 
         if (v.getId() == R.id.button_lineChart_sort) { //Open Month and Year picker
+            MonthYearPicker monthYearPicker = new MonthYearPicker()
+                    .setYearMin(1970)
+                    .setYearMax(3000)
+                    .setYear(calendar.get(Calendar.YEAR))
+                    .setMonth(calendar.get(Calendar.MONTH));
 
-            MonthPickerDialog.Builder monthPickerDialog = new MonthPickerDialog.Builder(getActivity(),
-                    (selectedMonth, selectedYear) -> {
-                        calendar.set(Calendar.YEAR, selectedYear);
-                        calendar.set(Calendar.MONTH, selectedMonth);
-                        btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
-                        initLineChart(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+            monthYearPicker.setOnPositiveButtonClickListener((selectedMonth, selectedYear) -> {
+                calendar.set(Calendar.YEAR, selectedYear);
+                calendar.set(Calendar.MONTH, selectedMonth);
+                btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
+                initLineChart(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+            });
 
-                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
-
-            monthPickerDialog.setMaxYear(2100).build().show();
+            monthYearPicker.show(getActivity().getSupportFragmentManager(), "MonthYearPicker");
 
         } else if (v.getId() == R.id.button_barChart_sort) { //Open Year picker
+            MonthYearPicker yearPicker = new MonthYearPicker()
+                    .setYearMin(1970)
+                    .setYearMax(3000)
+                    .setYear(calendar.get(Calendar.YEAR))
+                    .setShowYearOnly(true);
 
-            MonthPickerDialog.Builder yearPickerDialog = new MonthPickerDialog.Builder(getActivity(),
-                    (selectedMonth, selectedYear) -> {
-                        btnBarSort.setText(String.valueOf(selectedYear));
-                        initBarChart(selectedYear);
-                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+            yearPicker.setOnPositiveButtonClickListener((selectedMonth, selectedYear) -> {
+                btnBarSort.setText(String.valueOf(selectedYear));
+                initBarChart(selectedYear);
+            });
 
-            yearPickerDialog.showYearOnly().setMaxYear(2100).build().show();
+            yearPicker.show(getActivity().getSupportFragmentManager(), "MonthYearPicker");
         }
 
     }
@@ -351,7 +357,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                 String amount = currency + decimalFormat.format(e.getY());
                 String label = entry.getLabel();
                 SpannableString centerText = new SpannableString(amount + "\n" + label);
-                centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 pieChart.setCenterText(centerText);
             }
 
@@ -360,7 +366,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                 String amount = currency + decimalFormat.format(totalExpense);
                 String label = "Total";
                 SpannableString centerText = new SpannableString(amount + "\n" + label);
-                centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 pieChart.setCenterText(centerText);
             }
         });
@@ -382,7 +388,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         description.setEnabled(false);
 
         //Pie slice attribute
-        pieDataSet.setSliceSpace(0f);
+        pieDataSet.setSliceSpace(2f);
         pieDataSet.setSelectionShift(5f);
         pieDataSet.setIconsOffset(new MPPointF(0, 40));
         pieDataSet.setColors(colorArray);
@@ -407,23 +413,23 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
         //Transparent circle
         pieChart.setTransparentCircleRadius(50f);
-        pieChart.setTransparentCircleColor(Color.BLACK);
+        pieChart.setTransparentCircleColor(Color.TRANSPARENT);
 
         //Center hole
         pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleRadius(85f);
-        pieChart.setCenterTextSize(50f);
-        pieChart.setCenterTextRadiusPercent(70f);
+        pieChart.setHoleRadius(90f);
+        pieChart.setCenterTextSize(60f);
+        pieChart.setCenterTextRadiusPercent(75f);
         pieChart.setHoleColor(Color.TRANSPARENT);
 
         //Center Text
         String amount = currency + decimalFormat.format(totalExpense);
         String label = "Total";
         SpannableString centerText = new SpannableString(amount + "\n" + label);
-        centerText.setSpan(new RelativeSizeSpan(.7f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         pieChart.setCenterText(centerText);
         pieChart.setCenterTextColor(colorBlackWhite.data);
-        pieChart.setCenterTextSize(20f);
+        pieChart.setCenterTextSize(24f);
 
         //Animation
         pieChart.animateXY(1000, 1000);

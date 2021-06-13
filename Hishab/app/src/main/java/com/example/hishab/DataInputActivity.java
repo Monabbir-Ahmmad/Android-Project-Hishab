@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
@@ -16,22 +17,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
 import com.example.hishab.ui.expense.CategoryRecyclerAdapter;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class DataInputActivity extends AppCompatActivity {
+public class DataInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final ArrayList<DataItem> dataSet = new ArrayList<>();
     private TextInputEditText etAmount, etNote;
     private AutoCompleteTextView etDate, etTime;
     private RecyclerView recyclerView;
+    private CategoryRecyclerAdapter recyclerAdapter;
     private DateTimeUtil dateTimeUtil;
     private boolean isUpdate;
-    private CategoryRecyclerAdapter recyclerAdapter;
     private String category = null;
 
 
@@ -62,11 +68,8 @@ public class DataInputActivity extends AppCompatActivity {
 
         createRecyclerView();
 
-        //When date picker view is clicked
-        etTime.setOnClickListener(v -> dateTimeUtil.showTimePicker(getSupportFragmentManager(), etDate));
-
-        //When time picker view is clicked
-        etDate.setOnClickListener(v -> dateTimeUtil.showTimePicker(getSupportFragmentManager(), etTime));
+        etDate.setOnClickListener(this);
+        etTime.setOnClickListener(this);
 
         //Set toolbar title and check if it's for record update or not
         if (!isUpdate) { //Add new record
@@ -94,6 +97,41 @@ public class DataInputActivity extends AppCompatActivity {
             saveData();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Calendar calendar = Calendar.getInstance();
+
+        if (v.getId() == R.id.editText_date) { // Show date picker
+            MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select date")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build();
+
+            datePicker.show(getSupportFragmentManager(), "Date picker");
+
+            datePicker.addOnPositiveButtonClickListener(
+                    (MaterialPickerOnPositiveButtonClickListener<Long>) selection -> {
+                        etDate.setText(dateTimeUtil.getDate(selection));
+                    }
+            );
+
+        } else if (v.getId() == R.id.editText_time) { // Show time picker
+            MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(calendar.get(Calendar.MINUTE))
+                    .setTitleText("Select time")
+                    .build();
+            timePicker.show(getSupportFragmentManager(), "Time picker");
+
+            timePicker.addOnPositiveButtonClickListener(view -> {
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                calendar.set(Calendar.MINUTE, timePicker.getMinute());
+                etTime.setText(dateTimeUtil.getTime(calendar.getTimeInMillis()));
+            });
+        }
     }
 
     //This creates the RecyclerView
@@ -143,7 +181,6 @@ public class DataInputActivity extends AppCompatActivity {
     //This saves data on button click
     private void saveData() {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         String amountText = etAmount.getText().toString();
 
         if (amountText.isEmpty() || Float.parseFloat(amountText) <= 0) { //When amount is invalid
@@ -170,6 +207,7 @@ public class DataInputActivity extends AppCompatActivity {
                 int id = getIntent().getIntExtra("id", -1);
                 databaseHelper.updateData(id, category, amount, note, timestamp);
             }
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
 

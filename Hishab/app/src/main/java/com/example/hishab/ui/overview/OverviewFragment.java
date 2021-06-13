@@ -82,7 +82,7 @@ public class OverviewFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_filter) { //Open filter dialog
             FilterDialog filterDialog = new FilterDialog();
-            filterDialog.setOnFilterApplyListener((category, sortBy, startTimestamp, endTimestamp) -> {
+            filterDialog.setOnPositiveButtonClickListener((category, sortBy, startTimestamp, endTimestamp) -> {
                 dataSet = databaseHelper.getFilteredData(category, sortBy, startTimestamp, endTimestamp);
                 createRecyclerView();
                 topPanelCalculation();
@@ -106,6 +106,7 @@ public class OverviewFragment extends Fragment {
         Snackbar.make(recyclerView, "Item deleted", Snackbar.LENGTH_LONG).setAction("Undo", view -> {
             dataSet.add(position, dataItem);
             recyclerAdapter.notifyItemInserted(position);
+            recyclerView.smoothScrollToPosition(position);
             topPanelCalculation();
             databaseHelper.deleteData(dataItem.getId(), 0);
         }).show();

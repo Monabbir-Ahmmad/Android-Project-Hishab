@@ -2,7 +2,6 @@ package com.example.hishab.database;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.hishab.data.DataItem;
@@ -61,12 +60,11 @@ public class LocalBackupDB {
     public void backupData() {
         //Backup folder name
         File folder = new File(Environment.getExternalStorageDirectory() + "/HishabBackup");
-        boolean isFolderCreated = false;
+
         //Create folder if not exists
         if (!folder.exists()) {
-            isFolderCreated = folder.mkdir();
+            folder.mkdir();
         }
-        Log.d("Backup Folder", "exportCSV" + isFolderCreated);
 
         //Complete path and name
         String filePathAndName = folder.toString() + "/" + csvFileName;
@@ -79,15 +77,15 @@ public class LocalBackupDB {
             FileWriter fileWriter = new FileWriter(filePathAndName);
 
             for (int i = 0; i < dataset.size(); i++) {
-                fileWriter.append((char) dataset.get(i).getId());
+                fileWriter.append(String.valueOf(dataset.get(i).getId()));
                 fileWriter.append(",");
                 fileWriter.append(dataset.get(i).getCategory());
                 fileWriter.append(",");
-                fileWriter.append((char) dataset.get(i).getAmount());
+                fileWriter.append(String.valueOf(dataset.get(i).getAmount()));
                 fileWriter.append(",");
-                fileWriter.append((char) dataset.get(i).getTimestamp());
+                fileWriter.append(String.valueOf(dataset.get(i).getTimestamp()));
                 fileWriter.append(",");
-                if (dataset.get(i).getNote().trim().isEmpty())
+                if (dataset.get(i).getNote() == null)
                     fileWriter.append("");
                 else
                     fileWriter.append(dataset.get(i).getNote());

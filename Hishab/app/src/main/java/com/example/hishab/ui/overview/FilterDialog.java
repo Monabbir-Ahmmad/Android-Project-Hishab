@@ -25,7 +25,7 @@ import java.util.TimeZone;
 public class FilterDialog extends AppCompatDialogFragment {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-    private FilterDialogListener listener;
+    private OnPositiveButtonClickListener listener;
     private AutoCompleteTextView filterCategory, filterSortBy;
     private Button filterDateRange;
     private long startTimestamp = 1L;
@@ -42,9 +42,9 @@ public class FilterDialog extends AppCompatDialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.filter_dialog, null);
         builder.setView(view)
                 .setTitle("Filter")
-                .setNegativeButton("CANCEL", (dialog, which) -> dismiss())
+                .setNegativeButton("CANCEL", null)
                 .setPositiveButton("APPLY", (dialog, which) -> {
-                    listener.onFilterApply(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
+                    listener.OnPositiveButtonClick(filterCategory.getText().toString(), filterSortBy.getText().toString(), startTimestamp, endTimestamp);
                     dismiss();
                 });
 
@@ -90,14 +90,14 @@ public class FilterDialog extends AppCompatDialogFragment {
     }
 
     //Set filter apply listener
-    public void setOnFilterApplyListener(FilterDialogListener listener) {
+    public void setOnPositiveButtonClickListener(OnPositiveButtonClickListener listener) {
         this.listener = listener;
     }
 
-    //Interface for FilterDialogListener
-    public interface FilterDialogListener {
+    //Interface for OnPositiveButtonClickListener
+    public interface OnPositiveButtonClickListener {
         //This applies the filter
-        void onFilterApply(String category, String sortBy, long startTimestamp, long endTimestamp);
+        void OnPositiveButtonClick(String category, String sortBy, long startTimestamp, long endTimestamp);
     }
 
 }
