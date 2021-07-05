@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hishab.data.DataItem;
 import com.example.hishab.database.DatabaseHelper;
-import com.example.hishab.ui.expense.CategoryRecyclerAdapter;
+import com.example.hishab.ui.expenses.CategoryRecyclerAdapter;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
