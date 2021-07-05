@@ -1,4 +1,4 @@
-package com.example.hishab.ui.expenses;
+package com.example.hishab.ui.expense;
 
 import android.content.Context;
 import android.graphics.Color;
