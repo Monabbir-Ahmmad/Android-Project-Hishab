@@ -56,10 +56,16 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
         holder.imageViewIcon.setImageResource(dataSet.get(position).getIcon());
         holder.textViewLabel.setText(dataSet.get(position).getCategory());
 
-        // Clear highlighted items
-        holder.cardContainer.setCardBackgroundColor(bgColor.data);
-        holder.imageViewIcon.setColorFilter(colorPrimary.data);
-        holder.textViewLabel.setTextColor(colorPrimary.data);
+        // Clear highlighted items that are not selected
+        if (checkedPosition == position) {
+            holder.cardContainer.setCardBackgroundColor(colorPrimary.data);
+            holder.imageViewIcon.setColorFilter(Color.WHITE);
+            holder.textViewLabel.setTextColor(Color.WHITE);
+        } else {
+            holder.cardContainer.setCardBackgroundColor(bgColor.data);
+            holder.imageViewIcon.setColorFilter(colorPrimary.data);
+            holder.textViewLabel.setTextColor(colorPrimary.data);
+        }
 
     }
 
