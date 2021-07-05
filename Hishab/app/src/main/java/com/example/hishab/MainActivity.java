@@ -21,16 +21,8 @@ import com.example.hishab.ui.statistics.StatisticsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-<<<<<<< Updated upstream
-<<<<<<< HEAD
 
-//Tajbir
-=======
-//Noor
->>>>>>> cc233ac4ab396ab9c8c09cbb3c8a4f6149580d4e
-=======
-//Tajbir
->>>>>>> Stashed changes
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
