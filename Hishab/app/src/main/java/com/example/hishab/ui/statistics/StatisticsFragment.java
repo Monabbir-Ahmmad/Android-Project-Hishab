@@ -88,6 +88,40 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         tvMonthAvg = view.findViewById(R.id.textView_monthlyAvg);
         tvYearlyTotal = view.findViewById(R.id.textView_yearlyTotal);
 
+        databaseHelper = new DatabaseHelper(getActivity());
+        currency = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString("currency", "$");
+
+        //This gets a color according to theme
+        colorBlackWhite = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorBlackWhite, colorBlackWhite, true);
+        colorPrimary = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+
+        btnLineSort.setOnClickListener(this);
+        btnBarSort.setOnClickListener(this);
+        btnPieSort.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.btn_week) {
+                    initPieChart(0);
+                } else if (checkedId == R.id.btn_month) {
+                    initPieChart(1);
+                } else if (checkedId == R.id.btn_year) {
+                    initPieChart(2);
+                }
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance();
+
+        initPieChart(0);
+
+        btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
+        initLineChart(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+
+        btnBarSort.setText(String.valueOf(calendar.get(Calendar.YEAR)));
+        initBarChart(calendar.get(Calendar.YEAR));
+
 
         return view;
     }
@@ -95,6 +129,38 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Calendar calendar = Calendar.getInstance();
+
+        if (v.getId() == R.id.button_lineChart_sort) { //Open Month and Year picker
+            MonthYearPicker monthYearPicker = new MonthYearPicker()
+                    .setYearMin(1970)
+                    .setYearMax(3000)
+                    .setYear(calendar.get(Calendar.YEAR))
+                    .setMonth(calendar.get(Calendar.MONTH));
+
+            monthYearPicker.setOnPositiveButtonClickListener((selectedMonth, selectedYear) -> {
+                calendar.set(Calendar.YEAR, selectedYear);
+                calendar.set(Calendar.MONTH, selectedMonth);
+                btnLineSort.setText(monthYearFormat.format(calendar.getTime()));
+                initLineChart(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+            });
+
+            monthYearPicker.show(getActivity().getSupportFragmentManager(), "MonthYearPicker");
+
+        } else if (v.getId() == R.id.button_barChart_sort) { //Open Year picker
+            MonthYearPicker yearPicker = new MonthYearPicker()
+                    .setYearMin(1970)
+                    .setYearMax(3000)
+                    .setYear(calendar.get(Calendar.YEAR))
+                    .setShowYearOnly(true);
+
+            yearPicker.setOnPositiveButtonClickListener((selectedMonth, selectedYear) -> {
+                btnBarSort.setText(String.valueOf(selectedYear));
+                initBarChart(selectedYear);
+            });
+
+            yearPicker.show(getActivity().getSupportFragmentManager(), "MonthYearPicker");
+        }
 
 
     }
@@ -102,6 +168,61 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     //This sets the data into the pie chart
     private void initPieChart(int choice) {
+        //Clear chart before updating data
+        pieChart.clear();
+
+        ArrayList<PieEntry> pieEntryArray = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
+        long startTime = 0, endTime = 0;
+        float categorySum, totalExpense = 0;
+        String[] category = getResources().getStringArray(R.array.categoryArray);
+
+        if (choice == 0) {
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+            startTime = calendar.getTimeInMillis();
+            calendar.add(Calendar.DAY_OF_WEEK, 6);
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+        } else if (choice == 1) {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            startTime = calendar.getTimeInMillis();
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+        } else if (choice == 2) {
+            calendar.set(Calendar.DAY_OF_YEAR, 1);
+            startTime = calendar.getTimeInMillis();
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+            endTime = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+        }
+
+        //This adds the values of each category into the PieEntry
+        for (String label : category) {
+            categorySum = databaseHelper.getFilteredSum(label, startTime, endTime);
+            totalExpense += categorySum;
+            if (categorySum > 0)
+                pieEntryArray.add(new PieEntry(categorySum, label));
+
+        }
+
+        if (pieEntryArray.size() > 0) { //Insert PieEntries into the PieDataSet and create PieData from PieDataSet
+            PieDataSet pieDataSet = new PieDataSet(pieEntryArray, null);
+            PieData pieData = new PieData(pieDataSet);
+
+            pieChart.setData(pieData);
+            renderPieChart(pieDataSet, totalExpense);
+        }
+
+        //No data text
+        pieChart.setNoDataText("No data found!");
+        pieChart.setNoDataTextColor(colorBlackWhite.data);
+        pieChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
     }
 
