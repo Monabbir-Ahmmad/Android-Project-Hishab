@@ -342,6 +342,107 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     //This is the pie chart design
     private void renderPieChart(PieDataSet pieDataSet, float totalExpense) {
+        //This gets a color array
+        int[] colorArray = getContext().getResources().getIntArray(R.array.colorArray);
+        List<Integer> colorList = new ArrayList<>(colorArray.length);
+        for (int i : colorArray) {
+            colorList.add(i);
+        }
+
+
+        //Pie chart click event
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                //Change the center text to selected entry value and label with SpannableString styling
+                PieEntry entry = (PieEntry) e;
+                String amount = currency + decimalFormat.format(e.getY());
+                String label = entry.getLabel();
+                SpannableString centerText = new SpannableString(amount + "\n" + label);
+                centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pieChart.setCenterText(centerText);
+            }
+
+            @Override
+            public void onNothingSelected() { //Reset center text
+                String amount = currency + decimalFormat.format(totalExpense);
+                String label = "Total";
+                SpannableString centerText = new SpannableString(amount + "\n" + label);
+                centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pieChart.setCenterText(centerText);
+            }
+        });
+
+        //Legends of the chart
+        Legend legend = pieChart.getLegend();
+        legend.setTextColor(colorBlackWhite.data);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setFormSize(10f);
+        legend.setWordWrapEnabled(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setYEntrySpace(7f);
+        legend.setDrawInside(true);
+
+        //Description of the chart
+        Description description = pieChart.getDescription();
+        description.setEnabled(false);
+
+        //Pie slice attribute
+        pieDataSet.setSliceSpace(2f);
+        pieDataSet.setSelectionShift(5f);
+        pieDataSet.setIconsOffset(new MPPointF(0, 40));
+        pieDataSet.setColors(colorArray);
+
+        //Outside values with line
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueLinePart1OffsetPercentage(100f);
+        pieDataSet.setValueLinePart1Length(0.25f);
+        pieDataSet.setValueLinePart2Length(0.15f);
+        pieDataSet.setValueLineWidth(2f);
+        pieDataSet.setUsingSliceColorAsValueLineColor(true);
+
+        //Pie value attr
+        pieDataSet.setValueTextSize(10f);
+        pieDataSet.setValueTextColors(colorList);
+        pieDataSet.setValueFormatter(new PercentFormatter(pieChart));
+
+        //Entry label
+        pieChart.setDrawEntryLabels(false);
+        pieChart.setUsePercentValues(true);
+
+        //Transparent circle
+        pieChart.setTransparentCircleRadius(50f);
+        pieChart.setTransparentCircleColor(Color.TRANSPARENT);
+
+        //Center hole
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleRadius(90f);
+        pieChart.setCenterTextSize(60f);
+        pieChart.setCenterTextRadiusPercent(75f);
+        pieChart.setHoleColor(Color.TRANSPARENT);
+
+        //Center Text
+        String amount = currency + decimalFormat.format(totalExpense);
+        String label = "Total";
+        SpannableString centerText = new SpannableString(amount + "\n" + label);
+        centerText.setSpan(new RelativeSizeSpan(.65f), amount.length(), centerText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pieChart.setCenterText(centerText);
+        pieChart.setCenterTextColor(colorBlackWhite.data);
+        pieChart.setCenterTextSize(24f);
+
+        //Animation
+        pieChart.animateXY(1000, 1000);
+        pieChart.setDragDecelerationFrictionCoef(0.97f);
+
+        //Off set
+        pieChart.setExtraOffsets(0f, 15f, 0f, 55f);
+
+        //Refresh chart
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
 
     }
 
