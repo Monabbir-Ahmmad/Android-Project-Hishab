@@ -549,8 +549,97 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     //This creates the bar chart
     private void renderBarChart(BarDataSet barDataSet, BarData barData) {
+        //Marker view
+        BarChartMarker barChartMarker = new BarChartMarker(getActivity());
+        barChartMarker.setChartView(barChart);
+        barChart.setMarker(barChartMarker);
 
-    }
+        //Bar attributes
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawBarShadow(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setScaleEnabled(false);
+        barChart.setFitBars(true);
+
+        //Bar width
+        barData.setBarWidth(0.3f);
+
+        //Bar color
+        barDataSet.setColor(colorPrimary.data);
+        barDataSet.setHighLightAlpha(50);
+        barDataSet.setDrawValues(false);
+
+
+        //Description of the chart
+        Description description = barChart.getDescription();
+        description.setEnabled(false);
+
+        //Legends of the chart
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
+
+        //Y axis left
+        YAxis yAxisLeft = barChart.getAxisLeft();
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setDrawAxisLine(false);
+        if (barDataSet.getYMax() >= 2000)
+            yAxisLeft.setGranularity(1000);
+        else if (barDataSet.getYMax() >= 1000)
+            yAxisLeft.setGranularity(100);
+        else
+            yAxisLeft.setGranularity(10);
+
+        yAxisLeft.setLabelCount(5);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setTextColor(colorBlackWhite.data);
+        yAxisLeft.enableGridDashedLine(10f, 10f, 0f);
+        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if (value >= 1000 && barDataSet.getYMax() >= 2000) {
+                    return Math.round(value / 1000) + "k";
+                }
+                return decimalFormat.format(value);
+            }
+        });
+
+        //X axis
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1);
+        xAxis.setLabelCount(12);
+        xAxis.setTextColor(colorBlackWhite.data);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        String[] xAxisLabels = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return xAxisLabels[(int) value];
+            }
+        });
+
+
+        //Y axis left
+        YAxis yAxisRight = barChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        //Animation
+        barChart.animateY(1000);
+
+        //View port offset
+        barChart.setExtraOffsets(0, 0, 10f, 10f);
+
+        //Refresh chart
+        barChart.notifyDataSetChanged();
+        barChart.fitScreen();
+        barChart.invalidate();
+
+
+
+}
 
 }
 
