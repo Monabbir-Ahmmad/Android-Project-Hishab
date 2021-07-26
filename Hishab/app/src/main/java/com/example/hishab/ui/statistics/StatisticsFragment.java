@@ -88,6 +88,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         tvMonthAvg = view.findViewById(R.id.textView_monthlyAvg);
         tvYearlyTotal = view.findViewById(R.id.textView_yearlyTotal);
 
+
         databaseHelper = new DatabaseHelper(getActivity());
         currency = PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .getString("currency", "$");
@@ -121,7 +122,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
         btnBarSort.setText(String.valueOf(calendar.get(Calendar.YEAR)));
         initBarChart(calendar.get(Calendar.YEAR));
-
 
         return view;
     }
@@ -161,7 +161,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             yearPicker.show(getActivity().getSupportFragmentManager(), "MonthYearPicker");
         }
-
 
     }
 
@@ -228,7 +227,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     //This sets the data into the line chart
     private void initLineChart(int selectedMonth, int selectedYear) {
-
         //Clear chart before updating data
         lineChart.clear();
 
@@ -278,6 +276,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         lineChart.setNoDataText("No data found!");
         lineChart.setNoDataTextColor(colorBlackWhite.data);
         lineChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
+
     }
 
 
@@ -335,7 +334,6 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         barChart.setNoDataText("No data found!");
         barChart.setNoDataTextColor(colorBlackWhite.data);
         barChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
-
 
     }
 
@@ -637,9 +635,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         barChart.fitScreen();
         barChart.invalidate();
 
-
-
-}
+    }
 
 }
 
