@@ -448,7 +448,103 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
     //This creates the line chart
     private void renderLineChart(LineDataSet lineDataSet, long lineStartPosX) {
+        //Marker view
+        LineChartMarker lineChartMarker = new LineChartMarker(getActivity(), lineStartPosX);
+        lineChartMarker.setChartView(lineChart);
+        lineChart.setMarker(lineChartMarker);
 
+        //Touch attribute
+        lineChart.setDrawGridBackground(false);
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(false);
+        lineChart.setPinchZoom(false);
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setScaleEnabled(false);
+        lineChart.setDrawBorders(false);
+
+        //Line attribute
+        lineDataSet.setLineWidth(3f);
+        lineDataSet.setColor(colorPrimary.data);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setCircleRadius(1.5f);
+        lineDataSet.setCircleColor(colorPrimary.data);
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setHighlightEnabled(true);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
+
+        //Highlight
+        lineDataSet.setHighlightEnabled(true);
+        lineDataSet.setHighLightColor(colorPrimary.data);
+        lineDataSet.setHighlightLineWidth(1f);
+
+        //Description of the chart
+        Description description = lineChart.getDescription();
+        description.setEnabled(false);
+
+        //Legends of the chart
+        Legend legend = lineChart.getLegend();
+        legend.setEnabled(false);
+
+        //Y axis left
+        YAxis yAxisLeft = lineChart.getAxisLeft();
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setDrawAxisLine(false);
+        if (lineDataSet.getYMax() >= 2000)
+            yAxisLeft.setGranularity(1000);
+        else if (lineDataSet.getYMax() >= 1000)
+            yAxisLeft.setGranularity(100);
+        else
+            yAxisLeft.setGranularity(10);
+
+        yAxisLeft.setLabelCount(5);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setTextColor(colorBlackWhite.data);
+        yAxisLeft.enableGridDashedLine(10f, 10f, 0f);
+        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if (value >= 1000 && lineDataSet.getYMax() >= 2000) {
+                    return Math.round(value / 1000) + "k";
+                }
+                return decimalFormat.format(value);
+            }
+        });
+
+        //X axis
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setGranularity(1);
+        xAxis.setLabelCount(5);
+        xAxis.setSpaceMin(0.5f);
+        xAxis.setSpaceMax(0.5f);
+        xAxis.setTextColor(colorBlackWhite.data);
+        xAxis.enableGridDashedLine(30f, 10000f, 10f);
+        xAxis.setGridLineWidth(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return dateFormat.format(lineStartPosX + (long) value * DateTimeUtil.DAY_IN_MS);
+            }
+        });
+
+        //Y axis left
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        //Animation
+        lineChart.animateY(1000);
+
+        //View port offset
+        lineChart.setExtraOffsets(0, 0, 10f, 10f);
+
+        //Refresh chart
+        lineChart.notifyDataSetChanged();
+        lineChart.fitScreen();
+        lineChart.invalidate();
     }
 
     //This creates the bar chart
