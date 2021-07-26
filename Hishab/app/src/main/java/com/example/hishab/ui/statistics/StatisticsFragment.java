@@ -229,11 +229,112 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
     //This sets the data into the line chart
     private void initLineChart(int selectedMonth, int selectedYear) {
 
+        //Clear chart before updating data
+        lineChart.clear();
+
+        ArrayList<Entry> lineEntryArray = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
+        int numOfDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        long dayStart, dayEnd;
+        float dailySum, dailyAverage, monthlyTotal = 0;
+        long lineStartPosX = calendar.getTimeInMillis();
+
+        for (int i = 1; i <= numOfDays; i++) {
+            calendar.set(Calendar.DAY_OF_MONTH, i);
+
+            dayStart = calendar.getTimeInMillis();
+            dayEnd = dayStart + DateTimeUtil.DAY_IN_MS - 1000L;
+
+            dailySum = databaseHelper.getFilteredSum("All", dayStart, dayEnd);
+            monthlyTotal += dailySum;
+
+            if (dailySum > 0)
+                lineEntryArray.add(new Entry(i - 1, dailySum));
+        }
+
+        dailyAverage = monthlyTotal / numOfDays;
+
+        tvDailyAvg.setText(String.format("%s%s", currency, decimalFormat.format(dailyAverage)));
+        tvMonthlyTotal.setText(String.format("%s%s", currency, decimalFormat.format(monthlyTotal)));
+
+        if (lineEntryArray.size() > 0) { //Insert LineEntries into the LineDataSet and create LineData from LineDataSet
+            LineDataSet lineDataSet = new LineDataSet(lineEntryArray, null);
+            LineData lineData = new LineData(lineDataSet);
+
+            lineChart.setData(lineData);
+            renderLineChart(lineDataSet, lineStartPosX);
+        }
+
+        //No data text
+        lineChart.setNoDataText("No data found!");
+        lineChart.setNoDataTextColor(colorBlackWhite.data);
+        lineChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
     }
 
 
     //This sets the data into the bar chart
     private void initBarChart(int selectedYear) {
+        //Clear chart before updating data
+        barChart.clear();
+
+        ArrayList<BarEntry> barEntryArray = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
+        long monthStart, monthEnd;
+        float monthlySum, monthlyAverage, yearlyTotal = 0;
+        boolean dataFound = false;
+
+        for (int i = 0; i < 12; i++) {
+            calendar.set(Calendar.MONTH, i);
+
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            monthStart = calendar.getTimeInMillis();
+
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            monthEnd = calendar.getTimeInMillis() + DateTimeUtil.DAY_IN_MS - 1000L;
+
+            monthlySum = databaseHelper.getFilteredSum("All", monthStart, monthEnd);
+            yearlyTotal += monthlySum;
+
+            barEntryArray.add(new BarEntry(i, monthlySum));
+
+            if (monthlySum > 0 && !dataFound)
+                dataFound = true;
+
+        }
+
+        monthlyAverage = yearlyTotal / 12;
+
+        tvMonthAvg.setText(String.format("%s%s", currency, decimalFormat.format(monthlyAverage)));
+        tvYearlyTotal.setText(String.format("%s%s", currency, decimalFormat.format(yearlyTotal)));
+
+        if (dataFound) { //Insert BarEntries into BarDataSet and create BarData from BarDataSet
+            BarDataSet barDataSet = new BarDataSet(barEntryArray, null);
+            BarData barData = new BarData(barDataSet);
+
+            barChart.setData(barData);
+            renderBarChart(barDataSet, barData);
+        }
+
+        //No data text
+        barChart.setNoDataText("No data found!");
+        barChart.setNoDataTextColor(colorBlackWhite.data);
+        barChart.getPaint(Chart.PAINT_INFO).setTextSize(Utils.convertDpToPixel(20f));
 
 
     }
